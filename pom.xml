@@ -11,7 +11,7 @@
 	<groupId>com</groupId>
 	<artifactId>padocadev</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>padocadev</name>
 	<description>project com Spring Boot para a padocadev </description>
 	<properties>
