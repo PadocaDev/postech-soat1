@@ -1,7 +1,7 @@
 package com.padocadev.infraestrutura.configuracao;
 
-import com.padocadev.configuracao.excecao.cliente.ClienteNaoExisteExcecao;
-import com.padocadev.configuracao.excecao.cliente.JaExisteClienteExcecao;
+import com.padocadev.dominio.excecao.cliente.ClienteNaoExisteExcecao;
+import com.padocadev.dominio.excecao.cliente.JaExisteClienteExcecao;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
