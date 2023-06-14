@@ -34,13 +34,6 @@ public class ClienteRepositorioAdaptadorJpa implements ClienteRepositorioAdaptad
     }
 
     @Override
-    public Optional<Cliente> buscaClientePorEmail(String email) {
-        return clienteRepositorioJpa.findByEmail(email)
-                .flatMap(clienteEntidadeJpa -> Optional.of(new Cliente(clienteEntidadeJpa.getId(), clienteEntidadeJpa.getDataCadastro(),
-                        clienteEntidadeJpa.getNome(), clienteEntidadeJpa.getEmail(), clienteEntidadeJpa.getCpf())));
-    }
-
-    @Override
     public boolean existeClienteComCpf(String cpf) {
         return clienteRepositorioJpa.existsByCpf(cpf);
     }
