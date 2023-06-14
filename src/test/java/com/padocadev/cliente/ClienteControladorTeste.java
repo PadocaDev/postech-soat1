@@ -29,7 +29,7 @@ class ClienteControladorTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_Retornar_Informacoes_Corretas_Do_Cliente_Apos_A_Criacao() throws Exception {
+    void deve_retornar_informacoes_corretas_do_cliente_apos_a_criacao_do_mesmo() throws Exception {
         ClienteRequisicao clienteRequisicao = new ClienteRequisicao("Murillo", "murillo@gmail.com", "12345678910");
 
          mockMvc.perform(post("/clientes")
@@ -45,7 +45,7 @@ class ClienteControladorTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_Retornar_Erro_Ja_Existe_Cliente_Quando_Tentar_Criar_Um_Cliente_Com_Cpf_Ja_Existente() throws Exception {
+    void deve_retornar_o_erro_ja_existe_cliente_quando_tentar_criar_um_cliente_com_cpf_ja_existente() throws Exception {
         ClienteRequisicao clienteRequisicao = new ClienteRequisicao("Murillo", "murillo@gmail.com", "12345678910");
         criaClienteCasoDeUsoPorta.criar(clienteRequisicao.converteParaCliente());
 
@@ -61,7 +61,7 @@ class ClienteControladorTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_Retornar_Erro_Ja_Existe_Cliente_Quando_Tentar_Criar_Um_Cliente_Com_Email_Ja_Existente() throws Exception {
+    void deve_retornar_o_erro_ja_existe_cliente_quando_tentar_criar_um_cliente_com_email_ja_existente() throws Exception {
         ClienteRequisicao clienteRequisicao = new ClienteRequisicao("Murillo", "murillo@gmail.com", "12345678910");
         criaClienteCasoDeUsoPorta.criar(clienteRequisicao.converteParaCliente());
 
@@ -78,7 +78,7 @@ class ClienteControladorTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deveRetornarInformacoesCorretasDoClienteAposABuscaPorCpf() throws Exception {
+    void deve_retornar_informacoes_corretas_de_cliente_existente_apos_a_busca_por_cpf() throws Exception {
         ClienteRequisicao clienteRequisicao = new ClienteRequisicao("Murillo", "murillo@gmail.com", "12345678911");
         criaClienteCasoDeUsoPorta.criar(clienteRequisicao.converteParaCliente());
 
@@ -93,7 +93,7 @@ class ClienteControladorTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_Retornar_Erro_Cliente_Não_Existe_Quando_Não_Existir_Cliente_Com_O_Cpf_Informado() throws Exception {
+    void deve_retornar_o_erro_cliente_não_existe_quando_não_existir_um_cliente_com_o_cpf_informado() throws Exception {
         ClienteRequisicao clienteRequisicao = new ClienteRequisicao("Murillo", "murillo@gmail.com", "12345678910");
         criaClienteCasoDeUsoPorta.criar(clienteRequisicao.converteParaCliente());
 
