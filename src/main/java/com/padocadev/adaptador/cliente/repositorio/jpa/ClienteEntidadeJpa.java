@@ -1,4 +1,4 @@
-package com.padocadev.adaptador.cliente.repositorio;
+package com.padocadev.adaptador.cliente.repositorio.jpa;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Cliente")
-public class ClienteEntidade {
+public class ClienteEntidadeJpa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "increment")
@@ -27,10 +27,10 @@ public class ClienteEntidade {
     private String cpf;
 
     @Deprecated
-    public ClienteEntidade() {
+    public ClienteEntidadeJpa() {
     }
 
-    public ClienteEntidade(LocalDateTime dataCadastro, String nome, String email, String cpf) {
+    public ClienteEntidadeJpa(LocalDateTime dataCadastro, String nome, String email, String cpf) {
         this.dataCadastro = dataCadastro;
         this.nome = nome;
         this.email = email;

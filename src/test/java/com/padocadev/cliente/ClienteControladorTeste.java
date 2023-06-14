@@ -2,13 +2,12 @@ package com.padocadev.cliente;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.padocadev.TestContainerTesteDeIntegracao;
-import com.padocadev.adaptador.cliente.requisicao.ClienteRequisicao;
+import com.padocadev.adaptador.cliente.rest.ClienteRequisicao;
 import com.padocadev.dominio.porta.cliente.CriaClienteCasoDeUsoPorta;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.padocadev.dominio.entidade;
+package com.padocadev.dominio.entidade.cliente;
 
 import java.time.LocalDateTime;
 

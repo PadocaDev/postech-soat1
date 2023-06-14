@@ -1,6 +1,6 @@
-package com.padocadev.adaptador.cliente.requisicao;
+package com.padocadev.adaptador.cliente.rest;
 
-import com.padocadev.dominio.entidade.Cliente;
+import com.padocadev.dominio.entidade.cliente.Cliente;
 import jakarta.validation.constraints.*;
 
 public record ClienteRequisicao(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String cpf) {

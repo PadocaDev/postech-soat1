@@ -1,8 +1,6 @@
-package com.padocadev.adaptador.cliente;
+package com.padocadev.adaptador.cliente.rest;
 
-import com.padocadev.adaptador.cliente.requisicao.ClienteRequisicao;
-import com.padocadev.adaptador.cliente.resposta.ClienteResposta;
-import com.padocadev.dominio.entidade.Cliente;
+import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.porta.cliente.BuscaClientePorCpfCasoDeUsoPorta;
 import com.padocadev.dominio.porta.cliente.CriaClienteCasoDeUsoPorta;
 import jakarta.validation.Valid;

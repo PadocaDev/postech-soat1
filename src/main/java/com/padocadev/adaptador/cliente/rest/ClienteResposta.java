@@ -1,6 +1,6 @@
-package com.padocadev.adaptador.cliente.resposta;
+package com.padocadev.adaptador.cliente.rest;
 
-import com.padocadev.dominio.entidade.Cliente;
+import com.padocadev.dominio.entidade.cliente.Cliente;
 
 import java.time.LocalDateTime;
 
