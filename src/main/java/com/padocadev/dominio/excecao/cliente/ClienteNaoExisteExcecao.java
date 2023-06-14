@@ -1,4 +1,4 @@
-package com.padocadev.configuracao.excecao.cliente;
+package com.padocadev.dominio.excecao.cliente;
 
 public class ClienteNaoExisteExcecao extends RuntimeException {
 

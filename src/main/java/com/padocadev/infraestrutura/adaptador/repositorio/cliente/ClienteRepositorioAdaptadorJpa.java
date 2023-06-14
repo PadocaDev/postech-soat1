@@ -1,4 +1,4 @@
-package com.padocadev.adaptador.cliente.repositorio.jpa;
+package com.padocadev.infraestrutura.adaptador.repositorio.cliente;
 
 import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.porta.cliente.ClienteRepositorioAdaptadorPorta;

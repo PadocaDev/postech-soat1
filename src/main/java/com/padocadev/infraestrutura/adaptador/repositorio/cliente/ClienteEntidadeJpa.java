@@ -1,4 +1,4 @@
-package com.padocadev.adaptador.cliente.repositorio.jpa;
+package com.padocadev.infraestrutura.adaptador.repositorio.cliente;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

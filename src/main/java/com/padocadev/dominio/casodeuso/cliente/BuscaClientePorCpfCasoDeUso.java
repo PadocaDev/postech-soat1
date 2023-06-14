@@ -1,6 +1,6 @@
 package com.padocadev.dominio.casodeuso.cliente;
 
-import com.padocadev.configuracao.excecao.cliente.ClienteNaoExisteExcecao;
+import com.padocadev.dominio.excecao.cliente.ClienteNaoExisteExcecao;
 import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.porta.cliente.*;
 

@@ -1,4 +1,4 @@
-package com.padocadev.adaptador.cliente.rest;
+package com.padocadev.aplicacao.resposta;
 
 import com.padocadev.dominio.entidade.cliente.Cliente;
 

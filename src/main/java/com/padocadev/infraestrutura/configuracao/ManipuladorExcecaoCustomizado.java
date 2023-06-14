@@ -1,4 +1,4 @@
-package com.padocadev.configuracao.excecao;
+package com.padocadev.infraestrutura.configuracao;
 
 import com.padocadev.configuracao.excecao.cliente.ClienteNaoExisteExcecao;
 import com.padocadev.configuracao.excecao.cliente.JaExisteClienteExcecao;

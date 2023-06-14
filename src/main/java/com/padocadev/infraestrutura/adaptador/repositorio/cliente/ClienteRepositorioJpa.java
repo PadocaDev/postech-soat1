@@ -1,4 +1,4 @@
-package com.padocadev.adaptador.cliente.repositorio.jpa;
+package com.padocadev.infraestrutura.adaptador.repositorio.cliente;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
