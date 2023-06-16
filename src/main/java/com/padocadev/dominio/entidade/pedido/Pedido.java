@@ -15,7 +15,7 @@ public class Pedido {
     private Status status;
     private LocalDateTime dataDeAtualizacao;
 
-    public Pedido (Long id, Long clienteId, Long numeroPedido, LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualização){
+    public Pedido(Long id, Long clienteId, Long numeroPedido, LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
         this.id = id;
         this.clienteId = clienteId;
         this.numeroPedido = numeroPedido;
@@ -23,7 +23,6 @@ public class Pedido {
         this.produtos = produtos;
         this.valorTotal = valorTotal;
         this.status = status;
-        this.dataDeAtualizacao = dataDeAtualização;
+        this.dataDeAtualizacao = dataDeAtualizacao;
     }
-
 }
