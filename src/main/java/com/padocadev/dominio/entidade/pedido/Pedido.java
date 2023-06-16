@@ -8,21 +8,57 @@ import java.util.UUID;
 public class Pedido {
     private Long id;
     private Long clienteId;
-    private Long numeroPedido;
+    private String numeroPedido = UUID.randomUUID().toString().substring(0,6);
     private LocalDateTime dataPedido;
     private List<Produto> produtos;
     private BigDecimal valorTotal;
     private Status status;
     private LocalDateTime dataDeAtualizacao;
 
-    public Pedido(Long id, Long clienteId, Long numeroPedido, LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
+    public Pedido(Long id, Long clienteId, LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
         this.id = id;
         this.clienteId = clienteId;
-        this.numeroPedido = numeroPedido;
         this.dataPedido = dataPedido;
         this.produtos = produtos;
         this.valorTotal = valorTotal;
         this.status = status;
         this.dataDeAtualizacao = dataDeAtualizacao;
+    }
+
+    //TODO remover depois
+    public Pedido(Long id, Long clienteId, LocalDateTime dataPedido, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
+        this.id = id;
+        this.clienteId = clienteId;
+        this.dataPedido = dataPedido;
+        this.valorTotal = valorTotal;
+        this.status = status;
+        this.dataDeAtualizacao = dataDeAtualizacao;
+    }
+
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public String getNumeroPedido() {
+        return numeroPedido;
+    }
+    public LocalDateTime getDataPedido() {
+        return dataPedido;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getDataDeAtualizacao() {
+        return dataDeAtualizacao;
     }
 }

@@ -1,6 +1,6 @@
 package com.padocadev.infraestrutura.adaptador.repositorio.pedido;
 
-import com.padocadev.dominio.entidade.pedido.Status;
+import com.padocadev.dominio.entidade.pedido.*;
 import com.padocadev.infraestrutura.adaptador.repositorio.produto.ProdutoEntidadeJpa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -22,8 +22,12 @@ public class PedidoEntidadeJpa {
     private Long clienteId;
 
     @NotNull
-    private Long numeroPedido;
+    private String numeroPedido;
 
+    @NotNull
+    private LocalDateTime dataPedido;
+
+    //TODO Ajustar para ProdutoEntidadeJpa
     @OneToMany
     private List<ProdutoEntidadeJpa> produtos;
 
@@ -40,21 +44,30 @@ public class PedidoEntidadeJpa {
     public PedidoEntidadeJpa() {
     }
 
-    public PedidoEntidadeJpa(@NotNull Long clienteId, @NotNull Long numeroPedido, List<ProdutoEntidadeJpa> produtos, @NotNull BigDecimal valorTotal, @NotNull Status status, @NotNull LocalDateTime dataDeAtualizacao) {
-        this.clienteId = clienteId;
-        this.numeroPedido = numeroPedido;
-        this.produtos = produtos;
-        this.valorTotal = valorTotal;
-        this.status = status;
-        this.dataDeAtualizacao = dataDeAtualizacao;
+    public PedidoEntidadeJpa(Pedido pedido) {
+        this.clienteId = pedido.getClienteId();
+        this.numeroPedido = pedido.getNumeroPedido();
+        this.dataPedido = pedido.getDataPedido();
+//        this.produtos = produtos;
+        this.valorTotal = pedido.getValorTotal();
+        this.status = pedido.getStatus();
+        this.dataDeAtualizacao = pedido.getDataDeAtualizacao();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Long getClienteId() {
         return clienteId;
     }
 
-    public Long getNumeroPedido() {
+    public String getNumeroPedido() {
         return numeroPedido;
+    }
+
+    public LocalDateTime getDataPedido() {
+        return dataPedido;
     }
 
     public List<ProdutoEntidadeJpa> getProdutos() {
@@ -71,5 +84,10 @@ public class PedidoEntidadeJpa {
 
     public LocalDateTime getDataDeAtualizacao() {
         return dataDeAtualizacao;
+    }
+
+    //TODO trocar para o construtor correto depois
+    public static Pedido paraPedido(PedidoEntidadeJpa pedidoEntidadeJpa) {
+        return new Pedido(pedidoEntidadeJpa.getId(), pedidoEntidadeJpa.getClienteId(), pedidoEntidadeJpa.getDataPedido(), pedidoEntidadeJpa.getValorTotal(), pedidoEntidadeJpa.getStatus(), pedidoEntidadeJpa.getDataDeAtualizacao());
     }
 }

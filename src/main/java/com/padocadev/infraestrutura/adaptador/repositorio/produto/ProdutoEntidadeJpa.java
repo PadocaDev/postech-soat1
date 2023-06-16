@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class ProdutoEntidadeJpa {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "increment")
     private Long id;
 
     @ManyToOne
