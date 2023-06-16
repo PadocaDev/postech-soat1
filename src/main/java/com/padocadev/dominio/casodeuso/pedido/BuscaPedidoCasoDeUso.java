@@ -1,12 +1,12 @@
 package com.padocadev.dominio.casodeuso.pedido;
 
 import com.padocadev.dominio.entidade.pedido.Pedido;
-import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUso;
+import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUsoPorta;
 import com.padocadev.dominio.porta.pedido.PedidoRepositorioAdaptadorPorta;
 
 import java.util.List;
 
-public class BuscaPedidoCasoDeUso implements BuscaTodosPedidosCasoDeUso {
+public class BuscaPedidoCasoDeUso implements BuscaTodosPedidosCasoDeUsoPorta {
 
     private final PedidoRepositorioAdaptadorPorta pedidoRepositorioAdaptadorPorta;
 

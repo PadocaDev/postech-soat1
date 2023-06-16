@@ -1,16 +1,18 @@
 package com.padocadev.dominio.entidade.pedido;
 
+import com.padocadev.aplicacao.requisicao.PedidoRequisicao;
+import com.padocadev.dominio.entidade.cliente.Cliente;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Pedido {
     private Long id;
     private Long clienteId;
     private String numeroPedido = UUID.randomUUID().toString().substring(0,6);
-    private LocalDateTime dataPedido;
-    private List<Produto> produtos;
+    private LocalDateTime dataPedido = LocalDateTime.now();
+    private List<Produto> produtos = new ArrayList<>();
     private BigDecimal valorTotal;
     private Status status;
     private LocalDateTime dataDeAtualizacao;
@@ -33,6 +35,11 @@ public class Pedido {
         this.valorTotal = valorTotal;
         this.status = status;
         this.dataDeAtualizacao = dataDeAtualizacao;
+    }
+
+    public Pedido(List<Produto> produtos, Long clienteId) {
+        this.produtos = produtos;
+        this.clienteId = clienteId;
     }
 
     public Long getClienteId() {

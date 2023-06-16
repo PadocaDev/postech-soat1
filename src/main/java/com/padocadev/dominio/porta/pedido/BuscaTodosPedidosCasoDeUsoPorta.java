@@ -4,7 +4,7 @@ import com.padocadev.dominio.entidade.pedido.Pedido;
 
 import java.util.List;
 
-public interface BuscaTodosPedidosCasoDeUso {
+public interface BuscaTodosPedidosCasoDeUsoPorta {
 
     List<Pedido> buscarTodosPedidos();
 }
