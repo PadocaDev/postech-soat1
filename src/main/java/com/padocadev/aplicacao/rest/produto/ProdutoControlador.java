@@ -39,8 +39,8 @@ public class ProdutoControlador {
     public ResponseEntity<ProdutoResposta> criaProduto(@RequestBody @Valid ProdutoRequisicao produtoRequisicao) {
         Produto produtoCriado = criaProdutoCasoDeUso.criar(produtoRequisicao.converteParaProduto());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{nome}")
-                .buildAndExpand(produtoCriado.getNome())
+                .path("/{produtoId}")
+                .buildAndExpand(produtoCriado.getId())
                 .toUri();
         return ResponseEntity.created(location).body(ProdutoResposta.deProduto(produtoCriado));
     }
@@ -52,8 +52,8 @@ public class ProdutoControlador {
         Produto produtoEditado = editaProdutoCasosDeUso.edita(produtoId, produtoRequisicao.converteParaProduto());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{nome}")
-                .buildAndExpand(produtoEditado.getNome())
+                .path("/{produtoId}")
+                .buildAndExpand(produtoEditado.getId())
                 .toUri();
         return ResponseEntity.created(location).body(ProdutoResposta.deProduto(produtoEditado));
     }
