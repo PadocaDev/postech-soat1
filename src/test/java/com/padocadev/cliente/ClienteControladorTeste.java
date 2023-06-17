@@ -2,7 +2,7 @@ package com.padocadev.cliente;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.padocadev.TestContainerTesteDeIntegracao;
-import com.padocadev.aplicacao.requisicao.ClienteRequisicao;
+import com.padocadev.aplicacao.requisicao.cliente.ClienteRequisicao;
 import com.padocadev.dominio.porta.cliente.CriaClienteCasoDeUsoPorta;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

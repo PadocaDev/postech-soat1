@@ -1,7 +1,7 @@
-package com.padocadev.aplicacao.rest;
+package com.padocadev.aplicacao.rest.cliente;
 
-import com.padocadev.aplicacao.requisicao.ClienteRequisicao;
-import com.padocadev.aplicacao.resposta.ClienteResposta;
+import com.padocadev.aplicacao.requisicao.cliente.ClienteRequisicao;
+import com.padocadev.aplicacao.resposta.cliente.ClienteResposta;
 import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.porta.cliente.BuscaClientePorCpfCasoDeUsoPorta;
 import com.padocadev.dominio.porta.cliente.CriaClienteCasoDeUsoPorta;
