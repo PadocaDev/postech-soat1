@@ -27,7 +27,6 @@ public class PedidoEntidadeJpa {
     @NotNull
     private LocalDateTime dataPedido;
 
-    //TODO Ajustar para ProdutoEntidadeJpa
     @OneToMany
     private List<ProdutoEntidadeJpa> produtos;
 

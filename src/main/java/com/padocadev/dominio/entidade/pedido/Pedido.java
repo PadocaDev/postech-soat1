@@ -1,11 +1,12 @@
 package com.padocadev.dominio.entidade.pedido;
 
-import com.padocadev.aplicacao.requisicao.PedidoRequisicao;
-import com.padocadev.dominio.entidade.cliente.Cliente;
+import com.padocadev.dominio.entidade.produto.Produto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class Pedido {
     private Long id;

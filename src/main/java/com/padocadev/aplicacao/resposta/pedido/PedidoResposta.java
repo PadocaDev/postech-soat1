@@ -2,6 +2,7 @@ package com.padocadev.aplicacao.resposta;
 
 import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.entidade.pedido.*;
+import com.padocadev.dominio.entidade.produto.Produto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
