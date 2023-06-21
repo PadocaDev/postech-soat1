@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Pedido
-
+(
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     clienteId BIGINT,
     numeroPedido VARCHAR(255),
@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS Pedido
     dataDeAtualizacao DATETIME NOT NULL DEFAULT NOW(),
     UNIQUE(numeroPedido),
     CONSTRAINT fk_pedido_produto FOREIGN KEY (produto) REFERENCES Produto (id)
-)
+);
