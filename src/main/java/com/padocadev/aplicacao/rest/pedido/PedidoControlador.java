@@ -1,7 +1,7 @@
 package com.padocadev.aplicacao.rest.pedido;
 
 import com.padocadev.aplicacao.requisicao.pedido.PedidoRequisicao;
-import com.padocadev.aplicacao.resposta.PedidoResposta;
+import com.padocadev.aplicacao.resposta.pedido.PedidoResposta;
 import com.padocadev.dominio.entidade.pedido.Pedido;
 import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUsoPorta;
 import com.padocadev.dominio.porta.pedido.CriaPedidoCasoDeUsoPorta;
