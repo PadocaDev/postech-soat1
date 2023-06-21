@@ -1,6 +1,5 @@
 package com.padocadev.aplicacao.resposta;
 
-import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.entidade.pedido.*;
 import com.padocadev.dominio.entidade.produto.Produto;
 
@@ -10,7 +9,11 @@ import java.util.List;
 
 public record PedidoResposta(LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
 
-    public PedidoResposta(Pedido pedido) {
-        this(pedido.getDataPedido(), pedido.getProdutos(), pedido.getValorTotal(), pedido.getStatus(), pedido.getDataDeAtualizacao());
+    public static PedidoResposta dePedido(Pedido pedido) {
+        return new PedidoResposta(pedido.getDataPedido(), pedido.getProdutos(), pedido.getValorTotal(), pedido.getStatus(), pedido.getDataDeAtualizacao());
+    }
+
+    public static List<PedidoResposta> listarPedidos(List<Pedido> pedidos) {
+        return pedidos.stream().map(PedidoResposta::dePedido).toList();
     }
 }
