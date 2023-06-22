@@ -7,5 +7,5 @@ import java.util.List;
 public interface PedidoRepositorioAdaptadorPorta {
 
     Pedido criar(Pedido pedido);
-    List<Pedido> buscarTodosPedidos();
+    List<Pedido> buscarTodosPedidosNaoFinalizados();
 }

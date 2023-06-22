@@ -24,7 +24,7 @@ public class PedidoRepositorioAdaptadorJpa implements PedidoRepositorioAdaptador
     }
 
     @Override
-    public List<Pedido> buscarTodosPedidos() {
-        return pedidoRepositorioJpa.findAll().stream().map(PedidoEntidadeJpa::paraPedido).toList();
+    public List<Pedido> buscarTodosPedidosNaoFinalizados() {
+        return pedidoRepositorioJpa.buscarTodosPedidosNaoConcluidos().stream().map(PedidoEntidadeJpa::paraPedido).toList();
     }
 }

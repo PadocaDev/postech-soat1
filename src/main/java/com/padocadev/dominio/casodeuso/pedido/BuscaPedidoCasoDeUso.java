@@ -17,6 +17,6 @@ public class BuscaPedidoCasoDeUso implements BuscaTodosPedidosCasoDeUsoPorta {
 
     @Override
     public List<Pedido> buscarTodosPedidos() {
-       return pedidoRepositorioAdaptadorPorta.buscarTodosPedidos();
+       return pedidoRepositorioAdaptadorPorta.buscarTodosPedidosNaoFinalizados();
     }
 }
