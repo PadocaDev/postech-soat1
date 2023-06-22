@@ -38,4 +38,13 @@ public class BeanConfiguracao {
     EditaProdutoCasoDeUsoPorta editaProdutoCasoDeUsoPorta(ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa) {
         return new EditaProdutoCasoDeUso(produtoRepositorioAdaptadorJpa);
     }
+
+    @Bean
+    RemoveProdutoCasoDeUsoPorta removeProdutoCasoDeUsoPorta(ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa) {
+        return new RemoveProdutoCasoDeUso(produtoRepositorioAdaptadorJpa);
+    }
+    @Bean
+    BuscaProdutoPorCategoriaCasoDeUsoPorta buscaProdutoPorCategoriaCasoDeUsoPorta(ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa) {
+        return new BuscaProdutoPorCategoriaCasoDeUso(produtoRepositorioAdaptadorJpa);
+    }
 }
