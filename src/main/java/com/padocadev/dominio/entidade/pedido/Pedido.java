@@ -18,21 +18,10 @@ public class Pedido {
     private Status status;
     private LocalDateTime dataDeAtualizacao;
 
-    public Pedido(Long id, Long clienteId, LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
-        this.id = id;
+    public Pedido(Long clienteId, LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
         this.clienteId = clienteId;
         this.dataPedido = dataPedido;
         this.produtos = produtos;
-        this.valorTotal = valorTotal;
-        this.status = status;
-        this.dataDeAtualizacao = dataDeAtualizacao;
-    }
-
-    //TODO remover depois
-    public Pedido(Long id, Long clienteId, LocalDateTime dataPedido, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
-        this.id = id;
-        this.clienteId = clienteId;
-        this.dataPedido = dataPedido;
         this.valorTotal = valorTotal;
         this.status = status;
         this.dataDeAtualizacao = dataDeAtualizacao;
@@ -43,6 +32,17 @@ public class Pedido {
         this.clienteId = clienteId;
     }
 
+    public Pedido(Long id, Long clienteId, LocalDateTime dataPedido, String numeroPedido, List<Produto> list, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
+        this.id = id;
+        this.clienteId = clienteId;
+        this.dataPedido = dataPedido;
+        this.numeroPedido = numeroPedido;
+        this.produtos = list;
+        this.valorTotal = valorTotal;
+        this.status = status;
+        this.dataDeAtualizacao = dataDeAtualizacao;
+    }
+
     public Long getClienteId() {
         return clienteId;
     }
@@ -50,6 +50,7 @@ public class Pedido {
     public String getNumeroPedido() {
         return numeroPedido;
     }
+
     public LocalDateTime getDataPedido() {
         return dataPedido;
     }

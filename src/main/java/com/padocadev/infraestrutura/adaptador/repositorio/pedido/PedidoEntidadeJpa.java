@@ -47,7 +47,7 @@ public class PedidoEntidadeJpa {
         this.clienteId = pedido.getClienteId();
         this.numeroPedido = pedido.getNumeroPedido();
         this.dataPedido = pedido.getDataPedido();
-//        this.produtos = produtos;
+        this.produtos = pedido.getProdutos().stream().map(ProdutoEntidadeJpa::new).toList();
         this.valorTotal = pedido.getValorTotal();
         this.status = pedido.getStatus();
         this.dataDeAtualizacao = pedido.getDataDeAtualizacao();
@@ -85,8 +85,7 @@ public class PedidoEntidadeJpa {
         return dataDeAtualizacao;
     }
 
-    //TODO trocar para o construtor correto depois
     public static Pedido paraPedido(PedidoEntidadeJpa pedidoEntidadeJpa) {
-        return new Pedido(pedidoEntidadeJpa.getId(), pedidoEntidadeJpa.getClienteId(), pedidoEntidadeJpa.getDataPedido(), pedidoEntidadeJpa.getValorTotal(), pedidoEntidadeJpa.getStatus(), pedidoEntidadeJpa.getDataDeAtualizacao());
+        return new Pedido(pedidoEntidadeJpa.getId(), pedidoEntidadeJpa.getClienteId(), pedidoEntidadeJpa.getDataPedido(), pedidoEntidadeJpa.getNumeroPedido(), pedidoEntidadeJpa.getProdutos().stream().map(ProdutoEntidadeJpa::paraProduto).toList(), pedidoEntidadeJpa.getValorTotal(), pedidoEntidadeJpa.getStatus(), pedidoEntidadeJpa.getDataDeAtualizacao());
     }
 }
