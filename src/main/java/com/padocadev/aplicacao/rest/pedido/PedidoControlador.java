@@ -7,8 +7,11 @@ import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUsoPorta;
 import com.padocadev.dominio.porta.pedido.CriaPedidoCasoDeUsoPorta;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import java.net.URI;
 import java.util.List;
 
@@ -31,12 +34,14 @@ public class PedidoControlador {
     }
 
     @PostMapping
-    public ResponseEntity<PedidoResposta> criaPedido(@RequestBody @Valid PedidoRequisicao pedidoRequisicao) {
+    @Transactional
+    public ResponseEntity<Void> criaPedido(@RequestBody @Valid PedidoRequisicao pedidoRequisicao) {
         Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao.converteParaPedido());
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{numeroPedido}")
-                .buildAndExpand(pedidoCriado.getNumeroPedido())
-                .toUri();
-        return ResponseEntity.created(location).body(PedidoResposta.dePedido(pedidoCriado));
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/listar")
+//                .build()
+//                .toUri();
+//        return ResponseEntity.created(location).body(PedidoResposta.dePedido(pedidoCriado));
+        return ResponseEntity.ok().build();
     }
 }

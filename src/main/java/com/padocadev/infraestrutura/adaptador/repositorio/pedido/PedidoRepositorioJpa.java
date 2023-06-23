@@ -10,5 +10,5 @@ import java.util.List;
 public interface PedidoRepositorioJpa extends JpaRepository<PedidoEntidadeJpa, Long> {
 
     @Query(value = "SELECT * FROM Pedido p WHERE p.status <> 'FINALIZADO'", nativeQuery = true)
-    List<PedidoEntidadeJpa> buscarTodosPedidosNaoConcluidos();
+    List<PedidoEntidadeJpa> buscarTodosPedidosNaoFinalizados();
 }

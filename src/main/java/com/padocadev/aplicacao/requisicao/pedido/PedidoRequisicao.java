@@ -9,7 +9,7 @@ import java.util.List;
 
 public record PedidoRequisicao(
         @NotBlank List<Produto> produtos,
-        @NotBlank Cliente cliente){
+        Cliente cliente){
 
     public Pedido converteParaPedido() {
         return new Pedido(produtos, cliente.getId());

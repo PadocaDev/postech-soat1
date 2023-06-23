@@ -60,7 +60,7 @@ public class Pedido {
     }
 
     public BigDecimal getValorTotal() {
-        return valorTotal;
+        return this.produtos.stream().map(Produto::getPreco).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
     }
 
     public Status getStatus() {
