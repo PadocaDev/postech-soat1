@@ -29,7 +29,7 @@ public class CriaPedidoCasoDeUso implements CriaPedidoCasoDeUsoPorta {
         Pedido pedido = new Pedido(cliente);
         pedidoRequisicao.produtosPedidos().forEach(produtoPedido -> {
             Produto produto = produtoRepositorioAdaptadorJpa.buscaPorId(produtoPedido.getProdutoId()).orElseThrow(ProdutoNaoExisteExcecao::new);
-            pedido.adicionarItem(new ItemPedido(produtoPedido.getQuantidade(), pedido, produto), produtoPedido.getQuantidade());
+            pedido.adicionarItem(new ItemPedido(produtoPedido.getQuantidade(), produto), produtoPedido.getQuantidade());
         });
 
         return pedidoRepositorioAdaptadorPorta.criar(pedido);

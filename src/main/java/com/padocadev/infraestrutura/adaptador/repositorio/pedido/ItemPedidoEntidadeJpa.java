@@ -62,6 +62,6 @@ public class ItemPedidoEntidadeJpa {
     }
 
     public ItemPedido paraItemPedido() {
-        return new ItemPedido(quantidade, null, produto.paraProduto());
+        return new ItemPedido(quantidade, produto.paraProduto());
     }
 }
