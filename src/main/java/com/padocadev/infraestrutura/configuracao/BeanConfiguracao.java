@@ -30,8 +30,8 @@ public class BeanConfiguracao {
     }
 
     @Bean
-    CriaPedidoCasoDeUsoPorta criaPedidoCasoDeUsoPorta(PedidoRepositorioAdaptadorPorta clienteRepositorioAdaptadorJpa) {
-        return new CriaPedidoCasoDeUso(clienteRepositorioAdaptadorJpa);
+    CriaPedidoCasoDeUsoPorta criaPedidoCasoDeUsoPorta(ClienteRepositorioAdaptadorJpa clienteRepositorioAdaptadorJpa, PedidoRepositorioAdaptadorJpa pedidoRepositorioAdaptadorJpa, ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa ) {
+        return new CriaPedidoCasoDeUso(pedidoRepositorioAdaptadorJpa, produtoRepositorioAdaptadorJpa, clienteRepositorioAdaptadorJpa);
     }
 
     @Bean

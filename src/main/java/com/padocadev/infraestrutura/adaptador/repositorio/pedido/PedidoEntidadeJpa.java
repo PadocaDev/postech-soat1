@@ -1,13 +1,14 @@
 package com.padocadev.infraestrutura.adaptador.repositorio.pedido;
 
-import com.padocadev.dominio.entidade.pedido.*;
-import com.padocadev.infraestrutura.adaptador.repositorio.produto.ProdutoEntidadeJpa;
+import com.padocadev.dominio.entidade.pedido.Pedido;
+import com.padocadev.dominio.entidade.pedido.Status;
+import com.padocadev.infraestrutura.adaptador.repositorio.cliente.ClienteEntidadeJpa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,8 +19,9 @@ public class PedidoEntidadeJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "increment")
     private Long id;
 
-    @NotNull
-    private Long clienteId;
+
+    @ManyToOne
+    private ClienteEntidadeJpa cliente;
 
     @NotNull
     private String numeroPedido;
@@ -27,13 +29,14 @@ public class PedidoEntidadeJpa {
     @NotNull
     private LocalDateTime dataPedido;
 
-    @OneToMany
-    private List<ProdutoEntidadeJpa> produtos;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<ItemPedidoEntidadeJpa> itens = new ArrayList<>();
 
     @NotNull
     private BigDecimal valorTotal;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @NotNull
@@ -44,10 +47,10 @@ public class PedidoEntidadeJpa {
     }
 
     public PedidoEntidadeJpa(Pedido pedido) {
-        this.clienteId = pedido.getClienteId();
+        this.cliente = pedido.getCliente() == null ? null : new ClienteEntidadeJpa(pedido.getCliente());
         this.numeroPedido = pedido.getNumeroPedido();
         this.dataPedido = pedido.getDataPedido();
-        this.produtos = pedido.getProdutos().stream().map(ProdutoEntidadeJpa::new).toList();
+        this.itens = pedido.getItensPedido().stream().map(ItemPedidoEntidadeJpa::new).toList();
         this.valorTotal = pedido.getValorTotal();
         this.status = pedido.getStatus();
         this.dataDeAtualizacao = pedido.getDataDeAtualizacao();
@@ -57,8 +60,8 @@ public class PedidoEntidadeJpa {
         return id;
     }
 
-    public Long getClienteId() {
-        return clienteId;
+    public ClienteEntidadeJpa getCliente() {
+        return cliente;
     }
 
     public String getNumeroPedido() {
@@ -69,8 +72,8 @@ public class PedidoEntidadeJpa {
         return dataPedido;
     }
 
-    public List<ProdutoEntidadeJpa> getProdutos() {
-        return produtos;
+    public List<ItemPedidoEntidadeJpa> getItens() {
+        return itens;
     }
 
     public BigDecimal getValorTotal() {
@@ -85,7 +88,19 @@ public class PedidoEntidadeJpa {
         return dataDeAtualizacao;
     }
 
-    public static Pedido paraPedido(PedidoEntidadeJpa pedidoEntidadeJpa) {
-        return new Pedido(pedidoEntidadeJpa.getId(), pedidoEntidadeJpa.getClienteId(), pedidoEntidadeJpa.getDataPedido(), pedidoEntidadeJpa.getNumeroPedido(), pedidoEntidadeJpa.getProdutos().stream().map(ProdutoEntidadeJpa::paraProduto).toList(), pedidoEntidadeJpa.getValorTotal(), pedidoEntidadeJpa.getStatus(), pedidoEntidadeJpa.getDataDeAtualizacao());
+    public void setItens(List<ItemPedidoEntidadeJpa> itens) {
+        this.itens = itens;
+    }
+
+    public Pedido paraPedido() {
+        return new Pedido(
+                this.cliente == null ? null : this.cliente.paraCliente(),
+                this.numeroPedido,
+                this.dataPedido,
+                this.itens.stream().map(ItemPedidoEntidadeJpa::paraItemPedido).toList(),
+                this.valorTotal,
+                this.status,
+                this.dataDeAtualizacao
+        );
     }
 }

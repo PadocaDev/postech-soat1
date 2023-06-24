@@ -1,5 +1,6 @@
 package com.padocadev.infraestrutura.adaptador.repositorio.cliente;
 
+import com.padocadev.dominio.entidade.cliente.Cliente;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -37,6 +38,13 @@ public class ClienteEntidadeJpa {
         this.cpf = cpf;
     }
 
+    public ClienteEntidadeJpa(Cliente cliente) {
+        this.dataCadastro = cliente.getDataCadastro();
+        this.nome = cliente.getNome();
+        this.email = cliente.getEmail();
+        this.cpf = cliente.getCpf();
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,5 +63,9 @@ public class ClienteEntidadeJpa {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public Cliente paraCliente() {
+        return new Cliente(id, dataCadastro, nome, email, cpf);
     }
 }

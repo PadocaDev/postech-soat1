@@ -1,50 +1,54 @@
 package com.padocadev.dominio.entidade.pedido;
 
+import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.entidade.produto.Produto;
+import com.padocadev.infraestrutura.adaptador.repositorio.pedido.ItemPedidoEntidadeJpa;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+
+import static com.padocadev.dominio.entidade.pedido.Status.RECEBIDO;
+import static java.time.LocalDateTime.now;
 
 public class Pedido {
     private Long id;
-    private Long clienteId;
+    private Cliente  cliente;
     private String numeroPedido = UUID.randomUUID().toString().substring(0,6);
-    private LocalDateTime dataPedido = LocalDateTime.now();
-    private List<Produto> produtos = new ArrayList<>();
-    private BigDecimal valorTotal;
-    private Status status;
-    private LocalDateTime dataDeAtualizacao;
+    private LocalDateTime dataPedido = now();
+    private List<ItemPedido> itensPedido = new ArrayList<>();
+    private BigDecimal valorTotal = BigDecimal.ZERO;
+    private Status status = RECEBIDO;
+    private LocalDateTime dataDeAtualizacao = now();
 
-    public Pedido(Long clienteId, LocalDateTime dataPedido, List<Produto> produtos, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
-        this.clienteId = clienteId;
-        this.dataPedido = dataPedido;
-        this.produtos = produtos;
-        this.valorTotal = valorTotal;
-        this.status = status;
-        this.dataDeAtualizacao = dataDeAtualizacao;
+    public Pedido(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public Pedido(List<Produto> produtos, Long clienteId) {
-        this.produtos = produtos;
-        this.clienteId = clienteId;
-    }
-
-    public Pedido(Long id, Long clienteId, LocalDateTime dataPedido, String numeroPedido, List<Produto> list, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
-        this.id = id;
-        this.clienteId = clienteId;
-        this.dataPedido = dataPedido;
+    public Pedido(Cliente cliente, String numeroPedido, LocalDateTime dataPedido, List<ItemPedido> itens, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
+        this.cliente = cliente;
         this.numeroPedido = numeroPedido;
-        this.produtos = list;
+        this.dataPedido = dataPedido;
+        this.itensPedido = itens;
         this.valorTotal = valorTotal;
         this.status = status;
         this.dataDeAtualizacao = dataDeAtualizacao;
     }
 
-    public Long getClienteId() {
-        return clienteId;
+
+    public void adicionarItem(ItemPedido item) {
+        item.setPedido(this);
+        this.getItensPedido().add(item);
+        this.valorTotal = this.valorTotal.add(item.getPrecoUnitario());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 
     public String getNumeroPedido() {
@@ -55,12 +59,12 @@ public class Pedido {
         return dataPedido;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<ItemPedido> getItensPedido() {
+        return itensPedido;
     }
 
     public BigDecimal getValorTotal() {
-        return this.produtos.stream().map(Produto::getPreco).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+        return valorTotal;
     }
 
     public Status getStatus() {
@@ -70,4 +74,5 @@ public class Pedido {
     public LocalDateTime getDataDeAtualizacao() {
         return dataDeAtualizacao;
     }
+
 }

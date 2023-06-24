@@ -11,16 +11,18 @@ public class PedidoRepositorioAdaptadorJpa implements PedidoRepositorioAdaptador
 
     private final PedidoRepositorioJpa pedidoRepositorioJpa;
 
+
     public PedidoRepositorioAdaptadorJpa(PedidoRepositorioJpa pedidoRepositorioJpa) {
         this.pedidoRepositorioJpa = pedidoRepositorioJpa;
     }
 
     @Override
     public Pedido criar(Pedido pedido) {
+
         PedidoEntidadeJpa novoPedido = new PedidoEntidadeJpa(pedido);
         PedidoEntidadeJpa pedidoCriado = pedidoRepositorioJpa.save(novoPedido);
 
-        return PedidoEntidadeJpa.paraPedido(pedidoCriado);
+        return pedidoCriado.paraPedido();
     }
 
     @Override

@@ -40,6 +40,7 @@ public class ProdutoEntidadeJpa {
     }
 
     public ProdutoEntidadeJpa(Produto produto) {
+        this.id = produto.getId();
         this.dataCadastro = produto.getDataCadastro();
         this.nome = produto.getNome();
         this.categoria = produto.getCategoria();
@@ -78,8 +79,7 @@ public class ProdutoEntidadeJpa {
         this.preco = preco;
     }
 
-// Criado para fazer implementação do cria pedido.
-    public static Produto paraProduto(ProdutoEntidadeJpa produtoEntidadeJpa) {
-        return new Produto(produtoEntidadeJpa.getNome(), produtoEntidadeJpa.getCategoria(), produtoEntidadeJpa.getPreco());
+    public Produto paraProduto() {
+        return new Produto(nome, categoria, preco);
     }
 }
