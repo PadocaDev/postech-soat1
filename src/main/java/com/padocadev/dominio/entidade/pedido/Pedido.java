@@ -1,13 +1,10 @@
 package com.padocadev.dominio.entidade.pedido;
 
 import com.padocadev.dominio.entidade.cliente.Cliente;
-import com.padocadev.dominio.entidade.produto.Produto;
-import com.padocadev.infraestrutura.adaptador.repositorio.pedido.ItemPedidoEntidadeJpa;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.Function;
 
 import static com.padocadev.dominio.entidade.pedido.Status.RECEBIDO;
 import static java.time.LocalDateTime.now;
@@ -36,11 +33,10 @@ public class Pedido {
         this.dataDeAtualizacao = dataDeAtualizacao;
     }
 
-
-    public void adicionarItem(ItemPedido item) {
+    public void adicionarItem(ItemPedido item, int quantidade) {
         item.setPedido(this);
         this.getItensPedido().add(item);
-        this.valorTotal = this.valorTotal.add(item.getPrecoUnitario());
+        this.valorTotal = this.valorTotal.add(item.getPrecoUnitario().multiply(new BigDecimal(quantidade)));
     }
 
     public Long getId() {

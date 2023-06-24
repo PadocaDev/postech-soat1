@@ -1,15 +1,13 @@
 package com.padocadev.infraestrutura.adaptador.repositorio.pedido;
 
-import com.padocadev.dominio.entidade.pedido.Pedido;
-import com.padocadev.dominio.entidade.pedido.Status;
+import com.padocadev.dominio.entidade.pedido.*;
 import com.padocadev.infraestrutura.adaptador.repositorio.cliente.ClienteEntidadeJpa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "Pedido")
@@ -47,13 +45,22 @@ public class PedidoEntidadeJpa {
     }
 
     public PedidoEntidadeJpa(Pedido pedido) {
-        this.cliente = pedido.getCliente() == null ? null : new ClienteEntidadeJpa(pedido.getCliente());
+        this.cliente =  Optional.ofNullable(pedido.getCliente()).map(ClienteEntidadeJpa::new).orElse(null);
         this.numeroPedido = pedido.getNumeroPedido();
         this.dataPedido = pedido.getDataPedido();
-        this.itens = pedido.getItensPedido().stream().map(ItemPedidoEntidadeJpa::new).toList();
         this.valorTotal = pedido.getValorTotal();
         this.status = pedido.getStatus();
         this.dataDeAtualizacao = pedido.getDataDeAtualizacao();
+        this.itens = getItens(pedido.getItensPedido());
+    }
+
+    private List<ItemPedidoEntidadeJpa> getItens(List<ItemPedido> itemPedidoList) {
+        itemPedidoList.stream().forEach(itemPedido -> {
+        ItemPedidoEntidadeJpa itemPedidoEntidadeJpa = new ItemPedidoEntidadeJpa(itemPedido);
+        itemPedidoEntidadeJpa.setPedido(this);
+        this.itens.add(itemPedidoEntidadeJpa);
+        });
+        return this.itens;
     }
 
     public Long getId() {
@@ -94,7 +101,7 @@ public class PedidoEntidadeJpa {
 
     public Pedido paraPedido() {
         return new Pedido(
-                this.cliente == null ? null : this.cliente.paraCliente(),
+                Optional.ofNullable(this.cliente).map(ClienteEntidadeJpa::paraCliente).orElse(null),
                 this.numeroPedido,
                 this.dataPedido,
                 this.itens.stream().map(ItemPedidoEntidadeJpa::paraItemPedido).toList(),

@@ -1,8 +1,8 @@
 package com.padocadev.aplicacao.requisicao.pedido;
 
-import java.util.Map;
+import java.util.List;
 
 public record PedidoRequisicao(
-        Map<Long, Integer> produtoIdQuantidade,
+        List<ProdutosPedidoDTO> produtosPedidos,
         String clienteCpf ){
 }

@@ -33,9 +33,8 @@ public class ItemPedidoEntidadeJpa {
 
     public ItemPedidoEntidadeJpa(ItemPedido itemPedido) {
         this.quantidade = itemPedido.getQuantidade();
-        this.pedido = new PedidoEntidadeJpa(itemPedido.getPedido());
-        this.produto = new ProdutoEntidadeJpa(itemPedido.getProduto());
         this.precoUnitario = itemPedido.getPrecoUnitario();
+        this.produto = new ProdutoEntidadeJpa(itemPedido.getProduto());
     }
 
     public void setPedido(PedidoEntidadeJpa pedido) {
@@ -63,6 +62,6 @@ public class ItemPedidoEntidadeJpa {
     }
 
     public ItemPedido paraItemPedido() {
-        return new ItemPedido(quantidade, pedido.paraPedido(), produto.paraProduto());
+        return new ItemPedido(quantidade, null, produto.paraProduto());
     }
 }

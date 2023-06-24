@@ -11,7 +11,6 @@ public class PedidoRepositorioAdaptadorJpa implements PedidoRepositorioAdaptador
 
     private final PedidoRepositorioJpa pedidoRepositorioJpa;
 
-
     public PedidoRepositorioAdaptadorJpa(PedidoRepositorioJpa pedidoRepositorioJpa) {
         this.pedidoRepositorioJpa = pedidoRepositorioJpa;
     }
