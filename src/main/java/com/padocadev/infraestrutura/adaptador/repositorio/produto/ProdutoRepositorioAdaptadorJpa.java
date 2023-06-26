@@ -4,6 +4,7 @@ import com.padocadev.dominio.entidade.produto.Produto;
 import com.padocadev.dominio.excecao.produto.ProdutoNaoExisteExcecao;
 import com.padocadev.dominio.porta.produto.ProdutoRepositorioAdaptadorPorta;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,50 +24,29 @@ public class ProdutoRepositorioAdaptadorJpa implements ProdutoRepositorioAdaptad
 
     @Override
     public Produto criarProduto(Produto produto) {
-        ProdutoEntidadeJpa produtoEntidadeJpa = new ProdutoEntidadeJpa(produto.getDataCadastro(), produto.getNome(), produto.getCategoria(), produto.getPreco());
-        produtoRepositorioJpa.save(produtoEntidadeJpa);
-
-        produto.setId(produtoEntidadeJpa.getId());
-        return produto;
+        ProdutoEntidadeJpa produtoEntidadeJpa = produtoRepositorioJpa.save(new ProdutoEntidadeJpa(produto));
+        return produtoEntidadeJpa.converteParaProduto();
     }
 
     @Override
     public Optional<Produto> buscaPorId(Long produtoId) {
-        return produtoRepositorioJpa.findById(produtoId)
-                .flatMap(produtoEntidadeJpa -> Optional.of(
-                            new Produto(
-                                    produtoEntidadeJpa.getId(),
-                                    produtoEntidadeJpa.getDataCadastro(),
-                                    produtoEntidadeJpa.getNome(),
-                                    produtoEntidadeJpa.getCategoria(),
-                                    produtoEntidadeJpa.getPreco()
-                            )
-                )
-                );
+        Optional<ProdutoEntidadeJpa> possivelProduto = produtoRepositorioJpa.findById(produtoId);
+        return possivelProduto.map(ProdutoEntidadeJpa::converteParaProduto);
     }
 
     @Override
     public Optional<Produto> buscaPorNome(String nome) {
-        return produtoRepositorioJpa.findByNome(nome)
-                .flatMap(produtoEntidadeJpa -> Optional.of(
-                                new Produto(
-                                        produtoEntidadeJpa.getId(),
-                                        produtoEntidadeJpa.getDataCadastro(),
-                                        produtoEntidadeJpa.getNome(),
-                                        produtoEntidadeJpa.getCategoria(),
-                                        produtoEntidadeJpa.getPreco()
-                                )
-                        )
-                );
+        Optional<ProdutoEntidadeJpa> possivelProduto = produtoRepositorioJpa.findByNome(nome);
+        return possivelProduto.map(ProdutoEntidadeJpa::converteParaProduto);
     }
 
     @Override
     public Produto editarProduto(Long produtoId, Produto produtoParaEditar) {
         ProdutoEntidadeJpa produtoExistenteEntidadeJpa = produtoRepositorioJpa.findById(produtoId).orElseThrow(ProdutoNaoExisteExcecao::new);
-        produtoParaEditar.atualiza(produtoExistenteEntidadeJpa);
+
+        produtoExistenteEntidadeJpa.atualiza(produtoParaEditar);
         produtoRepositorioJpa.save(produtoExistenteEntidadeJpa);
 
-        produtoParaEditar.setId(produtoExistenteEntidadeJpa.getId());
-        return produtoParaEditar;
+        return produtoExistenteEntidadeJpa.converteParaProduto();
     }
 }

@@ -1,6 +1,7 @@
 package com.padocadev.infraestrutura.adaptador.repositorio.produto;
 
 import com.padocadev.dominio.entidade.produto.Categoria;
+import com.padocadev.dominio.entidade.produto.Produto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,11 +32,11 @@ public class ProdutoEntidadeJpa {
     public ProdutoEntidadeJpa() {
     }
 
-    public ProdutoEntidadeJpa(LocalDateTime dataCadastro, String nome, Categoria categoria, BigDecimal preco) {
-        this.dataCadastro = dataCadastro;
-        this.nome = nome;
-        this.categoria = categoria;
-        this.preco = preco;
+    public ProdutoEntidadeJpa(Produto produto) {
+        this.dataCadastro = produto.getDataCadastro();
+        this.nome = produto.getNome();
+        this.categoria = produto.getCategoria();
+        this.preco = produto.getPreco();
     }
 
     public Long getId() {
@@ -68,5 +69,15 @@ public class ProdutoEntidadeJpa {
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
+    }
+
+    public Produto converteParaProduto() {
+        return new Produto(id, dataCadastro, nome, categoria, preco);
+    }
+
+    public void atualiza(Produto produtoParaEditar) {
+        this.nome = produtoParaEditar.getNome();
+        this.preco = produtoParaEditar.getPreco();
+        this.categoria = produtoParaEditar.getCategoria();
     }
 }

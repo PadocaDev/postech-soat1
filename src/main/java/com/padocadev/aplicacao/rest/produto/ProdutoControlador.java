@@ -45,17 +45,12 @@ public class ProdutoControlador {
         return ResponseEntity.created(location).body(ProdutoResposta.deProduto(produtoCriado));
     }
 
-    @PostMapping("/{produtoId}/edita")
+    @PutMapping("/{produtoId}/edita")
     @Transactional
     public ResponseEntity<ProdutoResposta> editaProduto(@PathVariable("produtoId") Long produtoId,
                                                         @RequestBody @Valid ProdutoRequisicao produtoRequisicao) {
         Produto produtoEditado = editaProdutoCasosDeUso.edita(produtoId, produtoRequisicao.converteParaProduto());
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{produtoId}")
-                .buildAndExpand(produtoEditado.getId())
-                .toUri();
-        return ResponseEntity.created(location).body(ProdutoResposta.deProduto(produtoEditado));
+        return ResponseEntity.ok((ProdutoResposta.deProduto(produtoEditado)));
     }
 
 }
