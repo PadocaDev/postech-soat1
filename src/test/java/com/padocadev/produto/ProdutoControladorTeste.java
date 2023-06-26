@@ -35,7 +35,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_informacoes_corretas_de_produto_existente_apos_a_busca_por_id() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         mockMvc.perform(get("/produtos/{produtoId}", produto.getId()))
                 .andExpect(status().isOk())
@@ -50,7 +50,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_o_erro_produto_não_existe_quando_não_existir_um_produto_com_o_id_informado() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         mockMvc.perform(get("/produtos/{produtoId}", 12345678911l))
                 .andExpect(status().isNotFound())
@@ -78,7 +78,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_o_erro_ja_existe_produto_quando_tentar_criar_um_produto_com_nome_ja_existente() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         ProdutoRequisicao novoProdutoRequisicao = new ProdutoRequisicao("Sorvete", ACOMPANHAMENTO, valueOf(13.50));
 
@@ -94,7 +94,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_informacoes_corretas_de_produto_existente_apos_a_edicao() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoParaEdicaoRequisicao = new ProdutoRequisicao("Pastel de nata", SOBREMESA, TEN);
         mockMvc.perform(post("/produtos/{produtoId}/edita", produto.getId())
@@ -112,10 +112,10 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_o_erro_ja_existe_produto_quando_tentar_editar_um_produto_com_nome_ja_existente() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoASerEditadoRequisicao = new ProdutoRequisicao("Pastel de nata", SOBREMESA, TEN);
-        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoASerEditadoRequisicao.converteParaProduto());
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoASerEditadoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoParaEdicaoRequisicao = new ProdutoRequisicao("Sorvete", ACOMPANHAMENTO, TWO);
         mockMvc.perform(post("/produtos/{produtoId}/edita", produto.getId())

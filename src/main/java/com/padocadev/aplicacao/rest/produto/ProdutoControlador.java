@@ -29,15 +29,15 @@ public class ProdutoControlador {
     }
 
     @GetMapping("/{produtoId}")
-    public ResponseEntity<ProdutoResposta> buscaProdutoPorId(@PathVariable Long produtoId) {
+    public ResponseEntity<ProdutoResposta> buscaPorId(@PathVariable Long produtoId) {
         Produto produto = buscaProdutoPorIdCasoDeUso.buscaPorId(produtoId);
         return ResponseEntity.ok(ProdutoResposta.deProduto(produto));
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ProdutoResposta> criaProduto(@RequestBody @Valid ProdutoRequisicao produtoRequisicao) {
-        Produto produtoCriado = criaProdutoCasoDeUso.criar(produtoRequisicao.converteParaProduto());
+    public ResponseEntity<ProdutoResposta> cria(@RequestBody @Valid ProdutoRequisicao produtoRequisicao) {
+        Produto produtoCriado = criaProdutoCasoDeUso.cria(produtoRequisicao.converteParaProduto());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{produtoId}")
                 .buildAndExpand(produtoCriado.getId())
@@ -47,8 +47,8 @@ public class ProdutoControlador {
 
     @PutMapping("/{produtoId}/edita")
     @Transactional
-    public ResponseEntity<ProdutoResposta> editaProduto(@PathVariable("produtoId") Long produtoId,
-                                                        @RequestBody @Valid ProdutoRequisicao produtoRequisicao) {
+    public ResponseEntity<ProdutoResposta> edita(@PathVariable("produtoId") Long produtoId,
+                                                 @RequestBody @Valid ProdutoRequisicao produtoRequisicao) {
         Produto produtoEditado = editaProdutoCasosDeUso.edita(produtoId, produtoRequisicao.converteParaProduto());
         return ResponseEntity.ok((ProdutoResposta.deProduto(produtoEditado)));
     }

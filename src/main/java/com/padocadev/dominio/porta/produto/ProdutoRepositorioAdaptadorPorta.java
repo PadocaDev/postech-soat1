@@ -8,11 +8,11 @@ public interface ProdutoRepositorioAdaptadorPorta {
 
     boolean existeProdutoComNome(String nome);
 
-    Produto criarProduto(Produto produto);
+    Produto cria(Produto produto);
 
     Optional<Produto> buscaPorId(Long produtoId);
 
     Optional<Produto> buscaPorNome(String nome);
 
-    Produto editarProduto(Long produtoId, Produto produtoParaEditar);
+    Produto edita(Long produtoId, Produto produtoParaEditar);
 }
