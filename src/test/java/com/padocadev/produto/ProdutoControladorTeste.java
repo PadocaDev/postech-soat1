@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.padocadev.dominio.entidade.produto.Categoria.ACOMPANHAMENTO;
 import static com.padocadev.dominio.entidade.produto.Categoria.SOBREMESA;
 import static java.math.BigDecimal.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -125,4 +124,43 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.erro").value("Produto com o dados informados já existe!"));
     }
+
+    @Test
+    @Transactional
+    void deve_retornar_o_erro_produto_não_existe_quando_tentar_remover_um_produto_com_id_inexistente() throws Exception {
+        ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
+        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+
+        mockMvc.perform(delete("/produtos/{produtoId}/remove", 12345678911l))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.erro").value("Produto com o id informado não existe!"));
+    }
+
+    @Test
+    @Transactional
+    void deve_excluir_um_produto_com_id_existente() throws Exception {
+        ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
+        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+
+        mockMvc.perform(delete("/produtos/{produtoId}/remove", produto.getId()))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @Transactional
+    void deve_retornar_lista_apos_a_busca_por_categoria() throws Exception {
+        ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
+        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+
+        mockMvc.perform(get("/produtos/categoria/{categoria}", SOBREMESA))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").isNotEmpty())
+                .andExpect(jsonPath("$[0].nome").value(produtoRequisicao.nome()))
+                .andExpect(jsonPath("$[0].categoria").value(produtoRequisicao.categoria().toString()))
+                .andExpect(jsonPath("$[0].preco").value(produtoRequisicao.preco()));
+    }
+
+
 }

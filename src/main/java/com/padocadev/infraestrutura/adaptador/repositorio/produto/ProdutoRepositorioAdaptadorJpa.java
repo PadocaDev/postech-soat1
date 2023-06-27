@@ -74,21 +74,14 @@ public class ProdutoRepositorioAdaptadorJpa implements ProdutoRepositorioAdaptad
 
     @Override
     public void removerProduto(Long produtoId) {
-        ProdutoEntidadeJpa produtoEntidadeJpa = produtoRepositorioJpa.findById(produtoId).orElseThrow(ProdutoNaoExisteExcecao::new);
-        produtoRepositorioJpa.delete(produtoEntidadeJpa);
+        produtoRepositorioJpa.deleteById(produtoId);
     }
 
     @Override
     public List<Produto> buscarPorCategoria(Categoria categoria) {
-        return produtoRepositorioJpa.findAllByCategoria(categoria).stream().flatMap(produtoEntidadeJpa -> Optional.of(
-                        new Produto(
-                                produtoEntidadeJpa.getId(),
-                                produtoEntidadeJpa.getDataCadastro(),
-                                produtoEntidadeJpa.getNome(),
-                                produtoEntidadeJpa.getCategoria(),
-                                produtoEntidadeJpa.getPreco()
-                        )
-                ).stream()
-        ).toList();
+        return produtoRepositorioJpa.findAllByCategoria(categoria)
+                .stream()
+                .map(ProdutoEntidadeJpa::paraProduto)
+                .toList();
     }
 }

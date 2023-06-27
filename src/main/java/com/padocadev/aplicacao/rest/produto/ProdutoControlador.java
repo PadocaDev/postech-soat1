@@ -77,11 +77,7 @@ public class ProdutoControlador {
     @GetMapping("/categoria/{categoria}")
     public ResponseEntity<List<ProdutoResposta>> buscaProdutosPorCategoria(@PathVariable String categoria) {
             List<Produto> produtos = buscaProdutoPorCategoriaCasoDeUso.buscaPorCategoria(Categoria.valueOf(categoria));
-
-            if (produtos.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(produtos.stream().map(ProdutoResposta::deProduto).collect(Collectors.toList()));
+        return ResponseEntity.ok(ProdutoResposta.deProduto(produtos));
     }
 
 }

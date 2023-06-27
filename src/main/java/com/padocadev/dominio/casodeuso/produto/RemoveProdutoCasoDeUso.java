@@ -16,13 +16,12 @@ public class RemoveProdutoCasoDeUso implements RemoveProdutoCasoDeUsoPorta {
     }
 
     @Override
-    public Produto remover(Long produtoId) {
+    public void remover(Long produtoId) {
         Optional<Produto> possivelProduto = produtoRepositorioAdaptadorPorta.buscaPorId(produtoId);
         if (possivelProduto.isEmpty()) {
             throw new ProdutoNaoExisteExcecao();
         }
 
         produtoRepositorioAdaptadorPorta.removerProduto(produtoId);
-        return null;
     }
 }
