@@ -1,4 +1,4 @@
-package com.padocadev.aplicacao.requisicao;
+package com.padocadev.aplicacao.requisicao.cliente;
 
 import com.padocadev.dominio.entidade.cliente.Cliente;
 import jakarta.validation.constraints.*;
