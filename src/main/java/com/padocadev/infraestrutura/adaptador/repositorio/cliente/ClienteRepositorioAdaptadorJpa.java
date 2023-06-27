@@ -18,28 +18,24 @@ public class ClienteRepositorioAdaptadorJpa implements ClienteRepositorioAdaptad
 
     @Override
     @Transactional
-    public Cliente criarCliente(Cliente cliente) {
-        ClienteEntidadeJpa clienteEntidadeJpa = new ClienteEntidadeJpa(cliente.getDataCadastro(), cliente.getNome(), cliente.getEmail(), cliente.getCpf());
-        clienteRepositorioJpa.save(clienteEntidadeJpa);
-
-        cliente.setId(clienteEntidadeJpa.getId());
-        return cliente;
+    public Cliente criar(Cliente cliente) {
+        ClienteEntidadeJpa clienteEntidadeJpa = clienteRepositorioJpa.save(new ClienteEntidadeJpa(cliente));
+        return clienteEntidadeJpa.converteParaCliente();
     }
 
     @Override
-    public Optional<Cliente> buscaClientePorCpf(String cpf) {
-        return clienteRepositorioJpa.findByCpf(cpf)
-                .flatMap(clienteEntidadeJpa -> Optional.of(new Cliente(clienteEntidadeJpa.getId(), clienteEntidadeJpa.getDataCadastro(),
-                        clienteEntidadeJpa.getNome(), clienteEntidadeJpa.getEmail(), clienteEntidadeJpa.getCpf())));
+    public Optional<Cliente> buscaPorCpf(String cpf) {
+        Optional<ClienteEntidadeJpa> clienteEntidadeJpa = clienteRepositorioJpa.findByCpf(cpf);
+        return clienteEntidadeJpa.map(ClienteEntidadeJpa::converteParaCliente);
     }
 
     @Override
-    public boolean existeClienteComCpf(String cpf) {
+    public boolean existeComCpf(String cpf) {
         return clienteRepositorioJpa.existsByCpf(cpf);
     }
 
     @Override
-    public boolean existeClienteComEmail(String email) {
+    public boolean existeComEmail(String email) {
         return clienteRepositorioJpa.existsByEmail(email);
     }
 }

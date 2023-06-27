@@ -14,6 +14,6 @@ public class BuscaClientePorCpfCasoDeUso implements BuscaClientePorCpfCasoDeUsoP
 
     @Override
     public Cliente buscaPorCpf(String cpf) {
-        return clienteRepositorioAdaptadorPorta.buscaClientePorCpf(cpf).orElseThrow(ClienteNaoExisteExcecao::new);
+        return clienteRepositorioAdaptadorPorta.buscaPorCpf(cpf).orElseThrow(ClienteNaoExisteExcecao::new);
     }
 }

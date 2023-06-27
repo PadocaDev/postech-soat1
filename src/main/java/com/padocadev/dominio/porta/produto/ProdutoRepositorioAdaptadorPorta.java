@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ProdutoRepositorioAdaptadorPorta {
     boolean existeProdutoComNome(String nome);
 
-    Produto criarProduto(Produto produto);
+    Produto cria(Produto produto);
 
     Optional<Produto> buscaPorId(Long produtoId);
 
@@ -20,4 +20,6 @@ public interface ProdutoRepositorioAdaptadorPorta {
     void removerProduto(Long produtoId);
 
     List<Produto> buscarPorCategoria(Categoria categoria);
+
+    Produto edita(Long produtoId, Produto produtoParaEditar);
 }

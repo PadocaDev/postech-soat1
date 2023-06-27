@@ -24,6 +24,6 @@ public class EditaProdutoCasoDeUso implements EditaProdutoCasoDeUsoPorta {
         Optional<Produto> produtoPorNome = produtoRepositorioAdaptadorPorta.buscaPorNome(produtoParaEditar.getNome());
         if (produtoPorNome.isPresent() && !produtoPorNome.get().equals(produto)) throw new JaExisteProdutoExcecao();
 
-        return produtoRepositorioAdaptadorPorta.editarProduto(produtoId, produtoParaEditar);
+        return produtoRepositorioAdaptadorPorta.edita(produtoId, produtoParaEditar);
     }
 }
