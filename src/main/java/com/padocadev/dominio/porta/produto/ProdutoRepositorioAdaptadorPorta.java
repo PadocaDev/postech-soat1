@@ -15,9 +15,7 @@ public interface ProdutoRepositorioAdaptadorPorta {
 
     Optional<Produto> buscaPorNome(String nome);
 
-    Produto editarProduto(Long produtoId, Produto produtoParaEditar);
-
-    void removerProduto(Long produtoId);
+    void remover(Long produtoId);
 
     List<Produto> buscarPorCategoria(Categoria categoria);
 

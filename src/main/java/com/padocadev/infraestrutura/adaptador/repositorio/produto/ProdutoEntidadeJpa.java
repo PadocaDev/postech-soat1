@@ -71,16 +71,6 @@ public class ProdutoEntidadeJpa {
         this.preco = preco;
     }
 
-    public Produto paraProduto() {
-        return new Produto(
-                this.getId(),
-                this.getDataCadastro(),
-                this.getNome(),
-                this.getCategoria(),
-                this.getPreco()
-        );
-    }
-
     public Produto converteParaProduto() {
         return new Produto(id, dataCadastro, nome, categoria, preco);
     }

@@ -22,6 +22,6 @@ public class RemoveProdutoCasoDeUso implements RemoveProdutoCasoDeUsoPorta {
             throw new ProdutoNaoExisteExcecao();
         }
 
-        produtoRepositorioAdaptadorPorta.removerProduto(produtoId);
+        produtoRepositorioAdaptadorPorta.remover(produtoId);
     }
 }

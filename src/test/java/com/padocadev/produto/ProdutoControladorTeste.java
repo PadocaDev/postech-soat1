@@ -129,7 +129,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_o_erro_produto_não_existe_quando_tentar_remover_um_produto_com_id_inexistente() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         mockMvc.perform(delete("/produtos/{produtoId}/remove", 12345678911l))
                 .andExpect(status().isNotFound())
@@ -141,7 +141,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_excluir_um_produto_com_id_existente() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         mockMvc.perform(delete("/produtos/{produtoId}/remove", produto.getId()))
                 .andExpect(status().isNoContent());
@@ -151,7 +151,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_lista_apos_a_busca_por_categoria() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         mockMvc.perform(get("/produtos/categoria/{categoria}", SOBREMESA))
                 .andExpect(status().isOk())

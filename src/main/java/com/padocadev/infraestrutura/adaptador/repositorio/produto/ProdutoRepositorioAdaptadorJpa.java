@@ -52,7 +52,7 @@ public class ProdutoRepositorioAdaptadorJpa implements ProdutoRepositorioAdaptad
     }
 
     @Override
-    public void removerProduto(Long produtoId) {
+    public void remover(Long produtoId) {
         produtoRepositorioJpa.deleteById(produtoId);
     }
 
@@ -60,7 +60,7 @@ public class ProdutoRepositorioAdaptadorJpa implements ProdutoRepositorioAdaptad
     public List<Produto> buscarPorCategoria(Categoria categoria) {
         return produtoRepositorioJpa.findAllByCategoria(categoria)
                 .stream()
-                .map(ProdutoEntidadeJpa::paraProduto)
+                .map(ProdutoEntidadeJpa::converteParaProduto)
                 .toList();
     }
 }
