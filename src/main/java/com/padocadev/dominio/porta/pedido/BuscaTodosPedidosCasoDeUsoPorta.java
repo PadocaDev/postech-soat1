@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BuscaTodosPedidosCasoDeUsoPorta {
 
-    List<Pedido> buscarTodosPedidos();
+    List<Pedido> buscarTodosPedidosNaoFinalizados();
 }
