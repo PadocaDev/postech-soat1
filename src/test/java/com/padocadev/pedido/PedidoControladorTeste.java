@@ -6,11 +6,14 @@ import com.padocadev.aplicacao.requisicao.pedido.PedidoRequisicao;
 import com.padocadev.aplicacao.requisicao.pedido.ProdutosDoPedidoRequisicao;
 import com.padocadev.aplicacao.resposta.pedido.PedidoResposta;
 import com.padocadev.dominio.entidade.pedido.Pedido;
+import com.padocadev.dominio.entidade.pedido.Status;
 import com.padocadev.dominio.entidade.produto.Produto;
 import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUsoPorta;
 import com.padocadev.dominio.porta.pedido.CriaPedidoCasoDeUsoPorta;
+import com.padocadev.dominio.porta.produto.CriaProdutoCasoDeUsoPorta;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -29,6 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc
 public class PedidoControladorTeste extends TestContainerTesteDeIntegracao {
 
     @Autowired
@@ -43,11 +47,17 @@ public class PedidoControladorTeste extends TestContainerTesteDeIntegracao {
     @Autowired
     BuscaTodosPedidosCasoDeUsoPorta buscaTodosPedidosCasoDeUso;
 
+    @Autowired
+    private CriaProdutoCasoDeUsoPorta criaProdutoCasoDeUso;
+
     @Test
     @Transactional
     void deve_retornar_informacoes_corretas_do_pedido_criado() throws Exception {
         Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
+
+        criaProdutoCasoDeUso.criar(primeiroProduto);
+        criaProdutoCasoDeUso.criar(segundoProduto);
 
         List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
         produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProduto.getId(), 1));
@@ -56,22 +66,23 @@ public class PedidoControladorTeste extends TestContainerTesteDeIntegracao {
         PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
 
         Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao);
+        PedidoResposta pedidoResposta = new PedidoResposta(pedidoCriado);
 
         mockMvc.perform(post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(pedidoRequisicao)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.numeroPedido").value(pedidoCriado.getNumeroPedido()))
-                .andExpect(jsonPath("$.itensPedido[0].nomeProduto").value(pedidoCriado.getItensPedido().get(0).getProduto()))
-                .andExpect(jsonPath("$.itensPedido[0].precoUnitario").value(pedidoCriado.getItensPedido().get(0).getPrecoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[0].quantidade").value(pedidoCriado.getItensPedido().get(0).getPrecoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[0].nomeProduto").value(pedidoCriado.getItensPedido().get(1).getProduto()))
-                .andExpect(jsonPath("$.itensPedido[0].precoUnitario").value(pedidoCriado.getItensPedido().get(1).getPrecoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[0].quantidade").value(pedidoCriado.getItensPedido().get(1).getPrecoUnitario()))
-                .andExpect(jsonPath("$.valorTotal").value(pedidoCriado.getValorTotal()))
-                .andExpect(jsonPath("$.status").value(pedidoCriado.getStatus()))
-                .andExpect(jsonPath("$.dataDeAtualizacao").value(pedidoCriado.getDataDeAtualizacao()));
+                .andExpect(jsonPath("$.numeroPedido").isNotEmpty())
+                .andExpect(jsonPath("$.itensPedido[0].nomeProduto").value(pedidoResposta.itensPedido().get(0).nomeProduto()))
+                .andExpect(jsonPath("$.itensPedido[0].precoUnitario").value(pedidoResposta.itensPedido().get(0).precoUnitario()))
+                .andExpect(jsonPath("$.itensPedido[0].quantidade").value(pedidoResposta.itensPedido().get(0).quantidade()))
+                .andExpect(jsonPath("$.itensPedido[1].nomeProduto").value(pedidoResposta.itensPedido().get(1).nomeProduto()))
+                .andExpect(jsonPath("$.itensPedido[1].precoUnitario").value(pedidoResposta.itensPedido().get(1).precoUnitario()))
+                .andExpect(jsonPath("$.itensPedido[1].quantidade").value(pedidoResposta.itensPedido().get(1).quantidade()))
+                .andExpect(jsonPath("$.valorTotal").value(pedidoResposta.valorTotal()))
+                .andExpect(jsonPath("$.status").value(pedidoResposta.status().toString()))
+                .andExpect(jsonPath("$.dataDeAtualizacao").value(pedidoResposta.dataDeAtualizacao()));
     }
 
     @Test
@@ -87,6 +98,9 @@ public class PedidoControladorTeste extends TestContainerTesteDeIntegracao {
         Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
 
+        criaProdutoCasoDeUso.criar(primeiroProduto);
+        criaProdutoCasoDeUso.criar(segundoProduto);
+
         List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
         produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProduto.getId(), 1));
         produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProduto.getId(), 2));
@@ -94,24 +108,23 @@ public class PedidoControladorTeste extends TestContainerTesteDeIntegracao {
         PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
 
         Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao);
+        PedidoResposta pedidoResposta = new PedidoResposta(pedidoCriado);
 
         List<Pedido> pedidos = buscaTodosPedidosCasoDeUso.buscarTodosPedidosNaoFinalizados();
-        List<PedidoResposta> list = pedidos.stream().map(PedidoResposta::new).toList();
+        List<PedidoResposta> todosPedidos = pedidos.stream().map(PedidoResposta::new).toList();
 
-        mockMvc.perform(get("/clientes/todos"))
+        mockMvc.perform(get("/pedidos/todos"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.numeroPedido").value(pedidoCriado.getNumeroPedido()))
-                .andExpect(jsonPath("$.itensPedido[0].nomeProduto").value(pedidoCriado.getItensPedido().get(0).getProduto()))
-                .andExpect(jsonPath("$.itensPedido[0].precoUnitario").value(pedidoCriado.getItensPedido().get(0).getPrecoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[0].quantidade").value(pedidoCriado.getItensPedido().get(0).getPrecoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[0].nomeProduto").value(pedidoCriado.getItensPedido().get(1).getProduto()))
-                .andExpect(jsonPath("$.itensPedido[0].precoUnitario").value(pedidoCriado.getItensPedido().get(1).getPrecoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[0].quantidade").value(pedidoCriado.getItensPedido().get(1).getPrecoUnitario()))
-                .andExpect(jsonPath("$.valorTotal").value(pedidoCriado.getValorTotal()))
-                .andExpect(jsonPath("$.status").value(pedidoCriado.getStatus()))
-                .andExpect(jsonPath("$.dataDeAtualizacao").value(pedidoCriado.getDataDeAtualizacao()));
+                .andExpect(jsonPath("$[0].numeroPedido").value(todosPedidos.get(0).numeroPedido()))
+                .andExpect(jsonPath("$[0].itensPedido.[0].nomeProduto").value(pedidoResposta.itensPedido().get(0).nomeProduto()))
+                .andExpect(jsonPath("$[0].itensPedido.[0].precoUnitario").value(pedidoResposta.itensPedido().get(0).precoUnitario()))
+                .andExpect(jsonPath("$[0].itensPedido.[0].quantidade").value(pedidoResposta.itensPedido().get(0).quantidade()))
+                .andExpect(jsonPath("$[0].itensPedido.[1].nomeProduto").value(pedidoResposta.itensPedido().get(1).nomeProduto()))
+                .andExpect(jsonPath("$[0].itensPedido.[1].precoUnitario").value(pedidoResposta.itensPedido().get(1).precoUnitario()))
+                .andExpect(jsonPath("$[0].itensPedido.[1].quantidade").value(pedidoResposta.itensPedido().get(1).quantidade()))
+                .andExpect(jsonPath("$[0].valorTotal").value(pedidoResposta.valorTotal()))
+                .andExpect(jsonPath("$[0].status").value(pedidoResposta.status().toString()))
+                .andExpect(jsonPath("$[0].dataDeAtualizacao").value(pedidoResposta.dataDeAtualizacao()));
     }
-
-
 }
