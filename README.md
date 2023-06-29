@@ -70,7 +70,7 @@ POST http://localhost:8080/clientes
 ## Identificação do Cliente via CPF
 GET http://localhost:8080/clientes/{cpf}
 
-## Criar, editar e remover de produto
+## Criar, editar e remover produto
 ### Criação
 POST http://localhost:8080/produtos
 ```json
@@ -97,4 +97,25 @@ DELETE http://localhost:8080/produtos/{produtoId}/remove
 ## Buscar produtos por categoria
 GET http://localhost:8080/produtos/categoria/{categoria}
 
-## Listar os pedidos
+## Criar e listar pedidos
+### Criar
+POST http://localhost:8080/pedidos
+```json
+{
+    "produtosPedidos": 
+    [
+        {
+            "produtoId": 1,
+            "quantidade": 2
+        },
+        {
+            "produtoId": 1,
+            "quantidade": 1
+        }
+    ]
+}
+```
+
+### Listar
+GET http://localhost:8080/pedidos/todos
+
