@@ -1,10 +1,12 @@
 package com.padocadev.infraestrutura.adaptador.repositorio.produto;
 
+import com.padocadev.dominio.entidade.produto.Categoria;
 import com.padocadev.dominio.entidade.produto.Produto;
 import com.padocadev.dominio.excecao.produto.ProdutoNaoExisteExcecao;
 import com.padocadev.dominio.porta.produto.ProdutoRepositorioAdaptadorPorta;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -47,5 +49,18 @@ public class ProdutoRepositorioAdaptadorJpa implements ProdutoRepositorioAdaptad
         produtoRepositorioJpa.save(produtoExistenteEntidadeJpa);
 
         return produtoExistenteEntidadeJpa.converteParaProduto();
+    }
+
+    @Override
+    public void remover(Long produtoId) {
+        produtoRepositorioJpa.deleteById(produtoId);
+    }
+
+    @Override
+    public List<Produto> buscarPorCategoria(Categoria categoria) {
+        return produtoRepositorioJpa.findAllByCategoria(categoria)
+                .stream()
+                .map(ProdutoEntidadeJpa::converteParaProduto)
+                .toList();
     }
 }
