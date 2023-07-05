@@ -3,6 +3,7 @@ package com.padocadev.infraestrutura.adaptador.repositorio.pedido;
 import com.padocadev.dominio.entidade.pedido.*;
 import com.padocadev.infraestrutura.adaptador.repositorio.cliente.ClienteEntidadeJpa;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -17,11 +18,11 @@ public class PedidoEntidadeJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "increment")
     private Long id;
 
-
     @ManyToOne
+
     private ClienteEntidadeJpa cliente;
 
-    @NotNull
+    @NotBlank
     private String numeroPedido;
 
     @NotNull

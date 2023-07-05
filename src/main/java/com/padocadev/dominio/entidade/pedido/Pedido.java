@@ -33,10 +33,10 @@ public class Pedido {
         this.dataDeAtualizacao = dataDeAtualizacao;
     }
 
-    public void adicionarItem(ItemPedido item, int quantidade) {
+    public void adicionarItem(ItemPedido item) {
         item.setPedido(this);
         this.getItensPedido().add(item);
-        this.valorTotal = this.valorTotal.add(item.getPrecoUnitario().multiply(new BigDecimal(quantidade)));
+        this.valorTotal = this.valorTotal.add(item.getPrecoUnitario().multiply(new BigDecimal(item.getQuantidade())));
     }
 
     public Long getId() {

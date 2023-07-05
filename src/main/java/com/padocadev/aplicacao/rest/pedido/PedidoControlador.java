@@ -26,7 +26,7 @@ public class PedidoControlador {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<PedidoResposta>> buscaPedido() {
+    public ResponseEntity<List<PedidoResposta>> buscaPedidos() {
         List<Pedido> pedidos = buscaTodosPedidosCasoDeUso.buscarTodosPedidosNaoFinalizados();
         List<PedidoResposta> todosPedidos = pedidos.stream().map(PedidoResposta::new).toList();
         return ResponseEntity.ok(todosPedidos);

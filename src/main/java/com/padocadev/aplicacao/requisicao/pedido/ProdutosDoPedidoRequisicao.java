@@ -1,25 +1,11 @@
 package com.padocadev.aplicacao.requisicao.pedido;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-public class ProdutosDoPedidoRequisicao {
-
-    @NotBlank
-    private Long produtoId;
-
-    @NotBlank
-    private int quantidade;
+public record ProdutosDoPedidoRequisicao(@NotNull Long produtoId, @NotNull int quantidade) {
 
     public ProdutosDoPedidoRequisicao(Long produtoId, int quantidade) {
         this.produtoId = produtoId;
         this.quantidade = quantidade;
-    }
-
-    public Long getProdutoId() {
-        return produtoId;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
     }
 }
