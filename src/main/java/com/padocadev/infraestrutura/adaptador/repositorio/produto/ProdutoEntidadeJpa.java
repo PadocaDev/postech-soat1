@@ -32,11 +32,11 @@ public class ProdutoEntidadeJpa {
     public ProdutoEntidadeJpa() {
     }
 
-    public ProdutoEntidadeJpa(LocalDateTime dataCadastro, String nome, Categoria categoria, BigDecimal preco) {
-        this.dataCadastro = dataCadastro;
-        this.nome = nome;
-        this.categoria = categoria;
-        this.preco = preco;
+    public ProdutoEntidadeJpa(Produto produto) {
+        this.dataCadastro = produto.getDataCadastro();
+        this.nome = produto.getNome();
+        this.categoria = produto.getCategoria();
+        this.preco = produto.getPreco();
     }
 
     public ProdutoEntidadeJpa(Produto produto) {
@@ -79,7 +79,13 @@ public class ProdutoEntidadeJpa {
         this.preco = preco;
     }
 
-    public Produto paraProduto() {
-        return new Produto(nome, categoria, preco);
+    public Produto converteParaProduto() {
+        return new Produto(id, dataCadastro, nome, categoria, preco);
+    }
+
+    public void atualiza(Produto produtoParaEditar) {
+        this.nome = produtoParaEditar.getNome();
+        this.preco = produtoParaEditar.getPreco();
+        this.categoria = produtoParaEditar.getCategoria();
     }
 }

@@ -14,11 +14,10 @@ public class CriaClienteCasoDeUso implements CriaClienteCasoDeUsoPorta {
 
     @Override
     public Cliente criar(Cliente cliente) {
-        if (clienteRepositorioAdaptadorPorta.existeClienteComCpf(cliente.getCpf()) || clienteRepositorioAdaptadorPorta.existeClienteComEmail(cliente.getEmail())) {
+        if (clienteRepositorioAdaptadorPorta.existeComCpf(cliente.getCpf()) || clienteRepositorioAdaptadorPorta.existeComEmail(cliente.getEmail())) {
             throw new JaExisteClienteExcecao();
         }
 
-        Cliente clienteCriado = clienteRepositorioAdaptadorPorta.criarCliente(cliente);
-        return clienteCriado;
+        return clienteRepositorioAdaptadorPorta.criar(cliente);
     }
 }

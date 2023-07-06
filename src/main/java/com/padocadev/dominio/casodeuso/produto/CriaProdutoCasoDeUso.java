@@ -14,8 +14,8 @@ public class CriaProdutoCasoDeUso implements CriaProdutoCasoDeUsoPorta {
     }
 
     @Override
-    public Produto criar(Produto produto) {
+    public Produto cria(Produto produto) {
         if (produtoRepositorioAdaptadorPorta.existeProdutoComNome(produto.getNome())) throw new JaExisteProdutoExcecao();
-       return produtoRepositorioAdaptadorPorta.criarProduto(produto);
+       return produtoRepositorioAdaptadorPorta.cria(produto);
     }
 }

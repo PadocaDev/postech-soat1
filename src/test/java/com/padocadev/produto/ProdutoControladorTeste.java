@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.padocadev.dominio.entidade.produto.Categoria.ACOMPANHAMENTO;
 import static com.padocadev.dominio.entidade.produto.Categoria.SOBREMESA;
 import static java.math.BigDecimal.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -35,7 +34,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_informacoes_corretas_de_produto_existente_apos_a_busca_por_id() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         mockMvc.perform(get("/produtos/{produtoId}", produto.getId()))
                 .andExpect(status().isOk())
@@ -50,7 +49,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_o_erro_produto_não_existe_quando_não_existir_um_produto_com_o_id_informado() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         mockMvc.perform(get("/produtos/{produtoId}", 12345678911l))
                 .andExpect(status().isNotFound())
@@ -78,7 +77,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_o_erro_ja_existe_produto_quando_tentar_criar_um_produto_com_nome_ja_existente() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         ProdutoRequisicao novoProdutoRequisicao = new ProdutoRequisicao("Sorvete", ACOMPANHAMENTO, valueOf(13.50));
 
@@ -94,7 +93,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_informacoes_corretas_de_produto_existente_apos_a_edicao() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoParaEdicaoRequisicao = new ProdutoRequisicao("Pastel de nata", SOBREMESA, TEN);
         mockMvc.perform(post("/produtos/{produtoId}/edita", produto.getId())
@@ -112,10 +111,10 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
     @Transactional
     void deve_retornar_o_erro_ja_existe_produto_quando_tentar_editar_um_produto_com_nome_ja_existente() throws Exception {
         ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
-        criaProdutoCasoDeUsoPorta.criar(produtoRequisicao.converteParaProduto());
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoASerEditadoRequisicao = new ProdutoRequisicao("Pastel de nata", SOBREMESA, TEN);
-        Produto produto = criaProdutoCasoDeUsoPorta.criar(produtoASerEditadoRequisicao.converteParaProduto());
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoASerEditadoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoParaEdicaoRequisicao = new ProdutoRequisicao("Sorvete", ACOMPANHAMENTO, TWO);
         mockMvc.perform(post("/produtos/{produtoId}/edita", produto.getId())
@@ -125,4 +124,43 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.erro").value("Produto com o dados informados já existe!"));
     }
+
+    @Test
+    @Transactional
+    void deve_retornar_o_erro_produto_não_existe_quando_tentar_remover_um_produto_com_id_inexistente() throws Exception {
+        ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
+
+        mockMvc.perform(delete("/produtos/{produtoId}/remove", 12345678911l))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.erro").value("Produto com o id informado não existe!"));
+    }
+
+    @Test
+    @Transactional
+    void deve_excluir_um_produto_com_id_existente() throws Exception {
+        ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
+        Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
+
+        mockMvc.perform(delete("/produtos/{produtoId}/remove", produto.getId()))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @Transactional
+    void deve_retornar_lista_apos_a_busca_por_categoria() throws Exception {
+        ProdutoRequisicao produtoRequisicao = new ProdutoRequisicao("Sorvete", SOBREMESA, TEN);
+        criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
+
+        mockMvc.perform(get("/produtos/categoria/{categoria}", SOBREMESA))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").isNotEmpty())
+                .andExpect(jsonPath("$[0].nome").value(produtoRequisicao.nome()))
+                .andExpect(jsonPath("$[0].categoria").value(produtoRequisicao.categoria().toString()))
+                .andExpect(jsonPath("$[0].preco").value(produtoRequisicao.preco()));
+    }
+
+
 }

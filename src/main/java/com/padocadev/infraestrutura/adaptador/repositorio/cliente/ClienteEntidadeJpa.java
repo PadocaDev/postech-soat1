@@ -31,11 +31,15 @@ public class ClienteEntidadeJpa {
     public ClienteEntidadeJpa() {
     }
 
-    public ClienteEntidadeJpa(LocalDateTime dataCadastro, String nome, String email, String cpf) {
-        this.dataCadastro = dataCadastro;
-        this.nome = nome;
-        this.email = email;
-        this.cpf = cpf;
+    public ClienteEntidadeJpa(Cliente cliente) {
+        this.dataCadastro = cliente.getDataCadastro();
+        this.nome = cliente.getNome();
+        this.email = cliente.getEmail();
+        this.cpf = cliente.getCpf();
+    }
+
+    public Cliente converteParaCliente() {
+        return new Cliente(id, dataCadastro, nome, email, cpf);
     }
 
     public ClienteEntidadeJpa(Cliente cliente) {
