@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>padocadev</name>
-	<description>project com Spring Boot para a padocadev </description>
+	<description>Projeto feito para a pós graduação em Arquitetura de Software - FIAP + Alura</description>
 	<properties>
 		<java.version>20</java.version>
 	</properties>

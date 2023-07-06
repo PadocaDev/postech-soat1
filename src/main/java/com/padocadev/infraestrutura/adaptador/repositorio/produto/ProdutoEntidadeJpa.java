@@ -32,7 +32,15 @@ public class ProdutoEntidadeJpa {
     public ProdutoEntidadeJpa() {
     }
 
+//    public ProdutoEntidadeJpa(Produto produto) {
+//        this.dataCadastro = produto.getDataCadastro();
+//        this.nome = produto.getNome();
+//        this.categoria = produto.getCategoria();
+//        this.preco = produto.getPreco();
+//    }
+
     public ProdutoEntidadeJpa(Produto produto) {
+        this.id = produto.getId();
         this.dataCadastro = produto.getDataCadastro();
         this.nome = produto.getNome();
         this.categoria = produto.getCategoria();

@@ -61,4 +61,8 @@ public class ClienteEntidadeJpa {
     public String getCpf() {
         return cpf;
     }
+
+    public Cliente paraCliente() {
+        return new Cliente(id, dataCadastro, nome, email, cpf);
+    }
 }
