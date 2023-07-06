@@ -2,11 +2,10 @@ package com.padocadev.pedido;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.padocadev.TestContainerTesteDeIntegracao;
-import com.padocadev.aplicacao.requisicao.pedido.PedidoRequisicao;
-import com.padocadev.aplicacao.requisicao.pedido.ProdutosDoPedidoRequisicao;
+import com.padocadev.dominio.casodeuso.pedido.objetosDeValor.PedidoRequisicao;
+import com.padocadev.dominio.casodeuso.pedido.objetosDeValor.ProdutosDoPedidoRequisicao;
 import com.padocadev.aplicacao.resposta.pedido.PedidoResposta;
 import com.padocadev.dominio.entidade.pedido.Pedido;
-import com.padocadev.dominio.entidade.pedido.Status;
 import com.padocadev.dominio.entidade.produto.Produto;
 import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUsoPorta;
 import com.padocadev.dominio.porta.pedido.CriaPedidoCasoDeUsoPorta;

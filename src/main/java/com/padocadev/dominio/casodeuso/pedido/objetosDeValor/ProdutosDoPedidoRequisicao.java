@@ -1,4 +1,4 @@
-package com.padocadev.aplicacao.requisicao.pedido;
+package com.padocadev.dominio.casodeuso.pedido.objetosDeValor;
 
 import jakarta.validation.constraints.NotNull;
 

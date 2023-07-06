@@ -1,6 +1,6 @@
 package com.padocadev.dominio.casodeuso.pedido;
 
-import com.padocadev.aplicacao.requisicao.pedido.PedidoRequisicao;
+import com.padocadev.dominio.casodeuso.pedido.objetosDeValor.PedidoRequisicao;
 import com.padocadev.dominio.entidade.cliente.Cliente;
 import com.padocadev.dominio.entidade.pedido.ItemPedido;
 import com.padocadev.dominio.entidade.pedido.Pedido;
