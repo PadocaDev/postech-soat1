@@ -42,13 +42,6 @@ public class ClienteEntidadeJpa {
         return new Cliente(id, dataCadastro, nome, email, cpf);
     }
 
-    public ClienteEntidadeJpa(Cliente cliente) {
-        this.dataCadastro = cliente.getDataCadastro();
-        this.nome = cliente.getNome();
-        this.email = cliente.getEmail();
-        this.cpf = cliente.getCpf();
-    }
-
     public Long getId() {
         return id;
     }

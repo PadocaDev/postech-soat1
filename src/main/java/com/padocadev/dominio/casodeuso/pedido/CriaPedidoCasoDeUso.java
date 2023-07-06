@@ -25,7 +25,7 @@ public class CriaPedidoCasoDeUso implements CriaPedidoCasoDeUsoPorta {
 
     @Override
     public Pedido criar(PedidoRequisicao pedidoRequisicao) {
-        Cliente cliente = clienteRepositorioAdaptadorPorta.buscaClientePorCpf(pedidoRequisicao.clienteCpf()).orElse(null);
+        Cliente cliente = clienteRepositorioAdaptadorPorta.buscaPorCpf(pedidoRequisicao.clienteCpf()).orElse(null);
         Pedido pedido = new Pedido(cliente);
         pedidoRequisicao.produtosPedidos().forEach(produtoPedido -> {
             Produto produto = produtoRepositorioAdaptadorJpa.buscaPorId(produtoPedido.produtoId()).orElseThrow(ProdutoNaoExisteExcecao::new);
