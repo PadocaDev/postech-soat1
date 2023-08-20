@@ -34,9 +34,8 @@ public class PedidoControlador {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<PedidoResposta> criaPedido(@RequestBody @Valid PedidoRequisicao pedidoRequisicao) {
+    public ResponseEntity<String> criaPedido(@RequestBody @Valid PedidoRequisicao pedidoRequisicao) {
         Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao);
-        PedidoResposta pedidoResposta = new PedidoResposta(pedidoCriado);
-        return ResponseEntity.created(URI.create("/todos")).body(pedidoResposta);
+        return ResponseEntity.ok(pedidoCriado.getNumeroPedido());
     }
 }
