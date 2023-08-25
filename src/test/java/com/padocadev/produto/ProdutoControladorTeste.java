@@ -96,10 +96,10 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
         Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoParaEdicaoRequisicao = new ProdutoRequisicao("Pastel de nata", SOBREMESA, TEN);
-        mockMvc.perform(post("/produtos/{produtoId}/edita", produto.getId())
+        mockMvc.perform(put("/produtos/{produtoId}/edita", produto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(produtoParaEdicaoRequisicao)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.nome").value(produtoParaEdicaoRequisicao.nome()))
@@ -117,7 +117,7 @@ class ProdutoControladorTeste extends TestContainerTesteDeIntegracao {
         Produto produto = criaProdutoCasoDeUsoPorta.cria(produtoASerEditadoRequisicao.converteParaProduto());
 
         ProdutoRequisicao produtoParaEdicaoRequisicao = new ProdutoRequisicao("Sorvete", ACOMPANHAMENTO, TWO);
-        mockMvc.perform(post("/produtos/{produtoId}/edita", produto.getId())
+        mockMvc.perform(put("/produtos/{produtoId}/edita", produto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(produtoParaEdicaoRequisicao)))
                 .andExpect(status().isConflict())

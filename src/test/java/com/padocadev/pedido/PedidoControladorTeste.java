@@ -2,9 +2,9 @@ package com.padocadev.pedido;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.padocadev.TestContainerTesteDeIntegracao;
+import com.padocadev.aplicacao.resposta.pedido.PedidoResposta;
 import com.padocadev.dominio.casodeuso.pedido.objetosDeValor.PedidoRequisicao;
 import com.padocadev.dominio.casodeuso.pedido.objetosDeValor.ProdutosDoPedidoRequisicao;
-import com.padocadev.aplicacao.resposta.pedido.PedidoResposta;
 import com.padocadev.dominio.entidade.pedido.Pedido;
 import com.padocadev.dominio.entidade.produto.Produto;
 import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUsoPorta;
@@ -55,12 +55,12 @@ public class PedidoControladorTeste extends TestContainerTesteDeIntegracao {
         Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
 
-        criaProdutoCasoDeUso.criar(primeiroProduto);
-        criaProdutoCasoDeUso.criar(segundoProduto);
+        Produto primeiroProdutoSalvo = criaProdutoCasoDeUso.cria(primeiroProduto);
+        Produto segundoProdutoSalvo = criaProdutoCasoDeUso.cria(segundoProduto);
 
         List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
-        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProduto.getId(), 1));
-        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProduto.getId(), 2));
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 2));
 
         PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
 
@@ -97,12 +97,12 @@ public class PedidoControladorTeste extends TestContainerTesteDeIntegracao {
         Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
 
-        criaProdutoCasoDeUso.criar(primeiroProduto);
-        criaProdutoCasoDeUso.criar(segundoProduto);
+        Produto primeiroProdutoSalvo = criaProdutoCasoDeUso.cria(primeiroProduto);
+        Produto segundoProdutoSalvo = criaProdutoCasoDeUso.cria(segundoProduto);
 
         List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
-        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProduto.getId(), 1));
-        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProduto.getId(), 2));
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 2));
 
         PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
 
