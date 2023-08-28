@@ -22,7 +22,7 @@ public class ItemPedidoEntidadeJpa {
     private ProdutoEntidadeJpa produto;
 
     @NotNull
-    private int quantidade;
+    private long quantidade;
 
     @NotNull
     private BigDecimal precoUnitario;
@@ -53,7 +53,7 @@ public class ItemPedidoEntidadeJpa {
         return produto;
     }
 
-    public int getQuantidade() {
+    public long getQuantidade() {
         return quantidade;
     }
 

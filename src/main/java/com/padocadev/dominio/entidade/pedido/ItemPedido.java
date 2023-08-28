@@ -10,10 +10,9 @@ public class ItemPedido {
     private Pedido pedido;
     private Produto produto;
     private BigDecimal precoUnitario;
-    private int quantidade;
+    private long quantidade;
 
-
-    public ItemPedido(int quantidade, Produto produto) {
+    public ItemPedido(long quantidade, Produto produto) {
         this.quantidade = quantidade;
         this.produto = produto;
         this.precoUnitario = produto.getPreco();
@@ -35,7 +34,23 @@ public class ItemPedido {
         return produto.getPreco();
     }
 
-    public int getQuantidade() {
+    public long getQuantidade() {
         return quantidade;
+    }
+
+    public String getIdDoProdutoComoString() {
+        return this.produto.getIdComoString();
+    }
+
+    public String getNomeDoProduto() {
+        return this.produto.getNome();
+    }
+
+    public String getNomeDaCategoria() {
+        return this.produto.getNomeDaCategoria();
+    }
+
+    public BigDecimal getValorTotalDoItem() {
+        return this.precoUnitario.multiply(new BigDecimal(this.quantidade));
     }
 }

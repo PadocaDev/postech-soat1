@@ -1,20 +1,28 @@
 package com.padocadev.infraestrutura.configuracao;
 
-import com.padocadev.dominio.casodeuso.pedido.BuscaPedidoCasoDeUso;
-import com.padocadev.dominio.casodeuso.pedido.CriaPedidoCasoDeUso;
-import com.padocadev.dominio.porta.pedido.*;
-import com.padocadev.infraestrutura.adaptador.repositorio.cliente.ClienteRepositorioAdaptadorJpa;
 import com.padocadev.dominio.casodeuso.cliente.BuscaClientePorCpfCasoDeUso;
 import com.padocadev.dominio.casodeuso.cliente.CriaClienteCasoDeUso;
+import com.padocadev.dominio.casodeuso.pagamento.GeraCodigoQRCasoDeUso;
+import com.padocadev.dominio.casodeuso.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUso;
+import com.padocadev.dominio.casodeuso.pedido.BuscaPedidoCasoDeUso;
+import com.padocadev.dominio.casodeuso.pedido.CriaPedidoCasoDeUso;
 import com.padocadev.dominio.casodeuso.produto.*;
 import com.padocadev.dominio.porta.cliente.BuscaClientePorCpfCasoDeUsoPorta;
 import com.padocadev.dominio.porta.cliente.CriaClienteCasoDeUsoPorta;
-import com.padocadev.infraestrutura.adaptador.repositorio.pedido.PedidoRepositorioAdaptadorJpa;
+import com.padocadev.dominio.porta.pagamento.GeraCodigoQRCasoDeUsoPorta;
+import com.padocadev.dominio.porta.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUsoPorta;
+import com.padocadev.dominio.porta.pedido.BuscaTodosPedidosCasoDeUsoPorta;
+import com.padocadev.dominio.porta.pedido.CriaPedidoCasoDeUsoPorta;
 import com.padocadev.dominio.porta.produto.*;
 import com.padocadev.infraestrutura.adaptador.repositorio.cliente.ClienteRepositorioAdaptadorJpa;
+import com.padocadev.infraestrutura.adaptador.repositorio.pedido.PedidoRepositorioAdaptadorJpa;
 import com.padocadev.infraestrutura.adaptador.repositorio.produto.ProdutoRepositorioAdaptadorJpa;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.BufferedImageHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+
+import java.awt.image.BufferedImage;
 
 @Configuration
 public class BeanConfiguracao {
@@ -30,13 +38,23 @@ public class BeanConfiguracao {
     }
 
     @Bean
-    CriaPedidoCasoDeUsoPorta criaPedidoCasoDeUsoPorta(ClienteRepositorioAdaptadorJpa clienteRepositorioAdaptadorJpa, PedidoRepositorioAdaptadorJpa pedidoRepositorioAdaptadorJpa, ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa ) {
+    CriaPedidoCasoDeUsoPorta criaPedidoCasoDeUsoPorta(ClienteRepositorioAdaptadorJpa clienteRepositorioAdaptadorJpa, PedidoRepositorioAdaptadorJpa pedidoRepositorioAdaptadorJpa, ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa) {
         return new CriaPedidoCasoDeUso(pedidoRepositorioAdaptadorJpa, produtoRepositorioAdaptadorJpa, clienteRepositorioAdaptadorJpa);
     }
 
     @Bean
     BuscaTodosPedidosCasoDeUsoPorta buscaTodosPedidosCasoDeUso(PedidoRepositorioAdaptadorJpa pedidoRepositorioAdaptadorJpa) {
         return new BuscaPedidoCasoDeUso(pedidoRepositorioAdaptadorJpa);
+    }
+
+    @Bean
+    GeraCodigoQRCasoDeUsoPorta geraCodigoQRCasoDeUso() {
+        return new GeraCodigoQRCasoDeUso();
+    }
+
+    @Bean
+    NotificaPagamentoCriacaoPedidoCasoDeUsoPorta notificaPagamentoCriacaoPedidoCasoDeUso() {
+        return new NotificaPagamentoCriacaoPedidoCasoDeUso();
     }
 
     @Bean
@@ -61,5 +79,10 @@ public class BeanConfiguracao {
     @Bean
     BuscaProdutoPorCategoriaCasoDeUsoPorta buscaProdutoPorCategoriaCasoDeUsoPorta(ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa) {
         return new BuscaProdutoPorCategoriaCasoDeUso(produtoRepositorioAdaptadorJpa);
+    }
+
+    @Bean
+    public HttpMessageConverter<BufferedImage> createImageHttpMessageConverter() {
+        return new BufferedImageHttpMessageConverter();
     }
 }

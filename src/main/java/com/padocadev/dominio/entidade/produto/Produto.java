@@ -51,6 +51,10 @@ public class Produto {
         return this.preco;
     }
 
+    public String getIdComoString() {
+        return this.id.toString();
+    }
+
     public void atualiza(ProdutoEntidadeJpa produtoExistenteEntidadeJpa) {
         produtoExistenteEntidadeJpa.setNome(this.nome);
         produtoExistenteEntidadeJpa.setCategoria(this.categoria);
@@ -72,5 +76,9 @@ public class Produto {
     @Override
     public int hashCode() {
         return Objects.hash(id, dataCadastro, nome, categoria, preco);
+    }
+
+    public String getNomeDaCategoria() {
+        return this.categoria.name();
     }
 }

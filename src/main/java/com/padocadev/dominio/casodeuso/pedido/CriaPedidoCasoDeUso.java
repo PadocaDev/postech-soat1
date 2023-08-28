@@ -17,7 +17,9 @@ public class CriaPedidoCasoDeUso implements CriaPedidoCasoDeUsoPorta {
     private final ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa;
     private final ClienteRepositorioAdaptadorPorta clienteRepositorioAdaptadorPorta;
 
-    public CriaPedidoCasoDeUso(PedidoRepositorioAdaptadorPorta pedidoRepositorioAdaptadorPorta, ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa, ClienteRepositorioAdaptadorPorta clienteRepositorioAdaptadorPorta) {
+    public CriaPedidoCasoDeUso(PedidoRepositorioAdaptadorPorta pedidoRepositorioAdaptadorPorta,
+                               ProdutoRepositorioAdaptadorJpa produtoRepositorioAdaptadorJpa,
+                               ClienteRepositorioAdaptadorPorta clienteRepositorioAdaptadorPorta) {
         this.pedidoRepositorioAdaptadorPorta = pedidoRepositorioAdaptadorPorta;
         this.produtoRepositorioAdaptadorJpa = produtoRepositorioAdaptadorJpa;
         this.clienteRepositorioAdaptadorPorta = clienteRepositorioAdaptadorPorta;
@@ -28,10 +30,10 @@ public class CriaPedidoCasoDeUso implements CriaPedidoCasoDeUsoPorta {
         Cliente cliente = clienteRepositorioAdaptadorPorta.buscaPorCpf(pedidoRequisicao.clienteCpf()).orElse(null);
         Pedido pedido = new Pedido(cliente);
         pedidoRequisicao.produtosPedidos().forEach(produtoPedido -> {
-            Produto produto = produtoRepositorioAdaptadorJpa.buscaPorId(produtoPedido.produtoId()).orElseThrow(ProdutoNaoExisteExcecao::new);
+            Produto produto = produtoRepositorioAdaptadorJpa.buscaPorId(produtoPedido.produtoId())
+                    .orElseThrow(ProdutoNaoExisteExcecao::new);
             pedido.adicionarItem(new ItemPedido(produtoPedido.quantidade(), produto));
         });
-
         return pedidoRepositorioAdaptadorPorta.criar(pedido);
     }
 }
