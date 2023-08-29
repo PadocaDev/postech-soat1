@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.padocadev.entities.pedido.Status.RECEBIDO;
-import static com.padocadev.dominio.entidade.pedido.Status.RECEBIDO;
 import static java.math.BigDecimal.ZERO;
 import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
@@ -26,7 +25,13 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    public Pedido(Cliente cliente, String numeroPedido, LocalDateTime dataPedido, List<ItemPedido> itens, BigDecimal valorTotal, Status status, LocalDateTime dataDeAtualizacao) {
+    public Pedido(Cliente cliente,
+                  String numeroPedido,
+                  LocalDateTime dataPedido,
+                  List<ItemPedido> itens,
+                  BigDecimal valorTotal,
+                  Status status,
+                  LocalDateTime dataDeAtualizacao) {
         this.cliente = cliente;
         this.numeroPedido = numeroPedido;
         this.dataPedido = dataPedido;

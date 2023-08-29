@@ -1,12 +1,13 @@
-package com.padocadev.dominio.casodeuso.pagamento;
+package com.padocadev.usecases.pagamento;
 
-import com.padocadev.dominio.entidade.pedido.Pedido;
-import com.padocadev.dominio.porta.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUsoPorta;
+import com.padocadev.entities.pagamento.objetosDeValor.DadosDoPedidoParaPagamento;
+import com.padocadev.interfaces.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUsoInterface;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+import com.padocadev.entities.pedido.Pedido;
 
-public class NotificaPagamentoCriacaoPedidoCasoDeUso implements NotificaPagamentoCriacaoPedidoCasoDeUsoPorta {
+public class NotificaPagamentoCriacaoPedidoCasoDeUso implements NotificaPagamentoCriacaoPedidoCasoDeUsoInterface {
 
     @Value("${mercado.pago.access.token}")
     private String API_ACCESS_TOKEN;

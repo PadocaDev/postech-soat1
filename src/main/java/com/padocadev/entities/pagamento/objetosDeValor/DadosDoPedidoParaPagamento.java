@@ -1,9 +1,9 @@
-package com.padocadev.dominio.casodeuso.pagamento;
+package com.padocadev.entities.pagamento.objetosDeValor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.padocadev.dominio.entidade.pedido.Pedido;
+import com.padocadev.entities.pedido.Pedido;
 
 import java.math.BigDecimal;
 import java.util.List;

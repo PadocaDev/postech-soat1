@@ -1,7 +1,8 @@
-package com.padocadev.dominio.casodeuso.pagamento;
+package com.padocadev.entities.pagamento.objetosDeValor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.padocadev.dominio.entidade.pedido.ItemPedido;
+import com.padocadev.entities.pedido.ItemPedido;
+
 
 import java.math.BigDecimal;
 

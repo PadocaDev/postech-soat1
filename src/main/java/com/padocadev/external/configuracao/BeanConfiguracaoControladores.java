@@ -2,6 +2,8 @@ package com.padocadev.external.configuracao;
 
 import com.padocadev.controllers.*;
 import com.padocadev.interfaces.cliente.*;
+import com.padocadev.interfaces.pagamento.GeraCodigoQRCasoDeUsoInterface;
+import com.padocadev.interfaces.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUsoInterface;
 import com.padocadev.interfaces.pedido.*;
 import com.padocadev.interfaces.produto.*;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +21,12 @@ public class BeanConfiguracaoControladores {
     @Bean
     PedidoControladorInterface pedidoControladorInterface(CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUsoInterface,
                                                           BuscaPedidoCasoDeUsoInterface buscaPedidoCasoDeUsoInterface,
+                                                          NotificaPagamentoCriacaoPedidoCasoDeUsoInterface notificaPagamentoCriacaoPedidoCasoDeUsoInterface,
+                                                          GeraCodigoQRCasoDeUsoInterface geraCodigoQRCasoDeUsoInterface,
                                                           PedidoGatewayInterface pedidoGatewayInterface,
                                                           ProdutoGatewayInterface produtoGatewayInterface,
                                                           ClienteGatewayInterface clienteGatewayInterface) {
-        return new PedidoControlador(criaPedidoCasoDeUsoInterface, buscaPedidoCasoDeUsoInterface, pedidoGatewayInterface, produtoGatewayInterface, clienteGatewayInterface);
+        return new PedidoControlador(criaPedidoCasoDeUsoInterface, buscaPedidoCasoDeUsoInterface, notificaPagamentoCriacaoPedidoCasoDeUsoInterface, geraCodigoQRCasoDeUsoInterface, pedidoGatewayInterface, produtoGatewayInterface, clienteGatewayInterface);
     }
 
     @Bean

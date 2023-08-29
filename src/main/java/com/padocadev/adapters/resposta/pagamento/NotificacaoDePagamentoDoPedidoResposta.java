@@ -1,4 +1,4 @@
-package com.padocadev.aplicacao.resposta.pagamento;
+package com.padocadev.adapters.resposta.pagamento;
 
 public class NotificacaoDePagamentoDoPedidoResposta {
     private String in_store_order_id;
