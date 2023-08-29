@@ -81,18 +81,8 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
         mockMvc.perform(post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(pedidoRequisicao)))
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.numeroPedido").isNotEmpty())
-                .andExpect(jsonPath("$.itensPedido[0].nomeProduto").value(pedidoRespostaAdaptador.itensPedido().get(0).nomeProduto()))
-                .andExpect(jsonPath("$.itensPedido[0].precoUnitario").value(pedidoRespostaAdaptador.itensPedido().get(0).precoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[0].quantidade").value(pedidoRespostaAdaptador.itensPedido().get(0).quantidade()))
-                .andExpect(jsonPath("$.itensPedido[1].nomeProduto").value(pedidoRespostaAdaptador.itensPedido().get(1).nomeProduto()))
-                .andExpect(jsonPath("$.itensPedido[1].precoUnitario").value(pedidoRespostaAdaptador.itensPedido().get(1).precoUnitario()))
-                .andExpect(jsonPath("$.itensPedido[1].quantidade").value(pedidoRespostaAdaptador.itensPedido().get(1).quantidade()))
-                .andExpect(jsonPath("$.valorTotal").value(pedidoRespostaAdaptador.valorTotal()))
-                .andExpect(jsonPath("$.status").value(pedidoRespostaAdaptador.status().toString()))
-                .andExpect(jsonPath("$.dataDeAtualizacao").value(pedidoRespostaAdaptador.dataDeAtualizacao()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.IMAGE_PNG_VALUE));
     }
 
     @Test

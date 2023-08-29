@@ -7,15 +7,18 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.padocadev.entities.pedido.Status.RECEBIDO;
+import static com.padocadev.dominio.entidade.pedido.Status.RECEBIDO;
+import static java.math.BigDecimal.ZERO;
 import static java.time.LocalDateTime.now;
+import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 
 public class Pedido {
     private Long id;
     private Cliente  cliente;
-    private String numeroPedido = UUID.randomUUID().toString().substring(0,6);
+    private String numeroPedido = randomNumeric(6);
     private LocalDateTime dataPedido = now();
     private List<ItemPedido> itensPedido = new ArrayList<>();
-    private BigDecimal valorTotal = BigDecimal.ZERO;
+    private BigDecimal valorTotal = ZERO;
     private Status status = RECEBIDO;
     private LocalDateTime dataDeAtualizacao = now();
 
