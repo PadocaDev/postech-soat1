@@ -28,7 +28,7 @@ conteinerização, Maven para gerenciamento de dependências e utilização de J
 # Entregáveis
 
 <details>
-  <summary> Primeiro trimestre</summary>
+  <summary> Primeira entrega</summary>
 
 1. [Documentação do sistema (DDD) utilizando a linguagem ubíqua](https://miro.com/app/board/uXjVMJITQpk=/?share_link_id=811300643755), dos seguintes fluxos:
     1. Realização do pedido e pagamento
@@ -49,6 +49,24 @@ conteinerização, Maven para gerenciamento de dependências e utilização de J
    executá-la corretamente. Para validação da POC, temos a seguinte limitação de infraestrutura:
     1. 1 instância para banco de dados
     2. 1 instância para executar aplicação
+
+</details>
+<details>
+  <summary> Segunda entrega</summary>
+
+1. Arquivos de configuração do Kubernetes
+   1. Deployment da aplicação com, ao menos, 2 pods
+   2. Service para Load Balancer do tipo NLB ou ALB
+   3. Configuração de acesso aos serviços da AWS parametrizados via secrets
+2. Refatorar o código utilizando Clean Code e Clean Architecture
+3. Alterar checkout do pedido para retornar a identificação
+4. Endpoint para consulta de status de pagamento do pedido, informando se foi aprovado ou não
+5. Webhook para receber confirmação de pagamento aprovado ou recusado
+6. Reordenação do resultado da lista de pedidos, seguindo o padrão: Pronto > Em Preparação > Recebido;
+Pedidos com status Finalizado não devem aparecer na lista.
+7. Endpoint para atualização do status do pedido
+8. Integração com o Mercado Pago para geração de QRCode para pagamento e integração
+com webhook para captação desses pagamentos.
 
 </details>
 
@@ -115,6 +133,10 @@ POST http://localhost:8080/pedidos
     ]
 }
 ```
+
+Resposta:
+
+![qrcode_pagamento.png](src%2Fmain%2Fresources%2Fimages%2Fqrcode_pagamento.png)
 
 ### Listar
 GET http://localhost:8080/pedidos/todos
