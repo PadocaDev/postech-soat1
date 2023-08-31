@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql:latest
+          env:
+                  - name: MYSQL_USER
+                    valueFrom:
+                      secretKeyRef:
+                        name: mysql-secret
+                        key: MYSQL_USER
+                  - name: MYSQL_PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: mysql-secret
+                        key: MYSQL_PASSWORD
+                  - name: MYSQL_ROOT_PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: mysql-secret
+                        key: MYSQL_ROOT_PASSWORD
+          ports:
+            - containerPort: 3306
+      restartPolicy: Always
+
