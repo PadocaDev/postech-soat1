@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguracaoControladores {
 
     @Bean
-    ClienteControladorInterface clienteControladorInterface(CriaClienteCasoDeUsoInterface criaClienteCasoDeUsoInterface,
+    public ClienteControladorInterface clienteControladorInterface(CriaClienteCasoDeUsoInterface criaClienteCasoDeUsoInterface,
                                                             BuscaClientePorCpfCasoDeUsoInterface buscaClientePorCpfCasoDeUsoInterface, ClienteGatewayInterface clienteGatewayInterface) {
         return new ClienteControlador(criaClienteCasoDeUsoInterface, buscaClientePorCpfCasoDeUsoInterface, clienteGatewayInterface);
     }
 
     @Bean
-    PedidoControladorInterface pedidoControladorInterface(CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUsoInterface,
+    public PedidoControladorInterface pedidoControladorInterface(CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUsoInterface,
                                                           BuscaPedidoCasoDeUsoInterface buscaPedidoCasoDeUsoInterface,
                                                           NotificaPagamentoCriacaoPedidoCasoDeUsoInterface notificaPagamentoCriacaoPedidoCasoDeUsoInterface,
                                                           GeraCodigoQRCasoDeUsoInterface geraCodigoQRCasoDeUsoInterface,
@@ -26,12 +26,14 @@ public class BeanConfiguracaoControladores {
                                                           ProdutoGatewayInterface produtoGatewayInterface,
                                                           ClienteGatewayInterface clienteGatewayInterface,
                                                           NotificaPagamentoGatewayInterface notificaPagamentoGateway,
-                                                          GeraCodigoQRGatewayInterface geraCodigoQRGateway) {
-        return new PedidoControlador(criaPedidoCasoDeUsoInterface, buscaPedidoCasoDeUsoInterface, notificaPagamentoCriacaoPedidoCasoDeUsoInterface, geraCodigoQRCasoDeUsoInterface, pedidoGatewayInterface, produtoGatewayInterface, clienteGatewayInterface, notificaPagamentoGateway, geraCodigoQRGateway);
+                                                          GeraCodigoQRGatewayInterface geraCodigoQRGateway,
+                                                          CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUso,
+                                                          PagamentoGatewayInterface pagamentoGateway) {
+        return new PedidoControlador(criaPedidoCasoDeUsoInterface, buscaPedidoCasoDeUsoInterface, notificaPagamentoCriacaoPedidoCasoDeUsoInterface, geraCodigoQRCasoDeUsoInterface, pedidoGatewayInterface, produtoGatewayInterface, clienteGatewayInterface, notificaPagamentoGateway, geraCodigoQRGateway, criaPagamentoCasoDeUso, pagamentoGateway);
     }
 
     @Bean
-    ProdutoControladorInterface produtoControladorInterface(CriaProdutoCasoDeUsoInterface criaProdutoCasoDeUsoInterface,
+    public ProdutoControladorInterface produtoControladorInterface(CriaProdutoCasoDeUsoInterface criaProdutoCasoDeUsoInterface,
                                                             BuscaProdutoPorIdCasoDeUsoInterface buscaProdutoPorIdCasoDeUsoInterface,
                                                             EditaProdutoCasoDeUsoInterface editaProdutoCasoDeUsoInterface,
                                                             RemoveProdutoCasoDeUsoInterface removeProdutoCasoDeUsoInterface,

@@ -29,7 +29,7 @@ public class DadosDoPedidoParaPagamento {
     private List<ItemPedidoParaPagamento> itens;
 
     public DadosDoPedidoParaPagamento(Pedido pedidoCriado) {
-        this.referenciaExterna = pedidoCriado.getNumeroPedido();
+        this.referenciaExterna = pedidoCriado.getId().toString();
         this.valorTotal = pedidoCriado.getValorTotal();
         this.itens = pedidoCriado.getItensPedido().stream().map(ItemPedidoParaPagamento::new).toList();
     }

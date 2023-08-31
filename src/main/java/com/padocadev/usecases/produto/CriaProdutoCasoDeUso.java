@@ -8,8 +8,8 @@ import com.padocadev.interfaces.produto.ProdutoGatewayInterface;
 public class CriaProdutoCasoDeUso implements CriaProdutoCasoDeUsoInterface {
 
     @Override
-    public Produto cria(Produto produto, ProdutoGatewayInterface produtoGatewayInterface) {
-        if (produtoGatewayInterface.existeProdutoComNome(produto.getNome())) throw new JaExisteProdutoExcecao();
-        return produtoGatewayInterface.cria(produto);
+    public Produto cria(Produto produto, ProdutoGatewayInterface produtoGateway) {
+        if (produtoGateway.existeProdutoComNome(produto.getNome())) throw new JaExisteProdutoExcecao();
+        return produtoGateway.cria(produto);
     }
 }

@@ -25,13 +25,15 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    public Pedido(Cliente cliente,
+    public Pedido(Long id,
+                  Cliente cliente,
                   String numeroPedido,
                   LocalDateTime dataPedido,
                   List<ItemPedido> itens,
                   BigDecimal valorTotal,
                   Status status,
                   LocalDateTime dataDeAtualizacao) {
+        this.id = id;
         this.cliente = cliente;
         this.numeroPedido = numeroPedido;
         this.dataPedido = dataPedido;

@@ -22,6 +22,8 @@ public class PedidoControlador implements PedidoControladorInterface {
     private final ClienteGatewayInterface clienteGateway;
     private final NotificaPagamentoGatewayInterface notificaPagamentoGateway;
     private final GeraCodigoQRGatewayInterface geraCodigoQRGateway;
+    private final CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUso;
+    private final PagamentoGatewayInterface pagamentoGateway;
 
     public PedidoControlador(CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUso,
                              BuscaPedidoCasoDeUsoInterface buscaPedidoCasoDeUso,
@@ -30,7 +32,7 @@ public class PedidoControlador implements PedidoControladorInterface {
                              PedidoGatewayInterface pedidoGateway,
                              ProdutoGatewayInterface produtoGateway,
                              ClienteGatewayInterface clienteGateway, NotificaPagamentoGatewayInterface notificaPagamentoGateway,
-                             GeraCodigoQRGatewayInterface geraCodigoQRGateway) {
+                             GeraCodigoQRGatewayInterface geraCodigoQRGateway, CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUso, PagamentoGatewayInterface pagamentoGateway) {
         this.criaPedidoCasoDeUso = criaPedidoCasoDeUso;
         this.buscaPedidoCasoDeUso = buscaPedidoCasoDeUso;
         this.notificaPagamentoCriacaoPedidoCasoDeUso = notificaPagamentoCriacaoPedidoCasoDeUso;
@@ -40,6 +42,8 @@ public class PedidoControlador implements PedidoControladorInterface {
         this.clienteGateway = clienteGateway;
         this.notificaPagamentoGateway = notificaPagamentoGateway;
         this.geraCodigoQRGateway = geraCodigoQRGateway;
+        this.criaPagamentoCasoDeUso = criaPagamentoCasoDeUso;
+        this.pagamentoGateway = pagamentoGateway;
     }
 
     @Override
@@ -51,6 +55,7 @@ public class PedidoControlador implements PedidoControladorInterface {
     @Override
     public BufferedImage criaPedido(PedidoRequisicao pedidoRequisicao) {
         Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
+        criaPagamentoCasoDeUso.cria(pedidoCriado, pagamentoGateway);
         notificaPagamentoCriacaoPedidoCasoDeUso.notifica(pedidoCriado, notificaPagamentoGateway);
         return geraCodigoQRCasoDeUso.gera(pedidoCriado, geraCodigoQRGateway);
     }
