@@ -2,6 +2,7 @@ package com.padocadev.external.configuracao;
 
 import com.padocadev.exceptions.cliente.ClienteNaoExisteExcecao;
 import com.padocadev.exceptions.cliente.JaExisteClienteExcecao;
+import com.padocadev.exceptions.pagamento.GeracaoQrCodeExcecao;
 import com.padocadev.exceptions.produto.JaExisteProdutoExcecao;
 import com.padocadev.exceptions.produto.ProdutoNaoExisteExcecao;
 import org.springframework.http.*;
@@ -44,5 +45,13 @@ public class ManipuladorExcecaoCustomizado {
         MensagemDeErroApi mensagemDeErroApi = new MensagemDeErroApi(excecao.getMessage());
 
         return new ResponseEntity<>(mensagemDeErroApi, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(GeracaoQrCodeExcecao.class)
+    public ResponseEntity<Object> manipulaGeracaoQrCodeExcecao(JaExisteProdutoExcecao excecao) {
+
+        MensagemDeErroApi mensagemDeErroApi = new MensagemDeErroApi(excecao.getMessage());
+
+        return new ResponseEntity<>(mensagemDeErroApi, HttpStatus.SERVICE_UNAVAILABLE);
     }
 }

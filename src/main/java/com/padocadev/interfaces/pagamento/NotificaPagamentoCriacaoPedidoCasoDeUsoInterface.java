@@ -5,5 +5,5 @@ import com.padocadev.entities.pedido.Pedido;
 
 public interface NotificaPagamentoCriacaoPedidoCasoDeUsoInterface {
 
-    void notifica(Pedido pedido);
+    void notifica(Pedido pedido, NotificaPagamentoGatewayInterface notificaPagamentoGateway);
 }

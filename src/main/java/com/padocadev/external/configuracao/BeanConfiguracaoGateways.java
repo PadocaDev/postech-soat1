@@ -1,12 +1,18 @@
 package com.padocadev.external.configuracao;
 
 import com.padocadev.external.cliente.ClienteRepositorioCustom;
+import com.padocadev.external.pagamento.GeraCodigoQRMercadoPago;
+import com.padocadev.external.pagamento.NotificaPagamentoMercadoPago;
 import com.padocadev.external.pedido.PedidoRepositorioCustom;
 import com.padocadev.external.produto.ProdutoRepositorioCustom;
 import com.padocadev.gateways.cliente.ClienteGateway;
+import com.padocadev.gateways.pagamento.GeraCodigoQRGateway;
+import com.padocadev.gateways.pagamento.NotificaPagamentoGateway;
 import com.padocadev.gateways.pedido.PedidoGateway;
 import com.padocadev.gateways.produto.ProdutoGateway;
 import com.padocadev.interfaces.cliente.ClienteGatewayInterface;
+import com.padocadev.interfaces.pagamento.GeraCodigoQRGatewayInterface;
+import com.padocadev.interfaces.pagamento.NotificaPagamentoGatewayInterface;
 import com.padocadev.interfaces.pedido.PedidoGatewayInterface;
 import com.padocadev.interfaces.produto.ProdutoGatewayInterface;
 import org.springframework.context.annotation.Bean;
@@ -30,4 +36,13 @@ public class BeanConfiguracaoGateways {
         return new ClienteGateway(clienteRepositorioCustom);
     }
 
+    @Bean
+    public NotificaPagamentoGatewayInterface notificaPagamentoGatewayInterface(NotificaPagamentoMercadoPago notificaPagamentoMercadoPago) {
+        return new NotificaPagamentoGateway(notificaPagamentoMercadoPago);
+    }
+
+    @Bean
+    public GeraCodigoQRGatewayInterface geraCodigoQRGatewayInterface(GeraCodigoQRMercadoPago geraCodigoQRMercadoPago) {
+        return new GeraCodigoQRGateway(geraCodigoQRMercadoPago);
+    }
 }

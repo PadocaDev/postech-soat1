@@ -2,8 +2,7 @@ package com.padocadev.controllers;
 
 import com.padocadev.adapters.resposta.pedido.PedidoRespostaAdaptador;
 import com.padocadev.interfaces.cliente.ClienteGatewayInterface;
-import com.padocadev.interfaces.pagamento.GeraCodigoQRCasoDeUsoInterface;
-import com.padocadev.interfaces.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUsoInterface;
+import com.padocadev.interfaces.pagamento.*;
 import com.padocadev.interfaces.pedido.*;
 import com.padocadev.interfaces.produto.ProdutoGatewayInterface;
 import com.padocadev.entities.pedido.objetosDeValor.PedidoRequisicao;
@@ -21,6 +20,8 @@ public class PedidoControlador implements PedidoControladorInterface {
     private final PedidoGatewayInterface pedidoGateway;
     private final ProdutoGatewayInterface produtoGateway;
     private final ClienteGatewayInterface clienteGateway;
+    private final NotificaPagamentoGatewayInterface notificaPagamentoGateway;
+    private final GeraCodigoQRGatewayInterface geraCodigoQRGateway;
 
     public PedidoControlador(CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUso,
                              BuscaPedidoCasoDeUsoInterface buscaPedidoCasoDeUso,
@@ -28,7 +29,8 @@ public class PedidoControlador implements PedidoControladorInterface {
                              GeraCodigoQRCasoDeUsoInterface geraCodigoQRCasoDeUso,
                              PedidoGatewayInterface pedidoGateway,
                              ProdutoGatewayInterface produtoGateway,
-                             ClienteGatewayInterface clienteGateway) {
+                             ClienteGatewayInterface clienteGateway, NotificaPagamentoGatewayInterface notificaPagamentoGateway,
+                             GeraCodigoQRGatewayInterface geraCodigoQRGateway) {
         this.criaPedidoCasoDeUso = criaPedidoCasoDeUso;
         this.buscaPedidoCasoDeUso = buscaPedidoCasoDeUso;
         this.notificaPagamentoCriacaoPedidoCasoDeUso = notificaPagamentoCriacaoPedidoCasoDeUso;
@@ -36,6 +38,8 @@ public class PedidoControlador implements PedidoControladorInterface {
         this.pedidoGateway = pedidoGateway;
         this.produtoGateway = produtoGateway;
         this.clienteGateway = clienteGateway;
+        this.notificaPagamentoGateway = notificaPagamentoGateway;
+        this.geraCodigoQRGateway = geraCodigoQRGateway;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class PedidoControlador implements PedidoControladorInterface {
     @Override
     public BufferedImage criaPedido(PedidoRequisicao pedidoRequisicao) {
         Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
-        notificaPagamentoCriacaoPedidoCasoDeUso.notifica(pedidoCriado);
-        return geraCodigoQRCasoDeUso.gera(pedidoCriado);
+        notificaPagamentoCriacaoPedidoCasoDeUso.notifica(pedidoCriado, notificaPagamentoGateway);
+        return geraCodigoQRCasoDeUso.gera(pedidoCriado, geraCodigoQRGateway);
     }
 }
