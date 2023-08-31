@@ -3,14 +3,12 @@ package com.padocadev.external.configuracao;
 import com.padocadev.interfaces.cliente.BuscaClientePorCpfCasoDeUsoInterface;
 import com.padocadev.interfaces.cliente.CriaClienteCasoDeUsoInterface;
 import com.padocadev.interfaces.pagamento.*;
-import com.padocadev.interfaces.pedido.BuscaPedidoCasoDeUsoInterface;
-import com.padocadev.interfaces.pedido.CriaPedidoCasoDeUsoInterface;
+import com.padocadev.interfaces.pedido.*;
 import com.padocadev.interfaces.produto.*;
 import com.padocadev.usecases.cliente.BuscaClientePorCpfCasoDeUso;
 import com.padocadev.usecases.cliente.CriaClienteCasoDeUso;
 import com.padocadev.usecases.pagamento.*;
-import com.padocadev.usecases.pedido.BuscaPedidoCasoDeUso;
-import com.padocadev.usecases.pedido.CriaPedidoCasoDeUso;
+import com.padocadev.usecases.pedido.*;
 import com.padocadev.usecases.produto.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -80,6 +78,21 @@ public class BeanConfiguracaoCasosDeUso {
     @Bean
     public CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUsoInterface() {
         return new CriaPagamentoCasoDeUso();
+    }
+
+    @Bean
+    public ConfirmaPagamentoCasoDeUsoInterface confirmaPagamentoCasoDeUsoInterface() {
+        return new ConfirmaPagamentoCasoDeUso();
+    }
+
+    @Bean
+    public AtualizaStatusDoPedidoCasoDeUsoInterface atualizaStatusDoPedidoCasoDeUsoInterface() {
+        return new AtualizaStatusDoPedidoCasoDeUso();
+    }
+
+    @Bean
+    public ConsultaStatusDoPagamentoDoPedidoCasoDeUsoInterface consultaStatusDoPagamentoDoPedidoCasoDeUsoInterface() {
+        return new ConsultaStatusDoPagamentoDoPedidoCasoDeUso();
     }
 
     @Bean

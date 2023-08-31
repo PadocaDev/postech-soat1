@@ -9,6 +9,12 @@ public class Pagamento {
     private PagamentoStatus status = PagamentoStatus.PENDENTE;
     private Pedido pedido;
 
+    public Pagamento(Long id, PagamentoStatus status, Pedido pedido) {
+        this.id = id;
+        this.status = status;
+        this.pedido = pedido;
+    }
+
     public Pagamento(Pedido pedido) {
         this.pedido = pedido;
     }

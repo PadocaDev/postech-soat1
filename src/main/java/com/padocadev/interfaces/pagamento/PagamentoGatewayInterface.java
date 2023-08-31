@@ -2,7 +2,11 @@ package com.padocadev.interfaces.pagamento;
 
 import com.padocadev.entities.pagamento.Pagamento;
 
+import java.util.Optional;
+
 public interface PagamentoGatewayInterface {
 
-    void cria(Pagamento pagamento);
+    Pagamento cria(Pagamento pagamento);
+    Optional<Pagamento> buscaPorPedidoId(Long pedidoId);
+    void salva(Pagamento pagamento);
 }

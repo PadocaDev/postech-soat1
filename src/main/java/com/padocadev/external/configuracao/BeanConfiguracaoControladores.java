@@ -28,8 +28,9 @@ public class BeanConfiguracaoControladores {
                                                           NotificaPagamentoGatewayInterface notificaPagamentoGateway,
                                                           GeraCodigoQRGatewayInterface geraCodigoQRGateway,
                                                           CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUso,
-                                                          PagamentoGatewayInterface pagamentoGateway) {
-        return new PedidoControlador(criaPedidoCasoDeUsoInterface, buscaPedidoCasoDeUsoInterface, notificaPagamentoCriacaoPedidoCasoDeUsoInterface, geraCodigoQRCasoDeUsoInterface, pedidoGatewayInterface, produtoGatewayInterface, clienteGatewayInterface, notificaPagamentoGateway, geraCodigoQRGateway, criaPagamentoCasoDeUso, pagamentoGateway);
+                                                          PagamentoGatewayInterface pagamentoGateway,
+                                                          AtualizaStatusDoPedidoCasoDeUsoInterface atualizaStatusDoPedidoCasoDeUso) {
+        return new PedidoControlador(criaPedidoCasoDeUsoInterface, buscaPedidoCasoDeUsoInterface, notificaPagamentoCriacaoPedidoCasoDeUsoInterface, geraCodigoQRCasoDeUsoInterface, pedidoGatewayInterface, produtoGatewayInterface, clienteGatewayInterface, notificaPagamentoGateway, geraCodigoQRGateway, criaPagamentoCasoDeUso, pagamentoGateway, atualizaStatusDoPedidoCasoDeUso);
     }
 
     @Bean
@@ -40,5 +41,14 @@ public class BeanConfiguracaoControladores {
                                                             BuscaProdutoPorCategoriaCasoDeUsoInterface buscaProdutoPorCategoriaCasoDeUsoInterface,
                                                             ProdutoGatewayInterface produtoGatewayInterface) {
         return new ProdutoControlador(criaProdutoCasoDeUsoInterface, buscaProdutoPorIdCasoDeUsoInterface, editaProdutoCasoDeUsoInterface, removeProdutoCasoDeUsoInterface, buscaProdutoPorCategoriaCasoDeUsoInterface, produtoGatewayInterface);
+    }
+
+    @Bean
+    public PagamentoControladorInterface pagamentoControladorInterface(ConfirmaPagamentoCasoDeUsoInterface confirmaPagamentoCasoDeUsoInterface,
+                                                                       PagamentoGatewayInterface pagamentoGatewayInterface,
+                                                                       AtualizaStatusDoPedidoCasoDeUsoInterface atualizaStatusDoPedidoCasoDeUso,
+                                                                       PedidoGatewayInterface pedidoGateway,
+                                                                       ConsultaStatusDoPagamentoDoPedidoCasoDeUsoInterface consultaStatusDoPagamentoDoPedidoCasoDeUso) {
+        return new PagamentoControlador(confirmaPagamentoCasoDeUsoInterface, pagamentoGatewayInterface, atualizaStatusDoPedidoCasoDeUso, pedidoGateway, consultaStatusDoPagamentoDoPedidoCasoDeUso);
     }
 }
