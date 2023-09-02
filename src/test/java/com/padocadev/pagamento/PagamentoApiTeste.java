@@ -92,7 +92,7 @@ public class PagamentoApiTeste extends TestContainerTesteDeIntegracao {
                         .content(objectMapper.writeValueAsString(confirmacaoPagamentoAdaptador)))
                 .andExpect(status().isNoContent());
 
-        Optional<Pagamento> pagamentoAposAtualizacao = pagamentoGateway.buscaPorPedidoId(pagamentoCriado.getId());
+        Optional<Pagamento> pagamentoAposAtualizacao = pagamentoGateway.buscaPorPedidoId(pedidoCriado.getId());
         assertThat(pagamentoAposAtualizacao.get().getStatus()).isEqualTo(APROVADO);
 
         Optional<Pedido> pedidoAposAtualizacaoDoPagamento = pedidoGateway.buscarPedidoPorId(pedidoCriado.getId());
