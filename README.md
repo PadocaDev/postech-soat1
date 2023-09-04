@@ -20,7 +20,7 @@ impactando os negócios de forma negativa.
 
 Dessa forma, o objetivo do projeto do curso é desenvolver um sistema de autoatendimento de fast food, que é composto por uma série de dispositivos e
 interfaces que permitem aos clientes selecionar e fazer pedidos sem precisar interagir com um
-atendente, com funcionalidades de pagamento, criação, acompanhamentode e entrega do pedido.
+atendente, com funcionalidades de pagamento, criação, acompanhamento e entrega do pedido.
 
 # Descrição
 Projeto desenvolvido em Java 20 e Spring Framework, com banco de dados MySQL, Docker para
@@ -75,6 +75,54 @@ com webhook para captação desses pagamentos.
 # Execução
 1. Executar `git clone git@github.com:matheus-mr94/postech-soat1.git`
 2. Rodar `docker-compose up --build` na raiz do projeto
+
+# Executando com Kubernets
+
+1 - Crie um arquivo mysql-secret.yaml dentro do diretório kubernetes/mysql.
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+data:
+  MYSQL_ROOT_PASSWORD: {CHAVE}
+  MYSQL-DATABASE: {CHAVE}
+  MYSQL-USER: {CHAVE}
+  MYSQL-PASSWORD: {CHAVE}
+```
+
+Certifique-se de codificar as chaves em Base64 antes de inseri-las no arquivo.
+
+Em seguida, execute o comando a seguir para criar o objeto:
+
+```
+kubectl apply -f kubernetes/mysql/mysql-secret.yaml
+```
+
+2 - Configurar banco de dados
+
+Agora, configure os recursos do banco de dados. Primeiro, aplique o arquivo de solicitação de volume persistente:
+
+```
+kubectl apply -f kubernetes/mysql/mysql-persistentvolumeclaim.yaml
+```
+
+Em seguida, crie o deployment e o serviço MySQL:
+
+```
+kubectl apply -f kubernetes/mysql/mysql-deployment.yaml
+kubectl apply -f kubernetes/mysql/mysql-service.yaml
+```
+
+3 - Configurar a API
+
+Aplique o deployment e o serviço da aplicação:
+
+```
+kubectl apply -f kubernetes/app/app-deployment.yaml
+kubectl apply -f kubernetes/app/app-service.yaml
+```
 
 # Funcionalidades
 ## Cadastro do Cliente

@@ -34,3 +34,6 @@ build/
 
 ### db ###
 data/
+
+### secrets ###
+/kubernetes/mysql/mysql-secret.yaml
