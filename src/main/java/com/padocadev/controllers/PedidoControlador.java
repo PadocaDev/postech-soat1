@@ -2,16 +2,17 @@ package com.padocadev.controllers;
 
 import com.padocadev.adapters.requisicao.pedido.AtualizaStatusDoPedidoAdaptador;
 import com.padocadev.adapters.resposta.pedido.PedidoRespostaAdaptador;
-import com.padocadev.entities.pedido.Status;
+import com.padocadev.entities.pedido.Pedido;
+import com.padocadev.entities.pedido.objetosDeValor.PedidoRequisicao;
 import com.padocadev.interfaces.cliente.ClienteGatewayInterface;
 import com.padocadev.interfaces.pagamento.*;
 import com.padocadev.interfaces.pedido.*;
 import com.padocadev.interfaces.produto.ProdutoGatewayInterface;
-import com.padocadev.entities.pedido.objetosDeValor.PedidoRequisicao;
-import com.padocadev.entities.pedido.Pedido;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+
+import static com.padocadev.entities.pedido.Status.valueOf;
 
 public class PedidoControlador implements PedidoControladorInterface {
 
@@ -66,7 +67,10 @@ public class PedidoControlador implements PedidoControladorInterface {
 
     @Override
     public void atualizaStatusDoPedido(AtualizaStatusDoPedidoAdaptador atualizaStatusDoPedidoAdaptador) {
-        atualizaStatusDoPedidoCasoDeUso.atualizaStatusDoPedido(atualizaStatusDoPedidoAdaptador.idPedido(),
-                Status.valueOf(atualizaStatusDoPedidoAdaptador.statusDoPedido()), pedidoGateway);
+        atualizaStatusDoPedidoCasoDeUso.atualizaStatusDoPedido(
+                atualizaStatusDoPedidoAdaptador.idPedido(),
+                valueOf(atualizaStatusDoPedidoAdaptador.statusDoPedido()),
+                pedidoGateway
+        );
     }
 }

@@ -12,6 +12,7 @@ import com.padocadev.entities.pedido.objetosDeValor.PedidoRequisicao;
 import com.padocadev.entities.pedido.objetosDeValor.ProdutosDoPedidoRequisicao;
 import com.padocadev.entities.pedido.Pedido;
 import com.padocadev.entities.produto.Produto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static com.padocadev.entities.pedido.Status.AGUARDANDO_PAGAMENTO;
-import static com.padocadev.entities.pedido.Status.RECEBIDO;
+import static com.padocadev.entities.pedido.Status.*;
 import static com.padocadev.entities.produto.Categoria.ACOMPANHAMENTO;
 import static com.padocadev.entities.produto.Categoria.SOBREMESA;
 import static java.math.BigDecimal.TEN;
@@ -37,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
 
+    public static final String CLIENTE_CPF = "12345678910";
     @Autowired
     private MockMvc mockMvc;
 
@@ -51,6 +52,9 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Autowired
     private CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUso;
+
+    @Autowired
+    private AtualizaStatusDoPedidoCasoDeUsoInterface atualizaStatusDoPedidoCasoDeUso;
 
     @Autowired
     private ProdutoGatewayInterface produtoGateway;
@@ -69,16 +73,15 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
 
         Produto primeiroProdutoSalvo = criaProdutoCasoDeUso.cria(primeiroProduto, produtoGateway);
-        Produto segundoProdutoSalvo = criaProdutoCasoDeUso.cria(segundoProduto, produtoGateway);
+         Produto segundoProdutoSalvo = criaProdutoCasoDeUso.cria(segundoProduto, produtoGateway);
 
         List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
         produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
         produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 2));
 
-        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
+        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, CLIENTE_CPF);
 
-        Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
-        PedidoRespostaAdaptador pedidoRespostaAdaptador = new PedidoRespostaAdaptador(pedidoCriado);
+        criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
 
         mockMvc.perform(post("/pedidos")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -103,14 +106,12 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
         Produto primeiroProdutoSalvo = criaProdutoCasoDeUso.cria(primeiroProduto, produtoGateway);
         Produto segundoProdutoSalvo = criaProdutoCasoDeUso.cria(segundoProduto, produtoGateway);
 
-        List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
-        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
-        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 2));
+        PedidoRespostaAdaptador pedidoRecebidoRespostaAdaptador = getPedidoRecebidoRespostaAdaptador(primeiroProdutoSalvo, segundoProdutoSalvo);
+        PedidoRespostaAdaptador segundoPedidoRecebidoRespostaAdaptador = getPedidoRecebidoRespostaAdaptador(primeiroProdutoSalvo, segundoProdutoSalvo);
+        PedidoRespostaAdaptador pedidoProntoRespostaAdaptador = getPedidoProntoRespostaAdaptador(primeiroProdutoSalvo);
+        PedidoRespostaAdaptador pedidoEmPreparacaoRespostaAdaptador = getPedidoEmPreparacaoRespostaAdaptador(segundoProdutoSalvo);
+        geraPedidoAguardandoPagamentoRespostaAdaptador(primeiroProdutoSalvo, segundoProdutoSalvo);
 
-        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
-
-        Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
-        PedidoRespostaAdaptador pedidoRespostaAdaptador = new PedidoRespostaAdaptador(pedidoCriado);
 
         List<Pedido> pedidos = buscaPedidoCasoDeUso.buscarTodosPedidosNaoFinalizados(pedidoGateway);
         List<PedidoRespostaAdaptador> todosPedidos = pedidos.stream().map(PedidoRespostaAdaptador::new).toList();
@@ -119,21 +120,84 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].numeroPedido").value(todosPedidos.get(0).numeroPedido()))
-                .andExpect(jsonPath("$[0].itensPedido.[0].nomeProduto").value(pedidoRespostaAdaptador.itensPedido().get(0).nomeProduto()))
-                .andExpect(jsonPath("$[0].itensPedido.[0].precoUnitario").value(pedidoRespostaAdaptador.itensPedido().get(0).precoUnitario()))
-                .andExpect(jsonPath("$[0].itensPedido.[0].quantidade").value(pedidoRespostaAdaptador.itensPedido().get(0).quantidade()))
-                .andExpect(jsonPath("$[0].itensPedido.[1].nomeProduto").value(pedidoRespostaAdaptador.itensPedido().get(1).nomeProduto()))
-                .andExpect(jsonPath("$[0].itensPedido.[1].precoUnitario").value(pedidoRespostaAdaptador.itensPedido().get(1).precoUnitario()))
-                .andExpect(jsonPath("$[0].itensPedido.[1].quantidade").value(pedidoRespostaAdaptador.itensPedido().get(1).quantidade()))
-                .andExpect(jsonPath("$[0].valorTotal").value(pedidoRespostaAdaptador.valorTotal()))
-                .andExpect(jsonPath("$[0].status").value(pedidoRespostaAdaptador.status().toString()))
-                .andExpect(jsonPath("$[0].dataDeAtualizacao").value(pedidoRespostaAdaptador.dataDeAtualizacao()));
+                .andExpect(jsonPath("$[0].itensPedido.[0].nomeProduto").value(pedidoProntoRespostaAdaptador.itensPedido().get(0).nomeProduto()))
+                .andExpect(jsonPath("$[0].itensPedido.[0].precoUnitario").value(pedidoProntoRespostaAdaptador.itensPedido().get(0).precoUnitario()))
+                .andExpect(jsonPath("$[0].itensPedido.[0].quantidade").value(pedidoProntoRespostaAdaptador.itensPedido().get(0).quantidade()))
+                .andExpect(jsonPath("$[0].valorTotal").value(pedidoProntoRespostaAdaptador.valorTotal()))
+                .andExpect(jsonPath("$[0].status").value(pedidoProntoRespostaAdaptador.status().toString()))
+                .andExpect(jsonPath("$[0].dataDeAtualizacao").value(pedidoProntoRespostaAdaptador.dataDeAtualizacao()))
+                .andExpect(jsonPath("$[1].itensPedido.[0].nomeProduto").value(pedidoEmPreparacaoRespostaAdaptador.itensPedido().get(0).nomeProduto()))
+                .andExpect(jsonPath("$[1].itensPedido.[0].precoUnitario").value(pedidoEmPreparacaoRespostaAdaptador.itensPedido().get(0).precoUnitario()))
+                .andExpect(jsonPath("$[1].itensPedido.[0].quantidade").value(pedidoEmPreparacaoRespostaAdaptador.itensPedido().get(0).quantidade()))
+                .andExpect(jsonPath("$[1].valorTotal").value(pedidoEmPreparacaoRespostaAdaptador.valorTotal()))
+                .andExpect(jsonPath("$[1].status").value(pedidoEmPreparacaoRespostaAdaptador.status().toString()))
+                .andExpect(jsonPath("$[1].dataDeAtualizacao").value(pedidoEmPreparacaoRespostaAdaptador.dataDeAtualizacao()))
+                .andExpect(jsonPath("$[2].itensPedido.[0].nomeProduto").value(pedidoRecebidoRespostaAdaptador.itensPedido().get(0).nomeProduto()))
+                .andExpect(jsonPath("$[2].itensPedido.[0].precoUnitario").value(pedidoRecebidoRespostaAdaptador.itensPedido().get(0).precoUnitario()))
+                .andExpect(jsonPath("$[2].itensPedido.[0].quantidade").value(pedidoRecebidoRespostaAdaptador.itensPedido().get(0).quantidade()))
+                .andExpect(jsonPath("$[2].itensPedido.[1].nomeProduto").value(pedidoRecebidoRespostaAdaptador.itensPedido().get(1).nomeProduto()))
+                .andExpect(jsonPath("$[2].itensPedido.[1].precoUnitario").value(pedidoRecebidoRespostaAdaptador.itensPedido().get(1).precoUnitario()))
+                .andExpect(jsonPath("$[2].itensPedido.[1].quantidade").value(pedidoRecebidoRespostaAdaptador.itensPedido().get(1).quantidade()))
+                .andExpect(jsonPath("$[2].valorTotal").value(pedidoRecebidoRespostaAdaptador.valorTotal()))
+                .andExpect(jsonPath("$[2].status").value(pedidoRecebidoRespostaAdaptador.status().toString()))
+                .andExpect(jsonPath("$[2].dataDeAtualizacao").value(pedidoRecebidoRespostaAdaptador.dataDeAtualizacao()))
+                .andExpect(jsonPath("$[3].itensPedido.[0].nomeProduto").value(segundoPedidoRecebidoRespostaAdaptador.itensPedido().get(0).nomeProduto()))
+                .andExpect(jsonPath("$[3].itensPedido.[0].precoUnitario").value(segundoPedidoRecebidoRespostaAdaptador.itensPedido().get(0).precoUnitario()))
+                .andExpect(jsonPath("$[3].itensPedido.[0].quantidade").value(segundoPedidoRecebidoRespostaAdaptador.itensPedido().get(0).quantidade()))
+                .andExpect(jsonPath("$[3].itensPedido.[1].nomeProduto").value(segundoPedidoRecebidoRespostaAdaptador.itensPedido().get(1).nomeProduto()))
+                .andExpect(jsonPath("$[3].itensPedido.[1].precoUnitario").value(segundoPedidoRecebidoRespostaAdaptador.itensPedido().get(1).precoUnitario()))
+                .andExpect(jsonPath("$[3].itensPedido.[1].quantidade").value(segundoPedidoRecebidoRespostaAdaptador.itensPedido().get(1).quantidade()))
+                .andExpect(jsonPath("$[3].valorTotal").value(segundoPedidoRecebidoRespostaAdaptador.valorTotal()))
+                .andExpect(jsonPath("$[3].status").value(segundoPedidoRecebidoRespostaAdaptador.status().toString()))
+                .andExpect(jsonPath("$[3].dataDeAtualizacao").value(segundoPedidoRecebidoRespostaAdaptador.dataDeAtualizacao()));
+    }
+
+    private void geraPedidoAguardandoPagamentoRespostaAdaptador(Produto primeiroProdutoSalvo, Produto segundoProdutoSalvo) {
+        List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 1));
+
+        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, CLIENTE_CPF);
+        criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
+    }
+
+    private PedidoRespostaAdaptador getPedidoRecebidoRespostaAdaptador(Produto primeiroProdutoSalvo, Produto segundoProdutoSalvo) {
+        List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 2));
+
+        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, CLIENTE_CPF);
+
+        Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
+        pedidoCriado = atualizaStatusDoPedidoCasoDeUso.atualizaStatusDoPedido(pedidoCriado.getId(), RECEBIDO, pedidoGateway);
+        return new PedidoRespostaAdaptador(pedidoCriado);
+    }
+
+    private PedidoRespostaAdaptador getPedidoEmPreparacaoRespostaAdaptador(Produto segundoProdutoSalvo) {
+        List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 1));
+
+        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, CLIENTE_CPF);
+
+        Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
+        pedidoCriado = atualizaStatusDoPedidoCasoDeUso.atualizaStatusDoPedido(pedidoCriado.getId(), EM_PREPARACAO, pedidoGateway);
+        return new PedidoRespostaAdaptador(pedidoCriado);
+    }
+
+    private PedidoRespostaAdaptador getPedidoProntoRespostaAdaptador(Produto primeiroProdutoSalvo) {
+        List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
+
+        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, CLIENTE_CPF);
+
+        Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
+        pedidoCriado = atualizaStatusDoPedidoCasoDeUso.atualizaStatusDoPedido(pedidoCriado.getId(), PRONTO, pedidoGateway);
+        return new PedidoRespostaAdaptador(pedidoCriado);
     }
 
     @Test
     @Transactional
     void atualizaStatus__deve_atualizar_corretamente_o_status_de_um_pedido_existente() throws Exception{
-
         Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
 
@@ -144,7 +208,7 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
         produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
         produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 2));
 
-        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
+        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, CLIENTE_CPF);
 
         Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
 

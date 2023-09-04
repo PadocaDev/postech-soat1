@@ -9,9 +9,10 @@ import com.padocadev.interfaces.pedido.PedidoGatewayInterface;
 public class AtualizaStatusDoPedidoCasoDeUso implements AtualizaStatusDoPedidoCasoDeUsoInterface {
 
     @Override
-    public void atualizaStatusDoPedido(Long idPedido, Status status, PedidoGatewayInterface pedidoGateway) {
+    public Pedido atualizaStatusDoPedido(Long idPedido, Status status, PedidoGatewayInterface pedidoGateway) {
         Pedido pedido = pedidoGateway.buscarPedidoPorId(idPedido).orElseThrow(PedidoNaoExisteExcecao::new);
         pedido.setStatus(status);
         pedidoGateway.salva(pedido);
+        return pedido;
     }
 }
