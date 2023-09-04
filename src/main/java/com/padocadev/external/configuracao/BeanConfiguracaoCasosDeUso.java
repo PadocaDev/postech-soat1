@@ -2,15 +2,13 @@ package com.padocadev.external.configuracao;
 
 import com.padocadev.interfaces.cliente.BuscaClientePorCpfCasoDeUsoInterface;
 import com.padocadev.interfaces.cliente.CriaClienteCasoDeUsoInterface;
-import com.padocadev.interfaces.pagamento.GeraCodigoQRCasoDeUsoInterface;
-import com.padocadev.interfaces.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUsoInterface;
+import com.padocadev.interfaces.pagamento.*;
 import com.padocadev.interfaces.pedido.BuscaPedidoCasoDeUsoInterface;
 import com.padocadev.interfaces.pedido.CriaPedidoCasoDeUsoInterface;
 import com.padocadev.interfaces.produto.*;
 import com.padocadev.usecases.cliente.BuscaClientePorCpfCasoDeUso;
 import com.padocadev.usecases.cliente.CriaClienteCasoDeUso;
-import com.padocadev.usecases.pagamento.GeraCodigoQRCasoDeUso;
-import com.padocadev.usecases.pagamento.NotificaPagamentoCriacaoPedidoCasoDeUso;
+import com.padocadev.usecases.pagamento.*;
 import com.padocadev.usecases.pedido.BuscaPedidoCasoDeUso;
 import com.padocadev.usecases.pedido.CriaPedidoCasoDeUso;
 import com.padocadev.usecases.produto.*;
@@ -25,58 +23,63 @@ import java.awt.image.BufferedImage;
 public class BeanConfiguracaoCasosDeUso {
 
     @Bean
-    RemoveProdutoCasoDeUsoInterface removeProdutoCasoDeUsoInterface() {
+    public RemoveProdutoCasoDeUsoInterface removeProdutoCasoDeUsoInterface() {
         return new RemoveProdutoCasoDeUso();
     }
 
     @Bean
-    EditaProdutoCasoDeUsoInterface editaProdutoCasoDeUsoInterface() {
+    public EditaProdutoCasoDeUsoInterface editaProdutoCasoDeUsoInterface() {
         return new EditaProdutoCasoDeUso();
     }
 
     @Bean
-    CriaProdutoCasoDeUsoInterface criaProdutoCasoDeUsoInterface() {
+    public CriaProdutoCasoDeUsoInterface criaProdutoCasoDeUsoInterface() {
         return new CriaProdutoCasoDeUso();
     }
 
     @Bean
-    BuscaProdutoPorIdCasoDeUsoInterface buscaProdutoPorIdCasoDeUsoInterface() {
+    public BuscaProdutoPorIdCasoDeUsoInterface buscaProdutoPorIdCasoDeUsoInterface() {
         return new BuscaProdutoPorIdCasoDeUso();
     }
 
     @Bean
-    BuscaProdutoPorCategoriaCasoDeUsoInterface buscaProdutoPorCategoriaCasoDeUsoInterface() {
+    public BuscaProdutoPorCategoriaCasoDeUsoInterface buscaProdutoPorCategoriaCasoDeUsoInterface() {
         return new BuscaProdutoPorCategoriaCasoDeUso();
     }
 
     @Bean
-    CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUsoInterface() {
+    public CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUsoInterface() {
         return new CriaPedidoCasoDeUso();
     }
 
     @Bean
-    BuscaPedidoCasoDeUsoInterface buscaPedidoCasoDeUsoInterface() {
+    public BuscaPedidoCasoDeUsoInterface buscaPedidoCasoDeUsoInterface() {
         return new BuscaPedidoCasoDeUso();
     }
 
     @Bean
-    CriaClienteCasoDeUsoInterface criaClienteCasoDeUsoInterface() {
+    public CriaClienteCasoDeUsoInterface criaClienteCasoDeUsoInterface() {
         return new CriaClienteCasoDeUso();
     }
 
     @Bean
-    BuscaClientePorCpfCasoDeUsoInterface buscaClientePorCpfCasoDeUsoInterface() {
+    public BuscaClientePorCpfCasoDeUsoInterface buscaClientePorCpfCasoDeUsoInterface() {
         return new BuscaClientePorCpfCasoDeUso();
     }
 
     @Bean
-    GeraCodigoQRCasoDeUsoInterface geraCodigoQRCasoDeUso() {
+    public GeraCodigoQRCasoDeUsoInterface geraCodigoQRCasoDeUso() {
         return new GeraCodigoQRCasoDeUso();
     }
 
     @Bean
-    NotificaPagamentoCriacaoPedidoCasoDeUsoInterface notificaPagamentoCriacaoPedidoCasoDeUso() {
+    public NotificaPagamentoCriacaoPedidoCasoDeUsoInterface notificaPagamentoCriacaoPedidoCasoDeUso() {
         return new NotificaPagamentoCriacaoPedidoCasoDeUso();
+    }
+
+    @Bean
+    public CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUsoInterface() {
+        return new CriaPagamentoCasoDeUso();
     }
 
     @Bean

@@ -8,7 +8,7 @@ import com.padocadev.interfaces.cliente.ClienteGatewayInterface;
 public class BuscaClientePorCpfCasoDeUso implements BuscaClientePorCpfCasoDeUsoInterface {
 
     @Override
-    public Cliente buscaPorCpf(String cpf, ClienteGatewayInterface clienteGatewayInterface) {
-        return clienteGatewayInterface.buscaPorCpf(cpf).orElseThrow(ClienteNaoExisteExcecao::new);
+    public Cliente buscaPorCpf(String cpf, ClienteGatewayInterface clienteGateway) {
+        return clienteGateway.buscaPorCpf(cpf).orElseThrow(ClienteNaoExisteExcecao::new);
     }
 }

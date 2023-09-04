@@ -8,11 +8,11 @@ import com.padocadev.interfaces.cliente.CriaClienteCasoDeUsoInterface;
 public class CriaClienteCasoDeUso implements CriaClienteCasoDeUsoInterface {
 
     @Override
-    public Cliente criar(Cliente cliente, ClienteGatewayInterface clienteGatewayInterface) {
-        if (clienteGatewayInterface.existeComCpf(cliente.getCpf()) || clienteGatewayInterface.existeComEmail(cliente.getEmail())) {
+    public Cliente criar(Cliente cliente, ClienteGatewayInterface clienteGateway) {
+        if (clienteGateway.existeComCpf(cliente.getCpf()) || clienteGateway.existeComEmail(cliente.getEmail())) {
             throw new JaExisteClienteExcecao();
         }
 
-        return clienteGatewayInterface.criar(cliente);
+        return clienteGateway.criar(cliente);
     }
 }

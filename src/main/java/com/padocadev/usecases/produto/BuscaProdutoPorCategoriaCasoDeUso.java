@@ -9,7 +9,7 @@ import java.util.List;
 public class BuscaProdutoPorCategoriaCasoDeUso implements BuscaProdutoPorCategoriaCasoDeUsoInterface {
 
     @Override
-    public List<Produto> buscaPorCategoria(Categoria categoria, ProdutoGatewayInterface produtoGatewayInterface) {
-        return produtoGatewayInterface.buscarPorCategoria(categoria);
+    public List<Produto> buscaPorCategoria(Categoria categoria, ProdutoGatewayInterface produtoGateway) {
+        return produtoGateway.buscarPorCategoria(categoria);
     }
 }

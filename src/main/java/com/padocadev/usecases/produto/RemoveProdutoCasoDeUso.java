@@ -9,12 +9,12 @@ import java.util.Optional;
 public class RemoveProdutoCasoDeUso implements RemoveProdutoCasoDeUsoInterface {
 
     @Override
-    public void remover(Long produtoId, ProdutoGatewayInterface produtoGatewayInterface) {
-        Optional<Produto> possivelProduto = produtoGatewayInterface.buscaPorId(produtoId);
+    public void remover(Long produtoId, ProdutoGatewayInterface produtoGateway) {
+        Optional<Produto> possivelProduto = produtoGateway.buscaPorId(produtoId);
         if (possivelProduto.isEmpty()) {
             throw new ProdutoNaoExisteExcecao();
         }
 
-        produtoGatewayInterface.remover(produtoId);
+        produtoGateway.remover(produtoId);
     }
 }

@@ -19,7 +19,6 @@ public class PedidoEntidadeJpa {
     private Long id;
 
     @ManyToOne
-
     private ClienteEntidadeJpa cliente;
 
     @NotBlank
@@ -53,6 +52,10 @@ public class PedidoEntidadeJpa {
         this.status = pedido.getStatus();
         this.dataDeAtualizacao = pedido.getDataDeAtualizacao();
         this.itens = getItens(pedido.getItensPedido());
+    }
+
+    public PedidoEntidadeJpa(Long id) {
+        this.id = id;
     }
 
     private List<ItemPedidoEntidadeJpa> getItens(List<ItemPedido> itemPedidoList) {
@@ -102,6 +105,7 @@ public class PedidoEntidadeJpa {
 
     public Pedido paraPedido() {
         return new Pedido(
+                this.id,
                 Optional.ofNullable(this.cliente).map(ClienteEntidadeJpa::paraCliente).orElse(null),
                 this.numeroPedido,
                 this.dataPedido,

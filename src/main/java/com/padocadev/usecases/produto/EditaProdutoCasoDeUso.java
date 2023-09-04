@@ -10,14 +10,14 @@ import java.util.Optional;
 public class EditaProdutoCasoDeUso implements EditaProdutoCasoDeUsoInterface {
 
     @Override
-    public Produto edita(Long produtoId, Produto produtoParaEditar, ProdutoGatewayInterface produtoGatewayInterface) {
-        Optional<Produto> possivelProduto = produtoGatewayInterface.buscaPorId(produtoId);
+    public Produto edita(Long produtoId, Produto produtoParaEditar, ProdutoGatewayInterface produtoGateway) {
+        Optional<Produto> possivelProduto = produtoGateway.buscaPorId(produtoId);
         if (possivelProduto.isEmpty()) throw new ProdutoNaoExisteExcecao();
 
         Produto produto = possivelProduto.get();
-        Optional<Produto> produtoPorNome = produtoGatewayInterface.buscaPorNome(produtoParaEditar.getNome());
+        Optional<Produto> produtoPorNome = produtoGateway.buscaPorNome(produtoParaEditar.getNome());
         if (produtoPorNome.isPresent() && !produtoPorNome.get().equals(produto)) throw new JaExisteProdutoExcecao();
 
-        return produtoGatewayInterface.edita(produtoId, produtoParaEditar);
+        return produtoGateway.edita(produtoId, produtoParaEditar);
     }
 }

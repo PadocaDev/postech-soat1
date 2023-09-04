@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS Pagamento
+(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id BIGINT NOT NULL,
+    status ENUM('PENDENTE', 'APROVADO', 'REPROVADO', 'CANCELADO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    CONSTRAINT fk_pagamento_pedido FOREIGN KEY (pedido_id) REFERENCES Pedido(id)
+);

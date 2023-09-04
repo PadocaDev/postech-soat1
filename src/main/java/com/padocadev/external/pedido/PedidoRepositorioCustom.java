@@ -18,7 +18,7 @@ public class PedidoRepositorioCustom implements PedidoRepositorio {
     @Override
     public Pedido criar(Pedido pedido) {
         PedidoEntidadeJpa novoPedido = new PedidoEntidadeJpa(pedido);
-        PedidoEntidadeJpa pedidoCriado = pedidoRepositorioJpa.save(novoPedido);
+        PedidoEntidadeJpa pedidoCriado = pedidoRepositorioJpa.saveAndFlush(novoPedido);
 
         return pedidoCriado.paraPedido();
     }
