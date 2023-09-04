@@ -14,7 +14,7 @@ public class GeraCodigoQRCasoDeUso implements GeraCodigoQRCasoDeUsoInterface {
         try {
             return geraCodigoQRGateway.gera(pedidoCriado);
         } catch (Exception e) {
-            throw new GeracaoQrCodeExcecao("Houve um problema ao gerar o QR Code, tente novamente mais tarde.");
+            throw new GeracaoQrCodeExcecao();
         }
     }
 }

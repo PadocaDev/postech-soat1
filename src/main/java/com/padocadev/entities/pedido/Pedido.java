@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.padocadev.entities.pedido.Status.RECEBIDO;
+import static com.padocadev.entities.pedido.Status.AGUARDANDO_PAGAMENTO;
 import static java.math.BigDecimal.ZERO;
 import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
@@ -18,7 +18,7 @@ public class Pedido {
     private LocalDateTime dataPedido = now();
     private List<ItemPedido> itensPedido = new ArrayList<>();
     private BigDecimal valorTotal = ZERO;
-    private Status status = RECEBIDO;
+    private Status status = AGUARDANDO_PAGAMENTO;
     private LocalDateTime dataDeAtualizacao = now();
 
     public Pedido(Cliente cliente) {
@@ -41,6 +41,10 @@ public class Pedido {
         this.valorTotal = valorTotal;
         this.status = status;
         this.dataDeAtualizacao = dataDeAtualizacao;
+    }
+
+    public Pedido(Long id) {
+        this.id = id;
     }
 
     public void adicionarItem(ItemPedido item) {
@@ -75,6 +79,10 @@ public class Pedido {
 
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public LocalDateTime getDataDeAtualizacao() {

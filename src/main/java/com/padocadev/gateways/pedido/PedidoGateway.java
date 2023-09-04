@@ -5,6 +5,7 @@ import com.padocadev.interfaces.pedido.PedidoGatewayInterface;
 import com.padocadev.interfaces.pedido.PedidoRepositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PedidoGateway implements PedidoGatewayInterface {
 
@@ -22,5 +23,15 @@ public class PedidoGateway implements PedidoGatewayInterface {
     @Override
     public List<Pedido> buscarTodosPedidosNaoFinalizados() {
         return pedidoRepositorio.buscarTodosPedidosNaoFinalizados();
+    }
+
+    @Override
+    public Optional<Pedido> buscarPedidoPorId(Long idPedido) {
+        return pedidoRepositorio.buscarPedidoPorId(idPedido);
+    }
+
+    @Override
+    public void salva(Pedido pedido) {
+        pedidoRepositorio.salva(pedido);
     }
 }

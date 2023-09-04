@@ -8,8 +8,8 @@ import com.padocadev.interfaces.pagamento.PagamentoGatewayInterface;
 public class CriaPagamentoCasoDeUso implements CriaPagamentoCasoDeUsoInterface {
 
     @Override
-    public void cria(Pedido pedidoCriado, PagamentoGatewayInterface pagamentoGatewayInterface) {
+    public Pagamento cria(Pedido pedidoCriado, PagamentoGatewayInterface pagamentoGatewayInterface) {
         Pagamento pagamento = new Pagamento(pedidoCriado);
-        pagamentoGatewayInterface.cria(pagamento);
+        return pagamentoGatewayInterface.cria(pagamento);
     }
 }

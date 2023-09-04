@@ -1,17 +1,15 @@
 package com.padocadev.api.rest;
 
+import com.padocadev.adapters.requisicao.pedido.AtualizaStatusDoPedidoAdaptador;
 import com.padocadev.adapters.resposta.pedido.PedidoRespostaAdaptador;
-import com.padocadev.entities.pedido.Pedido;
 import com.padocadev.entities.pedido.objetosDeValor.PedidoRequisicao;
 import com.padocadev.interfaces.pedido.PedidoControladorInterface;
 import jakarta.validation.Valid;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.image.BufferedImage;
-import java.net.URI;
 import java.util.List;
 
 import static org.springframework.http.MediaType.*;
@@ -37,5 +35,12 @@ public class PedidoApi {
     public ResponseEntity<BufferedImage> criaPedido(@RequestBody @Valid PedidoRequisicao pedidoRequisicao) {
         BufferedImage codigoQrDoPedidoCriado = pedidoControlador.criaPedido(pedidoRequisicao);
         return ResponseEntity.ok(codigoQrDoPedidoCriado);
+    }
+
+    @PostMapping("/atualiza-status")
+    @Transactional
+    public ResponseEntity<Void> atualizaStatus(@RequestBody @Valid AtualizaStatusDoPedidoAdaptador atualizaStatusDoPedidoAdaptador) {
+        pedidoControlador.atualizaStatusDoPedido(atualizaStatusDoPedidoAdaptador);
+        return ResponseEntity.noContent().build();
     }
 }

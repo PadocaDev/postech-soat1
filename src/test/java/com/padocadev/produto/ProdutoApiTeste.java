@@ -36,7 +36,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_informacoes_corretas_de_produto_existente_apos_a_busca_por_id() throws Exception {
+    void buscaPorId__deve_retornar_informacoes_corretas_de_produto_existente_apos_a_busca_por_id() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         Produto produto = criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -51,7 +51,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_o_erro_produto_não_existe_quando_não_existir_um_produto_com_o_id_informado() throws Exception {
+    void buscaPorId__deve_retornar_o_erro_produto_não_existe_quando_não_existir_um_produto_com_o_id_informado() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -63,7 +63,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_informacoes_corretas_do_produto_apos_a_criacao_do_mesmo() throws Exception {
+    void cria__deve_retornar_informacoes_corretas_do_produto_apos_a_criacao_do_mesmo() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
 
          mockMvc.perform(post("/produtos")
@@ -79,7 +79,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_o_erro_ja_existe_produto_quando_tentar_criar_um_produto_com_nome_ja_existente() throws Exception {
+    void cria__deve_retornar_o_erro_ja_existe_produto_quando_tentar_criar_um_produto_com_nome_ja_existente() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -95,7 +95,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_informacoes_corretas_de_produto_existente_apos_a_edicao() throws Exception {
+    void edita__deve_retornar_informacoes_corretas_de_produto_existente_apos_a_edicao() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         Produto produto = criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -113,7 +113,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_o_erro_ja_existe_produto_quando_tentar_editar_um_produto_com_nome_ja_existente() throws Exception {
+    void edita__deve_retornar_o_erro_ja_existe_produto_quando_tentar_editar_um_produto_com_nome_ja_existente() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -131,7 +131,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_o_erro_produto_não_existe_quando_tentar_remover_um_produto_com_id_inexistente() throws Exception {
+    void removeProduto__deve_retornar_o_erro_produto_não_existe_quando_tentar_remover_um_produto_com_id_inexistente() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -143,7 +143,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_excluir_um_produto_com_id_existente() throws Exception {
+    void removeProduto__deve_excluir_um_produto_com_id_existente() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         Produto produto = criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -153,7 +153,7 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_lista_apos_a_busca_por_categoria() throws Exception {
+    void buscaProdutosPorCategoria__deve_retornar_lista_apos_a_busca_por_categoria() throws Exception {
         ProdutoRequisicaoAdaptador produtoRequisicaoAdaptador = new ProdutoRequisicaoAdaptador("Sorvete", SOBREMESA, TEN);
         criaProdutoCaso.cria(produtoRequisicaoAdaptador.converteParaProduto(), produtoGateway);
 
@@ -165,6 +165,4 @@ class ProdutoApiTeste extends TestContainerTesteDeIntegracao {
                 .andExpect(jsonPath("$[0].categoria").value(produtoRequisicaoAdaptador.categoria().toString()))
                 .andExpect(jsonPath("$[0].preco").value(produtoRequisicaoAdaptador.preco()));
     }
-
-
 }

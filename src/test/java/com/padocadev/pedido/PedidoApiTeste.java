@@ -2,6 +2,7 @@ package com.padocadev.pedido;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.padocadev.TestContainerTesteDeIntegracao;
+import com.padocadev.adapters.requisicao.pedido.AtualizaStatusDoPedidoAdaptador;
 import com.padocadev.adapters.resposta.pedido.PedidoRespostaAdaptador;
 import com.padocadev.interfaces.cliente.ClienteGatewayInterface;
 import com.padocadev.interfaces.pedido.*;
@@ -20,9 +21,10 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import static com.padocadev.entities.pedido.Status.AGUARDANDO_PAGAMENTO;
+import static com.padocadev.entities.pedido.Status.RECEBIDO;
 import static com.padocadev.entities.produto.Categoria.ACOMPANHAMENTO;
 import static com.padocadev.entities.produto.Categoria.SOBREMESA;
 import static java.math.BigDecimal.TEN;
@@ -62,7 +64,7 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_informacoes_corretas_do_pedido_criado() throws Exception {
+    void criaPedido__deve_retornar_informacoes_corretas_do_pedido_criado() throws Exception {
         Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
 
@@ -86,7 +88,7 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
     }
 
     @Test
-    void deve_retornar_codigo_bad_request_quando_informacoes_incorretas_do_pedido() throws Exception {
+    void criaPedido__deve_retornar_codigo_bad_request_quando_enviar_informacoes_incorretas_do_pedido() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(post("/pedidos")).andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -94,7 +96,7 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_informacoes_corretas_de_todos_pedidos_nao_finalizados() throws Exception {
+    void buscaPedidos__deve_retornar_informacoes_corretas_de_todos_pedidos_nao_finalizados() throws Exception {
         Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
         Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
 
@@ -126,5 +128,50 @@ public class PedidoApiTeste extends TestContainerTesteDeIntegracao {
                 .andExpect(jsonPath("$[0].valorTotal").value(pedidoRespostaAdaptador.valorTotal()))
                 .andExpect(jsonPath("$[0].status").value(pedidoRespostaAdaptador.status().toString()))
                 .andExpect(jsonPath("$[0].dataDeAtualizacao").value(pedidoRespostaAdaptador.dataDeAtualizacao()));
+    }
+
+    @Test
+    @Transactional
+    void atualizaStatus__deve_atualizar_corretamente_o_status_de_um_pedido_existente() throws Exception{
+
+        Produto primeiroProduto = new Produto("Batata Frita", ACOMPANHAMENTO, TWO);
+        Produto segundoProduto = new Produto("Sorvete", SOBREMESA, TEN);
+
+        Produto primeiroProdutoSalvo = criaProdutoCasoDeUso.cria(primeiroProduto, produtoGateway);
+        Produto segundoProdutoSalvo = criaProdutoCasoDeUso.cria(segundoProduto, produtoGateway);
+
+        List<ProdutosDoPedidoRequisicao> produtosPedidos = new ArrayList<>();
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(primeiroProdutoSalvo.getId(), 1));
+        produtosPedidos.add(new ProdutosDoPedidoRequisicao(segundoProdutoSalvo.getId(), 2));
+
+        PedidoRequisicao pedidoRequisicao = new PedidoRequisicao(produtosPedidos, "12345678910");
+
+        Pedido pedidoCriado = criaPedidoCasoDeUso.criar(pedidoRequisicao, pedidoGateway, produtoGateway, clienteGateway);
+
+        assertThat(pedidoCriado.getStatus()).isEqualTo(AGUARDANDO_PAGAMENTO);
+
+        AtualizaStatusDoPedidoAdaptador atualizaStatusDoPedidoAdaptador = new AtualizaStatusDoPedidoAdaptador(pedidoCriado.getId(), "RECEBIDO");
+
+        mockMvc.perform(post("/pedidos/atualiza-status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(atualizaStatusDoPedidoAdaptador)))
+                .andExpect(status().isNoContent());
+
+        Optional<Pedido> pedidoAtualizado = pedidoGateway.buscarPedidoPorId(pedidoCriado.getId());
+        assertThat(pedidoAtualizado.get().getStatus()).isEqualTo(RECEBIDO);
+
+    }
+
+    @Test
+    @Transactional
+    void atualizaStatus__deve_retornar_o_erro_pedido_nao_existe_excecao_quando_o_pedido_nao_existir() throws Exception {
+        AtualizaStatusDoPedidoAdaptador atualizaStatusDoPedidoAdaptador = new AtualizaStatusDoPedidoAdaptador(130L, "RECEBIDO");
+
+        mockMvc.perform(post("/pedidos/atualiza-status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(atualizaStatusDoPedidoAdaptador)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.erro").value("Pedido com o pedidoId informado não existe!"));
     }
 }

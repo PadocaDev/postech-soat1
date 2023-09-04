@@ -3,6 +3,8 @@ package com.padocadev.external.configuracao;
 import com.padocadev.exceptions.cliente.ClienteNaoExisteExcecao;
 import com.padocadev.exceptions.cliente.JaExisteClienteExcecao;
 import com.padocadev.exceptions.pagamento.GeracaoQrCodeExcecao;
+import com.padocadev.exceptions.pagamento.PagamentoNaoExisteExcecao;
+import com.padocadev.exceptions.pedido.PedidoNaoExisteExcecao;
 import com.padocadev.exceptions.produto.JaExisteProdutoExcecao;
 import com.padocadev.exceptions.produto.ProdutoNaoExisteExcecao;
 import org.springframework.http.*;
@@ -53,5 +55,21 @@ public class ManipuladorExcecaoCustomizado {
         MensagemDeErroApi mensagemDeErroApi = new MensagemDeErroApi(excecao.getMessage());
 
         return new ResponseEntity<>(mensagemDeErroApi, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    @ExceptionHandler(PagamentoNaoExisteExcecao.class)
+    public ResponseEntity<Object> pagamentoNaoExisteExcecao(PagamentoNaoExisteExcecao excecao) {
+
+        MensagemDeErroApi mensagemDeErroApi = new MensagemDeErroApi(excecao.getMessage());
+
+        return new ResponseEntity<>(mensagemDeErroApi, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PedidoNaoExisteExcecao.class)
+    public ResponseEntity<Object> pedidoNaoExisteExcecao(PedidoNaoExisteExcecao excecao) {
+
+        MensagemDeErroApi mensagemDeErroApi = new MensagemDeErroApi(excecao.getMessage());
+
+        return new ResponseEntity<>(mensagemDeErroApi, HttpStatus.NOT_FOUND);
     }
 }

@@ -33,7 +33,7 @@ class ClienteApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_informacoes_corretas_do_cliente_apos_a_criacao_do_mesmo() throws Exception {
+    void criaCliente__deve_retornar_informacoes_corretas_do_cliente_apos_a_criacao_do_mesmo() throws Exception {
         ClienteRequisicaoAdaptador clienteRequisicao = new ClienteRequisicaoAdaptador("Murillo", "murillo@gmail.com", "12345678910");
 
          mockMvc.perform(post("/clientes")
@@ -49,7 +49,7 @@ class ClienteApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_o_erro_ja_existe_cliente_quando_tentar_criar_um_cliente_com_cpf_ja_existente() throws Exception {
+    void criaCliente__deve_retornar_o_erro_ja_existe_cliente_quando_tentar_criar_um_cliente_com_cpf_ja_existente() throws Exception {
         ClienteRequisicaoAdaptador clienteRequisicao = new ClienteRequisicaoAdaptador("Murillo", "murillo@gmail.com", "12345678910");
         criaClienteCasoDeUso.criar(clienteRequisicao.converteParaCliente(), clienteGateway);
 
@@ -65,7 +65,7 @@ class ClienteApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_o_erro_ja_existe_cliente_quando_tentar_criar_um_cliente_com_email_ja_existente() throws Exception {
+    void criaCliente__deve_retornar_o_erro_ja_existe_cliente_quando_tentar_criar_um_cliente_com_email_ja_existente() throws Exception {
         ClienteRequisicaoAdaptador clienteRequisicao = new ClienteRequisicaoAdaptador("Murillo", "murillo@gmail.com", "12345678910");
         criaClienteCasoDeUso.criar(clienteRequisicao.converteParaCliente(), clienteGateway);
 
@@ -82,7 +82,7 @@ class ClienteApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_informacoes_corretas_de_cliente_existente_apos_a_busca_por_cpf() throws Exception {
+    void buscaClientePorCpf__deve_retornar_informacoes_corretas_de_cliente_existente_apos_a_busca_por_cpf() throws Exception {
         ClienteRequisicaoAdaptador clienteRequisicaoAdaptador = new ClienteRequisicaoAdaptador("Murillo", "murillo@gmail.com", "12345678911");
         criaClienteCasoDeUso.criar(clienteRequisicaoAdaptador.converteParaCliente(), clienteGateway);
 
@@ -97,7 +97,7 @@ class ClienteApiTeste extends TestContainerTesteDeIntegracao {
 
     @Test
     @Transactional
-    void deve_retornar_o_erro_cliente_não_existe_quando_não_existir_um_cliente_com_o_cpf_informado() throws Exception {
+    void buscaClientePorCpf__deve_retornar_o_erro_cliente_não_existe_quando_não_existir_um_cliente_com_o_cpf_informado() throws Exception {
         ClienteRequisicaoAdaptador clienteRequisicaoAdaptador = new ClienteRequisicaoAdaptador("Murillo", "murillo@gmail.com", "12345678910");
         criaClienteCasoDeUso.criar(clienteRequisicaoAdaptador.converteParaCliente(), clienteGateway);
 

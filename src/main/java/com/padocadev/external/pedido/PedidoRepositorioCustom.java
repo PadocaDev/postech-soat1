@@ -5,6 +5,7 @@ import com.padocadev.interfaces.pedido.PedidoRepositorio;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PedidoRepositorioCustom implements PedidoRepositorio {
@@ -26,5 +27,16 @@ public class PedidoRepositorioCustom implements PedidoRepositorio {
     @Override
     public List<Pedido> buscarTodosPedidosNaoFinalizados() {
         return pedidoRepositorioJpa.buscarTodosPedidosNaoFinalizados().stream().map(PedidoEntidadeJpa::paraPedido).toList();
+    }
+
+    @Override
+    public Optional<Pedido> buscarPedidoPorId(Long idPedido) {
+        return pedidoRepositorioJpa.findById(idPedido).map(PedidoEntidadeJpa::paraPedido);
+    }
+
+    @Override
+    public void salva(Pedido pedido) {
+        PedidoEntidadeJpa pedidoEntidadeJpa = new PedidoEntidadeJpa(pedido);
+        pedidoRepositorioJpa.save(pedidoEntidadeJpa);
     }
 }

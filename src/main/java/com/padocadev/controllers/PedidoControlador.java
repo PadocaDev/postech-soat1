@@ -1,6 +1,8 @@
 package com.padocadev.controllers;
 
+import com.padocadev.adapters.requisicao.pedido.AtualizaStatusDoPedidoAdaptador;
 import com.padocadev.adapters.resposta.pedido.PedidoRespostaAdaptador;
+import com.padocadev.entities.pedido.Status;
 import com.padocadev.interfaces.cliente.ClienteGatewayInterface;
 import com.padocadev.interfaces.pagamento.*;
 import com.padocadev.interfaces.pedido.*;
@@ -24,6 +26,7 @@ public class PedidoControlador implements PedidoControladorInterface {
     private final GeraCodigoQRGatewayInterface geraCodigoQRGateway;
     private final CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUso;
     private final PagamentoGatewayInterface pagamentoGateway;
+    private final AtualizaStatusDoPedidoCasoDeUsoInterface atualizaStatusDoPedidoCasoDeUso;
 
     public PedidoControlador(CriaPedidoCasoDeUsoInterface criaPedidoCasoDeUso,
                              BuscaPedidoCasoDeUsoInterface buscaPedidoCasoDeUso,
@@ -32,7 +35,7 @@ public class PedidoControlador implements PedidoControladorInterface {
                              PedidoGatewayInterface pedidoGateway,
                              ProdutoGatewayInterface produtoGateway,
                              ClienteGatewayInterface clienteGateway, NotificaPagamentoGatewayInterface notificaPagamentoGateway,
-                             GeraCodigoQRGatewayInterface geraCodigoQRGateway, CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUso, PagamentoGatewayInterface pagamentoGateway) {
+                             GeraCodigoQRGatewayInterface geraCodigoQRGateway, CriaPagamentoCasoDeUsoInterface criaPagamentoCasoDeUso, PagamentoGatewayInterface pagamentoGateway, AtualizaStatusDoPedidoCasoDeUsoInterface atualizaStatusDoPedidoCasoDeUso) {
         this.criaPedidoCasoDeUso = criaPedidoCasoDeUso;
         this.buscaPedidoCasoDeUso = buscaPedidoCasoDeUso;
         this.notificaPagamentoCriacaoPedidoCasoDeUso = notificaPagamentoCriacaoPedidoCasoDeUso;
@@ -44,6 +47,7 @@ public class PedidoControlador implements PedidoControladorInterface {
         this.geraCodigoQRGateway = geraCodigoQRGateway;
         this.criaPagamentoCasoDeUso = criaPagamentoCasoDeUso;
         this.pagamentoGateway = pagamentoGateway;
+        this.atualizaStatusDoPedidoCasoDeUso = atualizaStatusDoPedidoCasoDeUso;
     }
 
     @Override
@@ -58,5 +62,11 @@ public class PedidoControlador implements PedidoControladorInterface {
         criaPagamentoCasoDeUso.cria(pedidoCriado, pagamentoGateway);
         notificaPagamentoCriacaoPedidoCasoDeUso.notifica(pedidoCriado, notificaPagamentoGateway);
         return geraCodigoQRCasoDeUso.gera(pedidoCriado, geraCodigoQRGateway);
+    }
+
+    @Override
+    public void atualizaStatusDoPedido(AtualizaStatusDoPedidoAdaptador atualizaStatusDoPedidoAdaptador) {
+        atualizaStatusDoPedidoCasoDeUso.atualizaStatusDoPedido(atualizaStatusDoPedidoAdaptador.idPedido(),
+                Status.valueOf(atualizaStatusDoPedidoAdaptador.statusDoPedido()), pedidoGateway);
     }
 }
