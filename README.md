@@ -165,7 +165,7 @@ DELETE http://localhost:8080/produtos/{produtoId}/remove
 ## Buscar produtos por categoria
 GET http://localhost:8080/produtos/categoria/{categoria}
 
-## Criar e listar pedidos
+## Criar, listar pedidos e atualizar status de um pedido
 ### Criar
 POST http://localhost:8080/pedidos
 ```json
@@ -190,4 +190,30 @@ Resposta:
 
 ### Listar
 GET http://localhost:8080/pedidos/todos
+
+### Atualizar Status
+POST http://localhost:8080/pedidos/atualiza-status
+```json
+{
+  "idPedido": 1,
+  "statusDoPedido": "RECEBIDO"
+}
+```
+Por padrão, o status inicial do pedido será AGUARDANDO_PAGAMENTO.
+
+## Consultar status de pagamento de um pedido e confirmar pagamento
+
+### Consultar status de pagamento
+GET http://localhost:8080/pagamentos/consulta-status-pagamento/pedido/{pedidoId}
+Por padrão, após um pedido ser criado, o status inicial do pagamento dele será PENDENTE.
+
+### Confirmar pagamento
+POST http://localhost:8080/pagamentos/confirma-pagamento
+```json
+{
+  "pedidoId": 1,
+  "pagamentoStatus": "APROVADO"
+}
+```
+Os status de pagamento disponíveis são: PENDENTE, APROVADO, REPROVADO, CANCELADO.
 
