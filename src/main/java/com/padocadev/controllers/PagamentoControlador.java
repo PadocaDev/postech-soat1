@@ -2,12 +2,9 @@ package com.padocadev.controllers;
 
 import com.padocadev.adapters.requisicao.pagamento.ConfirmacaoPagamentoAdaptador;
 import com.padocadev.entities.pagamento.PagamentoStatus;
-import com.padocadev.entities.pedido.Status;
 import com.padocadev.interfaces.pagamento.*;
 import com.padocadev.interfaces.pedido.AtualizaStatusDoPedidoCasoDeUsoInterface;
 import com.padocadev.interfaces.pedido.PedidoGatewayInterface;
-
-import static com.padocadev.entities.pedido.Status.RECEBIDO;
 
 public class PagamentoControlador implements PagamentoControladorInterface {
 
@@ -27,20 +24,15 @@ public class PagamentoControlador implements PagamentoControladorInterface {
 
     @Override
     public void recebeConfirmacaoPagamento(ConfirmacaoPagamentoAdaptador confirmacaoPagamentoAdaptador) {
-
-        PagamentoStatus pagamentoStatus = PagamentoStatus.valueOf(confirmacaoPagamentoAdaptador.pagamentoStatus());
-
         confirmaPagamentoCasoDeUso.confirmaPagamento(
             confirmacaoPagamentoAdaptador.pedidoId(),
-            pagamentoStatus,
+            PagamentoStatus.valueOf(confirmacaoPagamentoAdaptador.pagamentoStatus()),
             pagamentoGateway
         );
 
-        Status pedidoStatus = PagamentoStatus.APROVADO.equals(pagamentoStatus) ? RECEBIDO : Status.CANCELADO;
-
         atualizaStatusDoPedidoCasoDeUso.atualizaStatusDoPedido(
             confirmacaoPagamentoAdaptador.pedidoId(),
-            pedidoStatus,
+            PagamentoStatus.valueOf(confirmacaoPagamentoAdaptador.pagamentoStatus()),
             pedidoGateway
         );
     }
