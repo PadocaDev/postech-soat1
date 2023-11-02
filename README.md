@@ -1,7 +1,7 @@
 ![postech.png](src%2Fmain%2Fresources%2Fimages%2Fpostech.png)
 
 
-[![Java CI with Maven](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml/badge.svg)](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml)
+[![Java CI with Maven](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml/badge.svg)](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml) [![pipeline](https://github.com/matheus-mr94/postech-soat1/actions/workflows/pipeline.yml/badge.svg)](https://github.com/matheus-mr94/postech-soat1/actions/workflows/pipeline.yml)
 
 # Objetivo
 Há uma lanchonete de bairro que está expandindo devido seu grande sucesso. Porém, com a
