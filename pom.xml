@@ -16,8 +16,6 @@
 	<description>Projeto feito para a pós graduação em Arquitetura de Software - FIAP + Alura</description>
 	<properties>
 		<java.version>20</java.version>
-		<sonar.organization>devopsfiap</sonar.organization>
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
