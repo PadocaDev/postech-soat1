@@ -90,6 +90,14 @@
 		</dependency>
 	</dependencies>
 
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub matheus-mr94 Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/matheus-mr94/postech-soat1</url>
+		</repository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
