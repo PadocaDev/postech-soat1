@@ -105,6 +105,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<release>20</release>
+					<compilerVersion>20</compilerVersion>
+					<fork>true</fork>
+					<executable>D:\jdk20\bin\javac</executable>
 				</configuration>
 			</plugin>
 			<plugin>
