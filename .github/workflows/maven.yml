@@ -7,7 +7,7 @@ on:
   release:
     types: [created]
   push:
-    branches: [ "main" ]
+    branches: [ "main", "update_github_actions" ]
   pull_request:
     branches: [ "main" ]
 
