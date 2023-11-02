@@ -63,3 +63,17 @@ jobs:
           name: artifact
           #From this path
           path: ./target/demo-0.0.2.7-SNAPSHOT.jar
+
+  deploy-Prod:
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: prod
+    needs: build
+
+    steps:
+      - name: Deploy
+        shell: bash
+        run: |
+          echo "Deploy PROD"
