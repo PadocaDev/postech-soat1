@@ -63,6 +63,18 @@ jobs:
           name: artifact
           #From this path
           path: ./target/demo-0.0.2.7-SNAPSHOT.jar
+  deploy-STG:
+    runs-on: ubuntu-latest
+    environment:
+      name: stg
+    needs: build
+
+    if: github.ref == 'refs/heads/update_github_actions'
+    steps:
+      - name: Deploy
+        shell: bash
+        run: |
+          echo "Deploy STG"
 
   deploy-Prod:
     runs-on: ubuntu-latest
