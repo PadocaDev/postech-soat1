@@ -62,7 +62,7 @@ jobs:
           #Set artifact name
           name: artifact
           #From this path
-          path: ./target/demo-0.0.2.7-SNAPSHOT.jar
+          path: ./target/padocadev-0.0.1-SNAPSHOT.jar
 
   deploy-STG:
     runs-on: ubuntu-latest
