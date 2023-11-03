@@ -1,7 +1,7 @@
 ![postech.png](src%2Fmain%2Fresources%2Fimages%2Fpostech.png)
 
 
-[![Java CI with Maven](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml/badge.svg)](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml)
+[![Java CI with Maven](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml/badge.svg)](https://github.com/matheus-mr94/postech-soat1/actions/workflows/maven.yml) [![pipeline](https://github.com/matheus-mr94/postech-soat1/actions/workflows/pipeline.yml/badge.svg)](https://github.com/matheus-mr94/postech-soat1/actions/workflows/pipeline.yml)
 
 # Objetivo
 Há uma lanchonete de bairro que está expandindo devido seu grande sucesso. Porém, com a
@@ -70,6 +70,26 @@ Pedidos com status Finalizado não devem aparecer na lista.
 7. Endpoint para atualização do status do pedido
 8. Integração com o Mercado Pago para geração de QRCode para pagamento e integração
 com webhook para captação desses pagamentos.
+
+</details>
+<details>
+  <summary> Terceira entrega</summary>
+
+1.  Implementar um API Gateway e um function serverless para autenticar o cliente com base no CPF:
+    1. Integrar ao sistema de autenticação para identificar o cliente
+2.  Implementar as melhores práticas de CI/CD para a aplicação, segregando os códigos em repositórios, por exemplo:
+    1. 1 repositório para o Lambda.
+    2. 1 repositório para sua infra Kubernetes com Terraform.
+    3. 1 repositório para sua infra banco de dados gerenciaveis com Terraform.
+    4. 1 repositório para sua aplicação que é executada no Kubernetes.
+3.  Os repositórios devem fazer deploy automatizado na conta da nuvem utilizando actions. 
+As branchs main/master devem ser protegidas, não permitindo commits direto. Sempre utilize pull request.
+4.  Melhorar a estrutura do banco de dados escolhido, documentar seguindo os padrões de modelagem de dados e
+justificar a escolha do banco de dados.
+5. Você tem a liberdade para escolher qual a infra de nuvem desejar, mas terá de utilizar os 
+serviços serverless: functions (AWS Lamba, Azure functions ou Google Functions, por exemplo), 
+banco de dados gerenciáveis (AWS RDS, Banco de Dados do Azure ou Cloud SQL no GCP, por exemplo),
+sistema de autenticação (AWS Cognito, Microsoft AD ou Google Identity platform no GCP, por exemplo).
 
 </details>
 
