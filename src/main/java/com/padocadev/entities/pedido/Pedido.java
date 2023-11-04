@@ -13,7 +13,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 
 public class Pedido {
     private Long id;
-    private Cliente  cliente;
+    private Cliente cliente;
     private String numeroPedido = randomNumeric(6);
     private LocalDateTime dataPedido = now();
     private List<ItemPedido> itensPedido = new ArrayList<>();
