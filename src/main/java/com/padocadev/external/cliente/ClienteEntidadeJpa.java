@@ -32,6 +32,7 @@ public class ClienteEntidadeJpa {
     }
 
     public ClienteEntidadeJpa(Cliente cliente) {
+        this.id = cliente.getId();
         this.dataCadastro = cliente.getDataCadastro();
         this.nome = cliente.getNome();
         this.email = cliente.getEmail();

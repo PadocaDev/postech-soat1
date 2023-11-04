@@ -46,7 +46,7 @@ public class PedidoEntidadeJpa {
 
     public PedidoEntidadeJpa(Pedido pedido) {
         this.id = pedido.getId();
-        this.cliente =  Optional.ofNullable(pedido.getCliente()).map(ClienteEntidadeJpa::new).orElse(null);
+        this.cliente = Optional.ofNullable(pedido.getCliente()).map(ClienteEntidadeJpa::new).orElse(null);
         this.numeroPedido = pedido.getNumeroPedido();
         this.dataPedido = pedido.getDataPedido();
         this.valorTotal = pedido.getValorTotal();
