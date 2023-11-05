@@ -93,13 +93,76 @@ sistema de autenticação (AWS Cognito, Microsoft AD ou Google Identity platform
 
 </details>
 
+# Modelagem de Dados
+Atualmente, a aplicação desenvolvida é um monolito que utiliza um único
+banco de dados para armazenar os diversas informações requeridas pelo projeto.
+Nossa escolha atual do MySQL como banco de dados relacional, é fundamentada 
+em nossa experiência, nas necessidades atuais do projeto e na familiaridade
+com a tecnologia.
+
+Nossa equipe está familiarizada com o ecossistema do MySQL.
+Isso nos permite manter um ambiente de desenvolvimento eficiente e 
+garantir a qualidade do código. Além disso, como um banco relacional,
+atende às nossas necessidades de integridade referencial e estruturação 
+avançada. Ele é um ótimo caminho para manter a consistência e
+confiabilidade dos dados.
+
+Ao fazer essa escolha, estamos estabelecendo uma base sólida para a 
+futura migração para o [Amazon RDS](https://aws.amazon.com/pt/rds/mysql/?pg=ln&sec=hiw), que oferece escalabilidade automática,
+alta performance, segurança robusta e gerenciamento simplificado, 
+alinhado com nossos objetivos de evolução tecnológica e entrega eficiente.
+Além disso, o RDS oferece suporte ao MySQL, o que simplificará a transição 
+ao passarmos à uma arquitetura serverless, tendo em vista que a 
+aplicação continuará como um monolito neste momento.
+
+Conforme a evolução do projeto, novas análises e reestruturações 
+de arquitetura e modelagem podem ser necessárias. Estamos comprometidos em
+manter a qualidade e o progresso contínuo da nossa aplicação, e a 
+migração para o Amazon RDS é um passo significativo nessa direção.
+
+## Modelo atual do banco de dados
+
+![data_modeling.png](src%2Fmain%2Fresources%2Fimages%2Fdata_modeling.png)
+
+
+## Flyway
+
+O [Flyway](https://github.com/flyway/flyway) é uma ferramenta de código aberto que é usada para gerenciar e 
+automatizar migrações de bancos de dados. Ele é amplamente utilizado no 
+desenvolvimento de aplicativos e na manutenção de bancos de dados, 
+especialmente em contextos de desenvolvimento ágil e DevOps. O Flyway ajuda 
+as equipes de desenvolvimento a controlar as mudanças na estrutura do 
+banco e a garantir que essas mudanças sejam aplicadas de forma consistente 
+em diferentes ambientes.
+
+A estrutura de documentação das alterações no banco de dados é a seguinte:
+
+```
+.
+├── ...
+├── src      
+│   ├── main
+│   │   ├── java
+│   │   └── resources
+│   │       ├── db.migration        #Guarda os arquivos com as atualizações
+│   │       └── ...
+│   └── test           
+├── criar_migration.sh              #Cria o template de arquivo
+├── README.md             
+└── ...
+
+```
+
+
 # Execução
+
+## Utilizando com Docker Compose
 1. Executar `git clone git@github.com:matheus-mr94/postech-soat1.git`
 2. Rodar `docker-compose up --build` na raiz do projeto
 
-# Executando com Kubernets
+## Utilizando com Kubernets
 
-1 - Crie um arquivo mysql-secret.yaml dentro do diretório kubernetes/mysql.
+1. Crie um arquivo mysql-secret.yaml dentro do diretório kubernetes/mysql.
 
 ```
 apiVersion: v1
@@ -121,7 +184,7 @@ Em seguida, execute o comando a seguir para criar o objeto:
 kubectl apply -f kubernetes/mysql/mysql-secret.yaml
 ```
 
-2 - Configurar banco de dados
+2. Configurar banco de dados
 
 Agora, configure os recursos do banco de dados. Primeiro, aplique o arquivo de solicitação de volume persistente:
 
@@ -136,7 +199,7 @@ kubectl apply -f kubernetes/mysql/mysql-deployment.yaml
 kubectl apply -f kubernetes/mysql/mysql-service.yaml
 ```
 
-3 - Configurar a API
+3. Configurar a API
 
 Aplique o deployment e o serviço da aplicação:
 
