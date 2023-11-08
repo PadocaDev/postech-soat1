@@ -3,6 +3,9 @@ name: pipeline
 on:
   push:
 
+env:
+  ECR_REPOSITORY: "padocadev"
+
 jobs:
   unit-test:
     runs-on: ubuntu-latest
@@ -64,43 +67,31 @@ jobs:
           #From this path
           path: ./target/padocadev-0.0.1-SNAPSHOT.jar
 
-  deploy-STG:
+  create-docker-image:
+    name: "Build Docker image and push to ecr"
     runs-on: ubuntu-latest
-    environment:
-      name: stg
     needs: build
-
-    if: github.ref == 'refs/heads/update_github_actions'
-    steps:
-      - name: Deploy
-        shell: bash
-        run: |
-          echo "Deploy STG"
-
-  deploy-Pre:
-    runs-on: ubuntu-latest
-
-    if: github.ref == 'refs/heads/release'
-    environment:
-      name: pre
-    needs: build
-
-    steps:
-      - name: Deploy
-        shell: bash
-        run: |
-          echo "Deploy PRE"
-
-  deploy-Prod:
-    runs-on: ubuntu-latest
-
     if: github.ref == 'refs/heads/main'
-    environment:
-      name: prod
-    needs: build
-
     steps:
-      - name: Deploy
-        shell: bash
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          echo "Deploy PROD"
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
+          docker push --all-tags $REGISTRY/$REPOSITORY
